@@ -1,19 +1,19 @@
-#include "SoundGame.h"
+#include "SoundManager.h"
 #include "Global.h"
 
-SoundGame* SoundGame::_instance = NULL;
+SoundManager* SoundManager::_instance = NULL;
 
-SoundGame* SoundGame::GetInst()
+SoundManager* SoundManager::GetInst()
 {
-	if(SoundGame::_instance == NULL)
+	if(SoundManager::_instance == NULL)
 	{
-		_instance = new SoundGame();
+		_instance = new SoundManager();
 	}
 
 	return _instance;
 }
 
-SoundGame::SoundGame()
+SoundManager::SoundManager()
 {
 	SDev = new DSound;
 	SDev->Init(GL_HWND);
@@ -54,13 +54,13 @@ SoundGame::SoundGame()
 	//TODO: add new sound here
 }
 
-SoundGame::~SoundGame()
+SoundManager::~SoundManager()
 {
 	_listBgSound.clear();
 	_listEffSound.clear();
 }
 
-void SoundGame::PlayEffSound(char* SOUND_FILE_PATH, bool isLoop)
+void SoundManager::PlayEffSound(char* SOUND_FILE_PATH, bool isLoop)
 {
 	//check whether can play background sound
 	if(! GL_HasEffectSound)
@@ -90,7 +90,7 @@ void SoundGame::PlayEffSound(char* SOUND_FILE_PATH, bool isLoop)
 	GLMessage(t);
 }
 
-void SoundGame::PlayBgSound(char* SOUND_FILE_PATH, bool isLoop, bool wantPlayAgain)
+void SoundManager::PlayBgSound(char* SOUND_FILE_PATH, bool isLoop, bool wantPlayAgain)
 {
 	//check whether can play background sound
 	if(! GL_HasBGSound)
@@ -125,7 +125,7 @@ void SoundGame::PlayBgSound(char* SOUND_FILE_PATH, bool isLoop, bool wantPlayAga
 	GLMessage(t);
 }
 
-void SoundGame::StopBgSound(char* SOUND_FILE_PATH)
+void SoundManager::StopBgSound(char* SOUND_FILE_PATH)
 {
 	int size = _listBgSound.size();
 
@@ -143,7 +143,7 @@ void SoundGame::StopBgSound(char* SOUND_FILE_PATH)
 	GLMessage(t);
 }
 
-void SoundGame::StopEffSound(char* SOUND_FILE_PATH)
+void SoundManager::StopEffSound(char* SOUND_FILE_PATH)
 {
 	int size = _listEffSound.size();
 
@@ -161,7 +161,7 @@ void SoundGame::StopEffSound(char* SOUND_FILE_PATH)
 	GLMessage(t);
 }
 
-void SoundGame::StopAllBgSound()
+void SoundManager::StopAllBgSound()
 {
 	int size = _listBgSound.size();
 
@@ -170,7 +170,7 @@ void SoundGame::StopAllBgSound()
 	}
 }
 
-void SoundGame::StopAllEffSound()
+void SoundManager::StopAllEffSound()
 {
 	int size = _listEffSound.size();
 

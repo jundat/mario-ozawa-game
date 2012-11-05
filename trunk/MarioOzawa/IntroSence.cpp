@@ -1,20 +1,18 @@
 #include "IntroSence.h"
 #include "MenuSence.h"
-#include "SoundGame.h"
+#include "SoundManager.h"
 
 IntroSence::IntroSence(Game* game, int timeAni)
 	:GameSence(game, timeAni)
 {
-	_allTime = 5000;
+	_allTime = 3000;
 	_startTime = GetTickCount();
 	_stopUpdate = false;
 }
 
-
 IntroSence::~IntroSence(void)
 {
 }
-
 
 void IntroSence::_Load()
 {
@@ -22,14 +20,6 @@ void IntroSence::_Load()
 
 // nhan 1 lan
 void IntroSence::_OnKeyDown(int keyCode){
-	switch(keyCode){
-	case DIK_RETURN:
-		{
-			if(_alpha > 0.05)
-				_state = TransOff;
-		}
-		break;
-	}
 }
 
 void IntroSence::_OnKeyUp(int keyCode)
@@ -53,7 +43,7 @@ void IntroSence::_UpdateRender(int t)
 	//add new sence before this end
 	if(_state == SenceState::TransOff && _stopUpdate == false && _alpha <= 0.05)
 	{
-		SoundGame::GetInst()->PlayBgSound(SOUND_B_MENU);
+		SoundManager::GetInst()->PlayBgSound(SOUND_B_MENU);
 		_stopUpdate = true;
 		MenuSence* mn = new MenuSence(_game, 100);
 		_game->AddSence(mn);

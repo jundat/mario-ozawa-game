@@ -1,4 +1,5 @@
 
+#include "SoundManager.h"
 #include "BrickItem.h"
 #include "ResourceManager.h"
 
@@ -111,10 +112,13 @@ void brickItem::CheckCollision(MyObject* obj)
 						_State = transform;
 						_curSprite->SelectIndex(0);
 
+						//sound
+						SoundManager::GetInst()->PlayEffSound(SOUND_E_UP);
 					}
 					break;
 			}
 		}
+
 		//check collision with item
 		if(_State == Move)
 		{

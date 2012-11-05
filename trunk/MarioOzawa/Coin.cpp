@@ -1,4 +1,5 @@
 
+#include "SoundManager.h"
 #include "Coin.h"
 #include "ResourceManager.h"
 
@@ -37,6 +38,9 @@ void coin::CheckCollision(MyObject* obj)
 		{
 			_State = dead;
 			// tien tang
+
+			//sound
+			SoundManager::GetInst()->PlayEffSound(SOUND_E_COIN);
 		}
 	}
 }

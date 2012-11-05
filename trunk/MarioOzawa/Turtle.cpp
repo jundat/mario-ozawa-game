@@ -1,3 +1,5 @@
+
+#include "SoundManager.h";
 #include "Turtle.h"
 #include "ResourceManager.h"
 #include "TileMap.h"
@@ -192,6 +194,9 @@ void turtle::CheckCollision(MyObject* obj)
 				_curSprite->SelectIndex(2);
 				_TimeStand = 0;
 				_TimeAttack = 0;
+
+				//sound
+				SoundManager::GetInst()->PlayEffSound(SOUND_E_TOUCH_TIRTLE);
 			}
 			break;
 		case  Left:

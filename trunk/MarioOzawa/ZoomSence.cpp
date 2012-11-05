@@ -1,5 +1,5 @@
 #include "ZoomSence.h"
-#include "SoundGame.h"
+#include "SoundManager.h"
 
 #define MAX_ZOOM (1.681)
 

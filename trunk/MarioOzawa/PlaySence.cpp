@@ -2,12 +2,12 @@
 #include "MenuSence.h"
 #include "MapLoader.h"
 #include "Writer.h"
-#include "SoundGame.h"
+#include "SoundManager.h"
 
 PlaySence::PlaySence(Game* game, int timeAni)
 	: GameSence(game, timeAni)
 {
-	SoundGame::GetInst()->PlayBgSound(SOUND_B_GAME1);
+	SoundManager::GetInst()->PlayBgSound(SOUND_B_GAME1);
 }
 
 PlaySence::~PlaySence(void)
@@ -55,8 +55,8 @@ void PlaySence::_OnKeyDown(int keyCode){
 			MenuSence* mn = new MenuSence(_game, 100);
 			_game->AddSence(mn);
 
-			SoundGame::GetInst()->StopBgSound(SOUND_B_GAME1);
-			SoundGame::GetInst()->PlayBgSound(SOUND_B_MENU, true, true);
+			SoundManager::GetInst()->StopBgSound(SOUND_B_GAME1);
+			SoundManager::GetInst()->PlayBgSound(SOUND_B_MENU, true, true);
 		}
 		break;
 

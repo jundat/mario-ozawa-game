@@ -1,6 +1,6 @@
 #include "CreditSence.h"
 #include "OptionSence.h"
-#include "SoundGame.h"
+#include "SoundManager.h"
 
 CreditSence::CreditSence(Game* game, int timeAni)
 	:GameSence(game, timeAni)
@@ -22,7 +22,7 @@ void CreditSence::_OnKeyDown(int keyCode){
 	switch(keyCode){
 	case DIK_RETURN:
 		{
-			SoundGame::GetInst()->PlayEffSound(SOUND_E_SLIDE);
+			SoundManager::GetInst()->PlayEffSound(SOUND_E_SLIDE);
 			_state = TransOff;
 			OptionSence* option = new OptionSence(_game, 100);
 			_game->AddSence(option);

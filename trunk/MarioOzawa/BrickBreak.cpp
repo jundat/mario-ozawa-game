@@ -2,6 +2,7 @@
 #include "BrickBreak.h"
 #include "ResourceManager.h"
 #include "Global.h"
+#include "SoundManager.h"
 
 brickBreak::brickBreak(float x, float y)	: MyObject(x, y)
 {
@@ -113,7 +114,10 @@ void brickBreak::CheckCollision(MyObject* obj)
 		{
 		case Bottom:
 			if(_State == stand)
+			{
 				_State = breaking;
+				SoundManager::GetInst()->PlayEffSound(SOUND_E_BROKEN);
+			}
 			break;
 		}
 	}
