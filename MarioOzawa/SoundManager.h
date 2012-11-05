@@ -42,22 +42,22 @@ using namespace std;
 
 #pragma endregion define
 
-class SoundGame
+class SoundManager
 {
 private:
 	DSound* SDev;
 	vector<CSound*> _listEffSound;
 	vector<CSound*> _listBgSound;
 
-	SoundGame();
+	SoundManager();
 
-	static SoundGame* _instance;
+	static SoundManager* _instance;
 
 public:
 
-	static SoundGame* GetInst();
+	static SoundManager* GetInst();
 	
-	~SoundGame();
+	~SoundManager();
 	
 	void PlayBgSound(char* SOUND_FILE_PATH, bool isLoop = true, bool wantPlayAgain = false);
 

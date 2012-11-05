@@ -1,4 +1,5 @@
 
+#include "SoundManager.h"
 #include "BrickQuestion.h"
 #include "ResourceManager.h"
 
@@ -65,15 +66,12 @@ void brickQuestion::CheckCollision(MyObject* obj)
 			{
 				_State = noCoin;
 				_curSprite->SelectIndex(0);
+				
 				// tien tang
+
+				SoundManager::GetInst()->PlayEffSound(SOUND_E_COIN);
 			}
 			break;
 		}
 	}
 }
-
-/*
-CRECT brickQuestion::GetRect()
-{
-	return CRECT(_x + 5, _y, _x + _curSprite->_texture->Width - 10, _y + _curSprite->_texture->Height);
-}*/

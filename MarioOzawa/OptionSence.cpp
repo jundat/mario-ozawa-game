@@ -1,6 +1,6 @@
 #include "OptionSence.h"
 #include "MenuSence.h"
-#include "SoundGame.h"
+#include "SoundManager.h"
 #include "CreditSence.h"
 
 
@@ -38,26 +38,26 @@ void OptionSence::_OnKeyDown(int keyCode){
 					GL_HasBGSound = !GL_HasBGSound;
 					if(GL_HasBGSound == false)
 					{
-						SoundGame::GetInst()->StopAllBgSound();
+						SoundManager::GetInst()->StopAllBgSound();
 					}else
 					{
-						SoundGame::GetInst()->PlayBgSound(SOUND_B_MENU);
+						SoundManager::GetInst()->PlayBgSound(SOUND_B_MENU);
 					}
-					SoundGame::GetInst()->PlayEffSound(SOUND_E_SLIDE);
+					SoundManager::GetInst()->PlayEffSound(SOUND_E_SLIDE);
 					break;
 
 				case 1:
 					GL_HasEffectSound = !GL_HasEffectSound;
 					if(GL_HasEffectSound == false)
 					{
-						SoundGame::GetInst()->StopAllEffSound();
+						SoundManager::GetInst()->StopAllEffSound();
 					}
-					SoundGame::GetInst()->PlayEffSound(SOUND_E_SLIDE);
+					SoundManager::GetInst()->PlayEffSound(SOUND_E_SLIDE);
 					break;
 
 				case 2://credit
 					{
-						SoundGame::GetInst()->PlayEffSound(SOUND_E_SLIDE);
+						SoundManager::GetInst()->PlayEffSound(SOUND_E_SLIDE);
 						_state = SenceState::TransOff;
 						CreditSence* crd = new CreditSence(_game, 100);
 						_game->AddSence(crd);
@@ -66,9 +66,9 @@ void OptionSence::_OnKeyDown(int keyCode){
 
 				case 3:
 					{
-						SoundGame::GetInst()->PlayEffSound(SOUND_E_SLIDE);
+						SoundManager::GetInst()->PlayEffSound(SOUND_E_SLIDE);
 
-						SoundGame::GetInst()->PlayBgSound(SOUND_B_MENU);
+						SoundManager::GetInst()->PlayBgSound(SOUND_B_MENU);
 
 						_state = TransOff;
 						MenuSence* mn = new MenuSence(_game, 100);
@@ -83,7 +83,7 @@ void OptionSence::_OnKeyDown(int keyCode){
 		case DIK_UP:
 			if(_curSelect > 0)
 			{
-				SoundGame::GetInst()->PlayEffSound(SOUND_E_CLICK);
+				SoundManager::GetInst()->PlayEffSound(SOUND_E_CLICK);
 				_curSelect--;
 			}
 			break;
@@ -91,7 +91,7 @@ void OptionSence::_OnKeyDown(int keyCode){
 		case DIK_DOWN:
 			if(_curSelect < COUNT_OPTION - 1)
 			{
-				SoundGame::GetInst()->PlayEffSound(SOUND_E_CLICK);
+				SoundManager::GetInst()->PlayEffSound(SOUND_E_CLICK);
 				_curSelect++;
 			}
 			break;

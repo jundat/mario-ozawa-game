@@ -140,7 +140,7 @@
     <ClCompile Include="RECT.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="SoundDev.cpp" />
-    <ClCompile Include="SoundGame.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="Turtle.cpp" />
@@ -178,7 +178,7 @@
     <ClInclude Include="Rect.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="SoundDev.h" />
-    <ClInclude Include="SoundGame.h" />
+    <ClInclude Include="SoundManager.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Surface.h" />
     <ClInclude Include="Texture.h" />

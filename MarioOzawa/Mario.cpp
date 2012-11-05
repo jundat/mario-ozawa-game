@@ -3,6 +3,8 @@
 #include "Mario.h"
 #include "ResourceManager.h"
 #include "Brick.h"
+#include "SoundManager.h"
+
 Mario::Mario(float x, float y)	: MyObject(x, y)
 {
 
@@ -137,6 +139,9 @@ void Mario::Jump()
 	if((_State != jumping)&&(_State != transform)){
 		_State = jumping;
 		_vy = - MARIO_VY;
+
+		//sound
+		SoundManager::GetInst()->PlayEffSound(SOUND_E_JUMP);
 	}
 }
 
@@ -163,6 +168,7 @@ void Mario::Transform()
 {
 	if(_State == beforedead)
 		return;
+
 	if(_State == transform)
 	{
 		_TimeTransform++;
@@ -211,13 +217,16 @@ void Mario::Transform()
 	}
 }
 
-void Mario::TransformMario(int x,int y)
+void Mario::TransformMario(int x, int y)
 {
 	_State = transform;
 	GL_CurForm = x;
 	GL_NextForm = y;
 	if((GL_CurForm == 0) && (GL_NextForm == 1))
 		_y -= 50;
+
+	//SOUND
+	SoundManager::GetInst()->PlayEffSound(SOUND_E_GROW);
 }
 
 void Mario::CheckCollision(MyObject* obj)

@@ -1,7 +1,7 @@
 #include "MenuSence.h"
 #include "PlaySence.h"
 #include "OptionSence.h"
-#include "SoundGame.h"
+#include "SoundManager.h"
 #include "ZoomSence.h"
 
 
@@ -29,26 +29,26 @@ void MenuSence::_OnKeyDown(int keyCode){
 		case DIK_RETURN:
 			if(_curSelect == 0){
 				//stop sound
-				SoundGame::GetInst()->StopBgSound(SOUND_B_MENU);
-				SoundGame::GetInst()->PlayEffSound(SOUND_E_PIPE);
+				SoundManager::GetInst()->StopBgSound(SOUND_B_MENU);
+				SoundManager::GetInst()->PlayEffSound(SOUND_E_PIPE);
 				
 				//goto game
 				PlaySence* pl = new PlaySence(_game, 0);
-				ZoomSence* zs = new ZoomSence(_game, 1000, this, pl);
+				ZoomSence* zs = new ZoomSence(_game, 500, this, pl);
 				_game->AddSence(zs);
 
 			}else if(_curSelect == 1){
 				_state = TransOff;
 				//do not stop sound
-				SoundGame::GetInst()->PlayEffSound(SOUND_E_SLIDE);
+				SoundManager::GetInst()->PlayEffSound(SOUND_E_SLIDE);
 
 				//goto option
 				OptionSence* ot= new OptionSence(_game, 100);
 				_game->AddSence(ot);
 
 			}else if(_curSelect == 2){
-				SoundGame::GetInst()->PlayEffSound(SOUND_E_DEATH);
-				ZoomSence* zs = new ZoomSence(_game, 2000, this, NULL);
+				SoundManager::GetInst()->PlayEffSound(SOUND_E_DEATH);
+				ZoomSence* zs = new ZoomSence(_game, 1000, this, NULL);
 				_game->AddSence(zs);
 			}
 
@@ -57,14 +57,14 @@ void MenuSence::_OnKeyDown(int keyCode){
 		case DIK_UP:
 			if(_curSelect > 0){
 				_curSelect--;
-				SoundGame::GetInst()->PlayEffSound(SOUND_E_CLICK);
+				SoundManager::GetInst()->PlayEffSound(SOUND_E_CLICK);
 			}
 			break;
 
 		case DIK_DOWN:
 			if(_curSelect < MAX_MENU - 1){
 				_curSelect++;
-				SoundGame::GetInst()->PlayEffSound(SOUND_E_CLICK);
+				SoundManager::GetInst()->PlayEffSound(SOUND_E_CLICK);
 			}
 			break;
 	}

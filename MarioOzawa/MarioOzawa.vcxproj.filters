@@ -206,9 +206,6 @@
     <ClCompile Include="Mario.cpp">
       <Filter>mario</Filter>
     </ClCompile>
-    <ClCompile Include="SoundGame.cpp">
-      <Filter>soundplayer</Filter>
-    </ClCompile>
     <ClCompile Include="SoundDev.cpp">
       <Filter>soundplayer</Filter>
     </ClCompile>
@@ -217,6 +214,9 @@
     </ClCompile>
     <ClCompile Include="BackgroundManager.cpp">
       <Filter>manager</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>soundplayer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -254,9 +254,6 @@
       <Filter>soundplayer</Filter>
     </ClInclude>
     <ClInclude Include="dxutil.h">
-      <Filter>soundplayer</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundGame.h">
       <Filter>soundplayer</Filter>
     </ClInclude>
     <ClInclude Include="SoundDev.h">
@@ -333,6 +330,9 @@
     </ClInclude>
     <ClInclude Include="BackgroundManager.h">
       <Filter>manager</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>soundplayer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

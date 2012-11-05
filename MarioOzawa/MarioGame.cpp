@@ -6,7 +6,7 @@
 #include "MenuSence.h"
 #include "PlaySence.h"
 #include "IntroSence.h"
-#include "SoundGame.h"
+#include "SoundManager.h"
 
 MarioGame::MarioGame(HINSTANCE hInstance, char* Name, int Mode, int IsFullScreen, int FrameRate):
 	Game(hInstance, Name, Mode, IsFullScreen, FrameRate)
@@ -23,7 +23,7 @@ MarioGame::~MarioGame()
 
 void MarioGame::LoadResources()
 {
-	SoundGame::GetInst();
+	SoundManager::GetInst();
 
 	IntroSence* mn = new IntroSence(this, 2000);
 	this->AddSence(mn);
