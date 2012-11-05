@@ -56,11 +56,8 @@ void IntroSence::_UpdateRender(int t)
 	GLDevice->ColorFill(GLBackBuffer, NULL, D3DCOLOR_XRGB(50, 50, 50));
 	GLSpriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 
-	if(_state == TransOn || _state == On)
-		GLSpriteHandler->Draw(ResourceMng::GetInst()->GetTexture("image/imgLogo.png")->Texture, NULL, NULL, &D3DXVECTOR3(100 + 150 * _alpha, 201, 0), finalColor);
-	else
-		GLSpriteHandler->Draw(ResourceMng::GetInst()->GetTexture("image/imgLogo.png")->Texture, NULL, NULL, &D3DXVECTOR3(100 + 150 * (1 + 1 - _alpha), 201, 0), finalColor);
-
+	GLSpriteHandler->Draw(ResourceMng::GetInst()->GetTexture("image/imgLogo.png")->Texture, NULL, NULL, &D3DXVECTOR3(100 + 150, 201, 0), finalColor);
+	
 	GLSpriteHandler->End();
 }
 

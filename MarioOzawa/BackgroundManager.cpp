@@ -3,7 +3,7 @@
 #include "Texture.h"
 #include "ResourceManager.h"
 
-#define DEFAULT_TIME_ANI (80)
+#define DEFAULT_TIME_ANI (100)
 #define DEFAULT_DEPTH (0.9)
 #define BG_EXPAND_X 17		//camera sẽ được mở rộng ra vài ô để có thể vẽ được hết cái núi
 #define BG_EXPAND_Y 0		//camera sẽ được mở rộng ra vài ô để có thể vẽ được hết cái núi

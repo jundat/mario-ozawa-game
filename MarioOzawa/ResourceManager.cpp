@@ -66,7 +66,14 @@ ResourceMng::ResourceMng()
 		fileName = new char[50];
 		sprintf(fileName, "tile/%d.png", i);
 		//
-		_listTexture.push_back(new TEXTURE(fileName, 1, 1, 1));
+		if(i == 15 || i == 18) //cloud, grass
+		{
+			_listTexture.push_back(new TEXTURE(fileName, 3, 1, 3));
+		}
+		else
+		{
+			_listTexture.push_back(new TEXTURE(fileName, 1, 1, 1));
+		}
 	}
 
 	//ground image
