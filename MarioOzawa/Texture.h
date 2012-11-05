@@ -1,0 +1,97 @@
+#ifndef __TEXTURE_H__
+#define __TEXTURE_H__
+
+
+#include <d3d9.h>
+#include <d3dx9.h>
+
+#include "Global.h"
+
+
+class TEXTURE{
+public:
+	char* FileName;
+	RECT Size;
+	LPDIRECT3DTEXTURE9 Texture;
+	int Cols;
+	int Rows;
+
+	int Count;
+
+	int Width; //width of 1 frame
+	int Height; //height of 1 frame
+
+	TEXTURE(char* _fileName, int cols, int rows, int count){
+		Cols = cols;
+		Rows = rows;
+		Count = count;
+		FileName = _fileName;
+		this->Load();
+	}
+
+	~TEXTURE(){
+		if(this->Texture != NULL){
+			this->Texture->Release();
+		}
+	}
+
+	void Load(){
+		D3DXIMAGE_INFO info; 
+		HRESULT result;
+
+		result = D3DXGetImageInfoFromFile(FileName, &info);
+		
+		RECT s = {0, 0, info.Width, info.Height};
+		this->Size = s;
+
+		Width = info.Width / Cols;
+		Height = info.Height / Rows;
+
+		if (result != D3D_OK)
+		{
+			GLMessage("Can not load texture");
+			GLTrace("[texture.h] Failed to get information from image file [%s]", FileName);
+			OutputDebugString(FileName);
+			return;
+		}
+
+		result = D3DXCreateTextureFromFileEx(
+			GLDevice,
+			FileName,
+			info.Width,
+			info.Height,
+			1,
+			D3DUSAGE_DYNAMIC,
+			D3DFMT_UNKNOWN,
+			D3DPOOL_DEFAULT,
+			D3DX_DEFAULT,
+			D3DX_DEFAULT,
+			0, //color
+			&info,
+			NULL,
+			&Texture
+		);
+
+		if (result != D3D_OK) 
+		{
+			GLMessage("Can not load texture");
+			GLTrace("[texture.h] Failed to create texture from file '%s'", FileName);
+			return;
+		}
+	}
+
+	void Draw(int x, int y){
+		D3DXVECTOR3 position((float)x, (float)y, 0);
+
+		GLSpriteHandler->Draw(
+			Texture,
+			&Size,
+			NULL,
+			&position, 
+			0xFFFFFFFF //color
+			);
+	}
+};
+
+
+#endif
