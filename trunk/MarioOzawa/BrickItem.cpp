@@ -1,4 +1,5 @@
 
+#include "TileMap.h"
 #include "SoundManager.h"
 #include "BrickItem.h"
 #include "ResourceManager.h"
@@ -47,8 +48,10 @@ void brickItem::Update(int time)
 {
 	if(_State == stand)
 		return;
+
 	if(_State == hasItem)
 		_curSprite->Update(time);
+
 	if(_State == transform)
 	{
 		//if(_item == 0)
@@ -61,6 +64,7 @@ void brickItem::Update(int time)
 			}
 		}
 	}
+	
 	if((_State == Move) || (_State == transform))
 	{
 		if(_item == 0)
@@ -71,17 +75,28 @@ void brickItem::Update(int time)
 	{
 		if((_item == 1) || (_item == 2))
 		{
-
-			_xItem += _vxItem * time;
-			_yItem += _vyItem * time;
-
+			// tan long xoá
+			//_xItem += _vxItem * time;
+			//_yItem += _vyItem * time;
+			
+			//tan long
+			float _NextX;
+			float _NextY;
+			{
+				_NextX = _xItem + _vxItem * time;
+				_NextY = _yItem + _vyItem * time;
+			}
+			
 			if(_turnLeft == true)
 				_vxItem = - 0.2;
-			else _vxItem = 0.2;
+			else 
+				_vxItem = 0.2;
 			_vyItem += GRAVITY * time;
+
+			//tan long
+			CheckTitleCollision(_vxItem, _vyItem, _xItem, _yItem, _NextX, _NextY, _itemSprite->_texture->Width, _itemSprite->_texture->Height);
 		}
 	}
-
 }
 
 void brickItem::Render()
@@ -135,10 +150,10 @@ void brickItem::CheckCollision(MyObject* obj)
 	}
 	if(obj->_ID == EObject::BRICK)
 	{
-		if(_State != Move)
-			return;
-		if(obj->_State == dead)
-			return;
+		//if(_State != Move)
+		//	return;
+		//if(obj->_State == dead)
+		//	return;
 		switch(this->GetCollisionDirection(this->GetItemRect(), obj->GetRect()))
 		{
 		case Top:
@@ -213,4 +228,27 @@ CRECT brickItem::GetResizeItemRect()
 CRECT brickItem::GetItemRect()
 {
 	return CRECT(_xItem , _yItem, _xItem + _itemSprite->_texture->Width , _yItem + _itemSprite->_texture->Height);
+}
+
+//tan long
+void brickItem::CheckTitleCollision(float &vx, float &vy, float &posX, float &posY, float nextX, float nextY, int width, int height)
+{
+	bool isOK = true;	
+	for (int i = posX/TILE ; i <  (nextX + width - 1)/TILE; i++)
+	{
+		for (int j = posY/TILE; j < (nextY + height - 1)/TILE; j++ )
+		{
+			if (i >= 0 && i < GL_MapTileW && j >= 0 && j < GL_MapTileH && TileMap::GetInst()->_board[j][i] != 0)
+			{
+				isOK = false;
+			}
+		}
+	}
+
+	if(isOK)
+	{
+		posX = nextX;
+		posY = nextY;
+	}
+
 }

@@ -221,6 +221,9 @@
     <ClCompile Include="StorySence.cpp">
       <Filter>sence</Filter>
     </ClCompile>
+    <ClCompile Include="SelectWorldSence.cpp">
+      <Filter>sence</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BrickBreak.h">
@@ -343,6 +346,9 @@
     </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>kenel</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectWorldSence.h">
+      <Filter>sence</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

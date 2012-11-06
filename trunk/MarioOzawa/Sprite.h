@@ -31,7 +31,7 @@ public:
 	void Render(int x, int y);
 	
 	//Render with scale (-1, 1)
-	void RenderScale(int x, int y);
+	void RenderScaleX(int x, int y);
 
 	// tieu nun
 	//render with scale (1, -1)

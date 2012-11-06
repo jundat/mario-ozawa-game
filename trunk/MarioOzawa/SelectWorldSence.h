@@ -8,7 +8,7 @@
 #include "BackgroundManager.h"
 #include "TileMap.h"
 
-class PlaySence :
+class SelectWorldSence :
 	public GameSence
 {
 public:
@@ -20,8 +20,8 @@ public:
 	// tieu nun
 	Mario*	_mario;
 
-	PlaySence(Game* game, int timeAni);
-	~PlaySence(void);
+	SelectWorldSence(Game* game, int timeAni);
+	~SelectWorldSence(void);
 
 	virtual void _UpdateRender(int t);
 	virtual void _ProcessInput();

@@ -139,6 +139,7 @@
     <ClCompile Include="QuadTreeNode.cpp" />
     <ClCompile Include="RECT.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="SelectWorldSence.cpp" />
     <ClCompile Include="SoundDev.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="Sprite.cpp" />
@@ -179,6 +180,7 @@
     <ClInclude Include="Rect.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="SelectWorldSence.h" />
     <ClInclude Include="SoundDev.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="Sprite.h" />

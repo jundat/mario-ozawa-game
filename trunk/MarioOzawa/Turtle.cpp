@@ -45,9 +45,9 @@ void turtle::Render()
 	else
 	{
 		if((_State == attack) || (_State == stand))
-			_curSprite->RenderScale((int)_x, (int)_y + 25);
+			_curSprite->RenderScaleX((int)_x, (int)_y + 25);
 		else 
-			_curSprite->RenderScale((int)_x, (int)_y);
+			_curSprite->RenderScaleX((int)_x, (int)_y);
 	}
 }
 

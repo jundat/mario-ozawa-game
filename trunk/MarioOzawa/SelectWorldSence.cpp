@@ -1,23 +1,23 @@
-#include "PlaySence.h"
+#include "SelectWorldSence.h"
 #include "MenuSence.h"
 #include "MapLoader.h"
 #include "Writer.h"
 #include "SoundManager.h"
 
-PlaySence::PlaySence(Game* game, int timeAni)
+SelectWorldSence::SelectWorldSence(Game* game, int timeAni)
 	: GameSence(game, timeAni)
 {
 	SoundManager::GetInst()->PlayBgSound(SOUND_B_GAME1);
 }
 
-PlaySence::~PlaySence(void)
+SelectWorldSence::~SelectWorldSence(void)
 {
 	if(_QuadTree != NULL)
 		delete _QuadTree;
 
 	if(_MapLoader != NULL)
 		delete _MapLoader;
-	
+
 	if(_Camera != NULL)
 		delete _Camera;
 
@@ -28,26 +28,27 @@ PlaySence::~PlaySence(void)
 		delete _BackgroundMng;
 }
 
-void PlaySence::_Load()
+void SelectWorldSence::_Load()
 {
 	_mario = new Mario(50, 50);
 
 	_MapLoader = new MapLoader();
-	_MapLoader->LoadMapFormFile("map/map.png");
-	
+	_MapLoader->LoadMapFormFile("map/selectworld.png");
+
 	CRECT mapRECT = CRECT(0, 0, GL_MapW, GL_MapH);
 
 	_QuadTree = new QuadTree(mapRECT);
 	_BackgroundMng = new BackgroundManager();
-	
 	_MapLoader->TranslateMap(_QuadTree, _BackgroundMng, _mario);
 	_BackgroundMng->Translate();
-	
 	_Camera = new Camera(CRECT(GL_WndSize));
+
+	_mario->_x = 100;
+	_mario->_y = 100;
 }
 
 // nhan 1 lan
-void PlaySence::_OnKeyDown(int keyCode){
+void SelectWorldSence::_OnKeyDown(int keyCode){
 	switch(keyCode){
 	case DIK_ESCAPE:
 		{
@@ -80,12 +81,12 @@ void PlaySence::_OnKeyDown(int keyCode){
 }
 
 //nhan 1 lan
-void PlaySence::_OnKeyUp(int keyCode)
+void SelectWorldSence::_OnKeyUp(int keyCode)
 {
 }
 
 // nhan va giu
-void PlaySence::_ProcessInput()
+void SelectWorldSence::_ProcessInput()
 {
 	if (_game->IsKeyDown(DIK_RIGHT))
 	{
@@ -101,7 +102,7 @@ void PlaySence::_ProcessInput()
 	}
 }
 
-void PlaySence::_UpdateRender(int time)
+void SelectWorldSence::_UpdateRender(int time)
 {
 #pragma region Begin Render
 	//translate camera
@@ -121,11 +122,22 @@ void PlaySence::_UpdateRender(int time)
 
 	ResourceMng::GetInst()->GetSurface("image/imgBgGame.png")->Render(NULL, &r);
 	_BackgroundMng->UpdateRender(_Camera->GetCameraExpand(), time);
-	
+
 	_mario->Update(time);
 	_mario->Render();
 
 	_QuadTree->UpdateRender(_Camera->GetCameraExpand(), _mario, time);
+
+	//text
+	Writer::RenderFont2("world 1", 420, 150, 0.7);
+	Writer::RenderFont2("world 2", 620, 150, 0.7);
+	Writer::RenderFont2("world 3", 820, 150, 0.7);
+
+	Writer::RenderFont2("cost 1 live", 29 * 50 + 10, 5 * 50, 0.7);
+	Writer::RenderFont2("cost 2 lives", 33 * 50 + 10, 5 * 50, 0.7);
+
+	Writer::RenderFont2("you can exchange some lives for one of goodie!!!", 23 * 50 + 25, 1 * 50, 0.7);
+	Writer::RenderFont2("but be careful sometimes lives is more important than that stuff.", 22 * 50 - 20, 2 * 50, 0.7);
 
 	//------------------------------------------------------------------------
 #pragma region End Render
@@ -135,14 +147,9 @@ void PlaySence::_UpdateRender(int time)
 	GLSpriteHandler->SetTransform(&matDefaut);
 	//
 
-	char gold[10];
-	sprintf(gold, "%d", _mario->gold);
-	Writer::RenderFont1(gold, 10, 10);
-
+	
 	//end Render
 	GLSpriteHandler->End();
 #pragma endregion
 }
-
-
 

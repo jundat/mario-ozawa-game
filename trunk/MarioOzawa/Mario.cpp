@@ -60,8 +60,6 @@ void Mario::Update(int time)
 		_curSprite->SelectIndex(5);
 		
 		//change to state dead
-		
-
 		return;
 	}
 	
@@ -76,9 +74,14 @@ void Mario::Update(int time)
 		_curSprite->SelectIndex(4);
 	if((_turnLeft == false) && (_vx < 0.0f))
 		_curSprite->SelectIndex(4);
-
 	if(_State == jumping){
 		_curSprite->SelectIndex(3);
+	}
+
+	//out at right
+	if(this->GetRect().Right > GL_MapW)
+	{
+		_x = GL_MapW - (this->GetRect().Right - this->GetRect().Left) - 1;
 	}
 }
 
@@ -95,7 +98,7 @@ void Mario::Render()
 
 	if(_turnLeft == false)
 		_curSprite->Render((int)_x, (int)_y);
-	else _curSprite->RenderScale((int)_x, (int)_y);
+	else _curSprite->RenderScaleX((int)_x, (int)_y);
 }
 
 void Mario::TurnRight()
@@ -169,11 +172,11 @@ void Mario::Stand()
 void Mario::Reset()
 {
 	_turnLeft = false;
-	_curSprite = _sprMarioLarger;
+	_curSprite = _sprMarioSmaller;
 	_curSprite->_start = 0;
 	_curSprite->_end = 2;
-	GL_CurForm = 1;
-	GL_NextForm = 0;
+	GL_CurForm = 0;
+	GL_NextForm = 1;
 	_State = stand;
 	_x = START_X;
 	_y = START_Y;
