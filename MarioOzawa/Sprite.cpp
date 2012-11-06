@@ -76,7 +76,7 @@ void Sprite::Render(int X, int Y)
 }
 
 
-void Sprite::RenderScale(int x, int y)
+void Sprite::RenderScaleX(int x, int y)
 {
 	D3DXMATRIX oldMt;
 	GLSpriteHandler->GetTransform(&oldMt);

@@ -43,6 +43,7 @@ void fungi::Update(int time)
 		_NextX = _x;
 		_NextY = _y;
 	}
+
 	if(_State == beforedead)
 	{
 		_curSprite->SelectIndex(2);

@@ -57,7 +57,8 @@ ResourceMng::ResourceMng()
 
 
 	//other
-	_listTexture.push_back(new TEXTURE("image/imgChar.png", 12, 8, 96));
+	_listTexture.push_back(new TEXTURE("image/imgChar1.png", 12, 8, 96));
+	_listTexture.push_back(new TEXTURE("image/imgChar2.png", 10, 10, 96));
 
 	//background image
 	for (int i = MIN_BG_ID; i <= MAX_BG_ID; ++i)
