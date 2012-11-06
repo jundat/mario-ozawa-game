@@ -186,6 +186,7 @@
     <ClInclude Include="Surface.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TileMap.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="Turtle.h" />
     <ClInclude Include="Writer.h" />
     <ClInclude Include="ZoomSence.h" />

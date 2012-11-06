@@ -1,4 +1,5 @@
 
+#include "Timer.h"
 #include "Game.h"
 #include "ResourceManager.h"
 #include "ZoomSence.h"
@@ -243,7 +244,10 @@ void Game::_RenderFrame()
 		GLDevice->ColorFill(GLBackBuffer, NULL, D3DCOLOR_XRGB(0, 0, 0));
 		//mac dinh chay truoc khi cac sence duoc chay
 		RenderFrame(_DeltaTime);
-		
+
+		//update timer
+		MyTimer::Update();
+
 		//
 		if(!_listSence.empty()){
 			int size = _listSence.size();
