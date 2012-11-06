@@ -104,6 +104,7 @@ void PlaySence::_ProcessInput()
 void PlaySence::_UpdateRender(int time)
 {
 #pragma region Begin Render
+	//translate camera
 	D3DXMATRIX mat;
 	float x = _Camera->GetRect().Left;
 	float y = _Camera->GetRect().Top;
@@ -118,7 +119,7 @@ void PlaySence::_UpdateRender(int time)
 	RECT r = GL_WndSize;
 	r.top = GL_Height - _alpha * GL_Height;
 
-	ResourceMng::GetInst()->GetSurface("image/imgBgGame.png")->Draw(NULL, &r);
+	ResourceMng::GetInst()->GetSurface("image/imgBgGame.png")->Render(NULL, &r);
 	_BackgroundMng->UpdateRender(_Camera->GetCameraExpand(), time);
 	
 	_mario->Update(time);
@@ -126,14 +127,21 @@ void PlaySence::_UpdateRender(int time)
 
 	_QuadTree->UpdateRender(_Camera->GetCameraExpand(), _mario, time);
 	
-	
 
 	//------------------------------------------------------------------------
 #pragma region End Render
-	GLSpriteHandler->End();
+	//translate camera back
 	D3DXMATRIX matDefaut;
 	D3DXMatrixTransformation2D(&matDefaut, NULL, 0.0f, NULL, NULL, 0.0f, NULL); 
 	GLSpriteHandler->SetTransform(&matDefaut);
+	//
+
+	char gold[10];
+	sprintf(gold, "%d", _mario->gold);
+	Writer::Render(gold, 10, 10);
+
+	//end Render
+	GLSpriteHandler->End();
 #pragma endregion
 }
 

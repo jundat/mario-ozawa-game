@@ -80,7 +80,7 @@ public:
 		}
 	}
 
-	void Draw(int x, int y){
+	void Render(int x, int y){
 		D3DXVECTOR3 position((float)x, (float)y, 0);
 
 		GLSpriteHandler->Draw(

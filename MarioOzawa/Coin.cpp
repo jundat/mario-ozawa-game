@@ -2,6 +2,7 @@
 #include "SoundManager.h"
 #include "Coin.h"
 #include "ResourceManager.h"
+#include "Mario.h"
 
 coin::coin(float x, float y)	: MyObject(x, y)
 {
@@ -38,6 +39,7 @@ void coin::CheckCollision(MyObject* obj)
 		{
 			_State = dead;
 			// tien tang
+			((Mario*)obj)->gold++;
 
 			//sound
 			SoundManager::GetInst()->PlayEffSound(SOUND_E_COIN);

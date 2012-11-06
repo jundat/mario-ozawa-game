@@ -1,4 +1,4 @@
-#ifndef _MARIO_H_
+﻿#ifndef _MARIO_H_
 #define _MARIO_H_
 
 
@@ -24,16 +24,15 @@ protected:
 
 	Sprite* _curSprite;
 
-	//0: Left | 1: Right
-	//bool _turnLeft;
-	//bool _isJumping;
-
-	//float _vx;
-	//float _vy;
 	int _TimeTransform;
 	int _time;
+
 	vector <bullet*> _listBullet;
+
 public:
+	int gold;
+	int life; //số mạng sống còn lại của mario
+
 	Mario(float x, float y);
 	virtual ~Mario(void);
 

@@ -121,7 +121,7 @@ void OptionSence::_UpdateRender(int t)
 	RECT destRect = GL_WndSize;
 	destRect.top = GL_Height - _alpha * GL_Height;
 
-	ResourceMng::GetInst()->GetSurface("image/imgBgOption.png")->Draw(&destRect, &destRect);
+	ResourceMng::GetInst()->GetSurface("image/imgBgOption.png")->Render(&destRect, &destRect);
 
 	//mario head
 	_sprMarioHead->Render(432, 193 + _curSelect * 65);
@@ -129,20 +129,20 @@ void OptionSence::_UpdateRender(int t)
 	//
 	if(GL_HasBGSound)
 	{
-		ResourceMng::GetInst()->GetTexture("image/imgYes.png")->Draw(530, 200);
+		ResourceMng::GetInst()->GetTexture("image/imgYes.png")->Render(530, 200);
 	}
 	else
 	{
-		ResourceMng::GetInst()->GetTexture("image/imgNo.png")->Draw(530, 200);
+		ResourceMng::GetInst()->GetTexture("image/imgNo.png")->Render(530, 200);
 	}
 
 	if(GL_HasEffectSound)
 	{
-		ResourceMng::GetInst()->GetTexture("image/imgYes.png")->Draw(530, 265);
+		ResourceMng::GetInst()->GetTexture("image/imgYes.png")->Render(530, 265);
 	}
 	else
 	{
-		ResourceMng::GetInst()->GetTexture("image/imgNo.png")->Draw(530, 265);
+		ResourceMng::GetInst()->GetTexture("image/imgNo.png")->Render(530, 265);
 	}
 
 	//
