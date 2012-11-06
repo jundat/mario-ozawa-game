@@ -6,8 +6,8 @@
 #define MAX_TILE_ID 106
 
 //Save an array of byte to check if have any obj in a position in map
-//+ do not draw any thing
-//+ all things in this will be drawed by background manager
+//+ do not Render any thing
+//+ all things in this will be Rendered by background manager
 class TileMap
 {
 public:

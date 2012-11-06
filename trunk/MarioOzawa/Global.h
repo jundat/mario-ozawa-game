@@ -27,7 +27,7 @@
 #define MIN_OBJ_ID		151
 #define MAX_OBJ_ID		158
 
-//id in map, used for ground (ground is object that check collision and draw, but no animation, no move, 
+//id in map, used for ground (ground is object that check collision and Render, but no animation, no move, 
 #define MIN_GROUND_ID	101
 #define MAX_GROUND_ID	106
 
@@ -86,7 +86,7 @@ extern LPDIRECT3DSURFACE9			GLBackBuffer;		//backbuffer
 
 extern LPDIRECTINPUT8				GLDirectInput;		// The DirectInput object         
 extern LPDIRECTINPUTDEVICE8			GLKeyBoard;			// The keyboard device 
-extern LPD3DXSPRITE					GLSpriteHandler;	// spriteHandler to draw texture
+extern LPD3DXSPRITE					GLSpriteHandler;	// spriteHandler to Render texture
 
 //GLOBAL METHOD
 

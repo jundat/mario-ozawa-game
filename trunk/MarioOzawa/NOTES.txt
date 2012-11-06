@@ -21,7 +21,7 @@ RECT
 
 	
 
-void Text::Draw(char* text, float percentSize, int x, int y)
+void Text::Render(char* text, float percentSize, int x, int y)
 {
 	//init
 	if(Text::_sprText == NULL)

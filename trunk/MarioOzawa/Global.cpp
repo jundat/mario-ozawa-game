@@ -49,7 +49,7 @@ LPDIRECT3DSURFACE9			GLBackBuffer;
 
 LPDIRECTINPUT8				GLDirectInput;		// The DirectInput object         
 LPDIRECTINPUTDEVICE8		GLKeyBoard;			// The keyboard device 
-LPD3DXSPRITE				GLSpriteHandler;	// spriteHandler to draw texture
+LPD3DXSPRITE				GLSpriteHandler;	// spriteHandler to Render texture
 
 
 void GLTrace(char* format, ...)

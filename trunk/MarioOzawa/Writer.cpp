@@ -1,6 +1,6 @@
 #include "Writer.h"
 
-void Writer::Draw(char* text, int x, int y)
+void Writer::Render(char* text, int x, int y)
 {
 	static Sprite* _sprText;
 	_sprText = new Sprite(ResourceMng::GetInst()->GetTexture("image/imgChar.png"), 0);

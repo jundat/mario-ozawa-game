@@ -21,7 +21,7 @@ public:
 		}
 	}
 
-	void Draw(const RECT* sRect, const RECT* dRect){
+	void Render(const RECT* sRect, const RECT* dRect){
 		GLDevice->StretchRect(
 			this->Surface,		// from 
 			sRect,				// which portion?
@@ -30,7 +30,7 @@ public:
 			D3DTEXF_NONE);
 	}
 
-	void Draw(int x, int y){
+	void Render(int x, int y){
 		RECT dr = {x, y, Size.right + x, Size.bottom + y};
 
 		GLDevice->StretchRect(

@@ -10,7 +10,7 @@
 
 //class perform normal brick
 // + can not break
-// + just check collision + draw
+// + just check collision + Render
 class brick : public MyObject
 {
 protected:

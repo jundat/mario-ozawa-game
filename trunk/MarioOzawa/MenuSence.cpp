@@ -91,14 +91,14 @@ void MenuSence::_UpdateRender(int t)
 	RECT destRect = GL_WndSize;
 	destRect.top = GL_Height - _alpha * GL_Height;
 	
-	ResourceMng::GetInst()->GetSurface("image/imgBgMenu.png")->Draw(&destRect, &destRect);
+	ResourceMng::GetInst()->GetSurface("image/imgBgMenu.png")->Render(&destRect, &destRect);
 
 	if(true){
 		GLSpriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 
-		ResourceMng::GetInst()->GetTexture("image/imgItemPlay.png")->Draw(627, 307);
-		ResourceMng::GetInst()->GetTexture("image/imgItemOption.png")->Draw(606, 342);
-		ResourceMng::GetInst()->GetTexture("image/imgItemQuit.png")->Draw(638, 378);
+		ResourceMng::GetInst()->GetTexture("image/imgItemPlay.png")->Render(627, 307);
+		ResourceMng::GetInst()->GetTexture("image/imgItemOption.png")->Render(606, 342);
+		ResourceMng::GetInst()->GetTexture("image/imgItemQuit.png")->Render(638, 378);
 		switch(_curSelect)
 		{
 			case 0:

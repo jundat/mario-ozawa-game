@@ -218,6 +218,9 @@
     <ClCompile Include="SoundManager.cpp">
       <Filter>soundplayer</Filter>
     </ClCompile>
+    <ClCompile Include="StorySence.cpp">
+      <Filter>sence</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BrickBreak.h">
@@ -333,6 +336,10 @@
     </ClInclude>
     <ClInclude Include="SoundManager.h">
       <Filter>soundplayer</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="StorySence.h">
+      <Filter>sence</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

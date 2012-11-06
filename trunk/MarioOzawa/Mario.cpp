@@ -5,6 +5,8 @@
 #include "Brick.h"
 #include "SoundManager.h"
 
+#define START_LIFE 4
+
 Mario::Mario(float x, float y)	: MyObject(x, y)
 {
 
@@ -24,6 +26,10 @@ Mario::Mario(float x, float y)	: MyObject(x, y)
 	_vy = 0;
 	_TimeTransform = 0;
 	_ID = EObject::MARIO;
+
+	gold = 0;
+	life = START_LIFE;
+
 	//_listBullet = new vector <bullet*> ;
 
 	//bullet *aa;

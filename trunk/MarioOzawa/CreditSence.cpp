@@ -53,7 +53,7 @@ void CreditSence::_UpdateRender(int t)
 	RECT destRect = GL_WndSize;
 	destRect.top = GL_Height - _alpha * GL_Height;
 
-	ResourceMng::GetInst()->GetSurface("image/imgBgCredit.png")->Draw(&destRect, &destRect);
+	ResourceMng::GetInst()->GetSurface("image/imgBgCredit.png")->Render(&destRect, &destRect);
 	//
 	GLSpriteHandler->End();
 }

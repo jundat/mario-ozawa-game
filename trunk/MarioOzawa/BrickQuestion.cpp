@@ -12,7 +12,7 @@ brickQuestion::brickQuestion(float x, float y)	: MyObject(x, y)
 	_curSprite->_start = 1;
 	_curSprite->_end = 2;
 	_State = hasCoin;
-	_drawCoin = false;
+	_RenderCoin = false;
 	_xCoint = x ;
 	_yCoint = y - 40;
 }
@@ -27,12 +27,12 @@ void brickQuestion::Update(int time)
 {
 	if(_State == noCoin)
 	{
-		if(_drawCoin == false)
+		if(_RenderCoin == false)
 		{
 			_coin->Update(time);
 			_yCoint-= 0.45 * time;
 			if(_yCoint <= (_y - 100))
-				_drawCoin = true;
+				_RenderCoin = true;
 		}
 		return;
 	}
@@ -44,7 +44,7 @@ void brickQuestion::Render()
 	_curSprite->Render((int)_x, (int)_y);
 	if(_State == noCoin)
 	{
-		if(_drawCoin == false)
+		if(_RenderCoin == false)
 		{
 			_coin->Render((int)_xCoint, (int)_yCoint);
 		}
