@@ -44,6 +44,7 @@ public:
 	void Jump();
 	void Stand();
 
+	void Reset(); //reset position mario to replay level
 	void Fire();
 	void TransformMario(int x,int y);
 	void Transform();

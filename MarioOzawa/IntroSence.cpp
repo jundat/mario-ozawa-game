@@ -5,7 +5,7 @@
 IntroSence::IntroSence(Game* game, int timeAni)
 	:GameSence(game, timeAni)
 {
-	_allTime = 3000;
+	_allTime = 100;
 	_startTime = GetTickCount();
 	_stopUpdate = false;
 }

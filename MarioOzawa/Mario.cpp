@@ -5,7 +5,10 @@
 #include "Brick.h"
 #include "SoundManager.h"
 
-#define START_LIFE 4
+#define ALL_LIFE 5
+#define START_X 10
+#define START_Y 10
+#define TIME_TO_DEAD 2000 //mất TIME_TO_DEAD milisecond (beforedead -> dead)
 
 Mario::Mario(float x, float y)	: MyObject(x, y)
 {
@@ -13,22 +16,11 @@ Mario::Mario(float x, float y)	: MyObject(x, y)
 	_sprMarioSmaller = new Sprite(ResourceMng::GetInst()->GetTexture("image/MarioSmaller.png"), 50);
 	_sprMarioLarger = new Sprite(ResourceMng::GetInst()->GetTexture("image/MarioLarger.png"), 50);
 	_sprMarioFire = new Sprite(ResourceMng::GetInst()->GetTexture("image/MarioFire.png"), 50);
-	_turnLeft = false;
-	_curSprite = _sprMarioLarger;
-	_curSprite->_start = 0;
-	_curSprite->_end = 2;
-	GL_CurForm = 1;
-	GL_NextForm = 0;
-	_State = stand;
-	_x = x;
-	_y = y;
-	_vx = 0;
-	_vy = 0;
-	_TimeTransform = 0;
-	_ID = EObject::MARIO;
+	
+	Reset();
 
 	gold = 0;
-	life = START_LIFE;
+	life = ALL_LIFE - 1;
 
 	//_listBullet = new vector <bullet*> ;
 
@@ -66,6 +58,10 @@ void Mario::Update(int time)
 	if(_State == beforedead)
 	{
 		_curSprite->SelectIndex(5);
+		
+		//change to state dead
+		
+
 		return;
 	}
 	
@@ -168,6 +164,23 @@ void Mario::Stand()
 		//_vx = 0;
 		_curSprite->SelectIndex(0);
 	}
+}
+
+void Mario::Reset()
+{
+	_turnLeft = false;
+	_curSprite = _sprMarioLarger;
+	_curSprite->_start = 0;
+	_curSprite->_end = 2;
+	GL_CurForm = 1;
+	GL_NextForm = 0;
+	_State = stand;
+	_x = START_X;
+	_y = START_Y;
+	_vx = 0;
+	_vy = 0;
+	_TimeTransform = 0;
+	_ID = EObject::MARIO;
 }
 
 void Mario::Transform()

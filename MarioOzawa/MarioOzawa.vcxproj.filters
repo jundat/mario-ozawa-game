@@ -341,5 +341,8 @@
     <ClInclude Include="StorySence.h">
       <Filter>sence</Filter>
     </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>kenel</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
