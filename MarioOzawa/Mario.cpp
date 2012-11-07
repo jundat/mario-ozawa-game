@@ -84,7 +84,7 @@ void Mario::Render()
 {
 	if(_turnLeft == false)
 		_curSprite->Render((int)_x, (int)_y);
-	else _curSprite->RenderScale((int)_x, (int)_y);
+	else _curSprite->RenderScaleX((int)_x, (int)_y);
 
 	int size = _listBullet.size();
 	bullet* sf;

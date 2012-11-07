@@ -14,7 +14,7 @@ class brickQuestion : public MyObject
 protected:
 	Sprite* _curSprite;
 	Sprite* _coin;
-	bool _RenderCoin;
+	bool _drawCoin;
 	int _xCoint,
 		_yCoint;
 public:

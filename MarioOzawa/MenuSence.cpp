@@ -33,8 +33,8 @@ void MenuSence::_OnKeyDown(int keyCode){
 				SoundManager::GetInst()->PlayEffSound(SOUND_E_PIPE);
 				
 				//goto game
-				//PlaySence* pl = new PlaySence(_game, 0);
-				SelectWorldSence* pl = new SelectWorldSence(_game, 0);
+				PlaySence* pl = new PlaySence(_game, 0);
+				//SelectWorldSence* pl = new SelectWorldSence(_game, 0);
 				ZoomSence* zs = new ZoomSence(_game, 500, this, pl);
 				_game->AddSence(zs);
 

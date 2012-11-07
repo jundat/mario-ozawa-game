@@ -35,9 +35,6 @@ public:
 	virtual void CheckCollision(MyObject* obj);
 	CRECT GetItemRect();
 	CRECT GetResizeItemRect();
-
-	//tan long
-	virtual void CheckTitleCollision(float &vx, float &vy, float &posX, float &posY, float nextX, float nextY, int width, int height);
 };
 
 #endif
