@@ -43,7 +43,6 @@ void fungi::Update(int time)
 		_NextX = _x;
 		_NextY = _y;
 	}
-
 	if(_State == beforedead)
 	{
 		_curSprite->SelectIndex(2);
@@ -87,7 +86,7 @@ void fungi::CheckCollision(MyObject* obj)
 {	
 	if((_State == beforedead) || (_State == dead) || (_State == beforedead2))
 		return;
-	if(obj->_ID == EObject::BRICK)
+	if((obj->_ID == EObject::BRICKITEM) || (obj->_ID == EObject::BRICKQUESTION) || (obj->_ID == EObject::BRICKBREAK) )
 	{
 		switch(this->GetCollisionDirection(this->GetRect(), obj->GetRect()))
 		{
@@ -109,7 +108,7 @@ void fungi::CheckCollision(MyObject* obj)
 			break;
 		}
 	}
-
+	/*
 	if(obj->_ID == EObject::PIPE)
 	{
 		switch(this->GetCollisionDirection(this->GetRect(), obj->GetRect()))
@@ -132,12 +131,12 @@ void fungi::CheckCollision(MyObject* obj)
 			break;
 		}
 	}
-
+	*/
 	if(obj->_ID == EObject::MARIO)
 	{
 		if((obj->_State == transform) || (obj->_State == dead) || (obj->_State == beforedead))
 			return;
-		switch(this->GetCollisionDirection(this->GetRect(), obj->GetRect()))
+		switch(this->GetCollisionDirection(this->GetReSizeRect(), obj->GetRect()))
 		{
 		case Top:
 			_State = beforedead;
@@ -218,7 +217,7 @@ CRECT fungi::GetRect()
 
 CRECT fungi::GetReSizeRect()
 {
-	return CRECT(_x, _y, _x + _curSprite->_texture->Width , _y + _curSprite->_texture->Height);
+	return CRECT(_x - 3, _y, _x + _curSprite->_texture->Width + 6, _y + _curSprite->_texture->Height);
 }
 
 void fungi::CheckTitleCollision(
@@ -307,7 +306,7 @@ void fungi::CheckTitleCollision(
 						_y = TILE * (j) - _height;
 						_State = stand;
 						_vy = 0;
-						break;;
+						break;
 					}
 				}
 			}

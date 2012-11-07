@@ -23,8 +23,8 @@ int			GL_ColorMode;
 bool		GL_IsFullScreen;
 D3DFORMAT	GL_BackBufferFormat;
 
-bool		GL_HasBGSound = true;
-bool		GL_HasEffectSound = true;
+bool		GL_HasBGSound = false;
+bool		GL_HasEffectSound = false;
 
 int			GL_MapW;
 int			GL_MapH;
@@ -49,7 +49,7 @@ LPDIRECT3DSURFACE9			GLBackBuffer;
 
 LPDIRECTINPUT8				GLDirectInput;		// The DirectInput object         
 LPDIRECTINPUTDEVICE8		GLKeyBoard;			// The keyboard device 
-LPD3DXSPRITE				GLSpriteHandler;	// spriteHandler to Render texture
+LPD3DXSPRITE				GLSpriteHandler;	// spriteHandler to draw texture
 
 
 void GLTrace(char* format, ...)

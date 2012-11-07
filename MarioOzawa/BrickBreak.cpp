@@ -7,7 +7,7 @@
 brickBreak::brickBreak(float x, float y)	: MyObject(x, y)
 {
 	_curSprite = new Sprite(ResourceMng::GetInst()->GetTexture("image/Brick_Break.png"), 500);
-	_ID = EObject::BRICK;
+	_ID = EObject::BRICKBREAK;
 	_State = stand;
 
 	_rectBreak1.left = 0;
