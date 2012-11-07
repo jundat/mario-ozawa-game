@@ -108,6 +108,71 @@ void MyObject::CheckTitleCollision(float &_vx,float &_vy,float _nextX,float _nex
 		return;
 	}
 	
+
+
+	if (_vy >= 0){
+	// DOWN
+	bool iColTer = false;
+	for (int j = (_y + _height)/TILE; j <  (_nextY+_height)/TILE ;j++){
+		for (int i = _x/TILE;i < (_x+_width)/TILE;i++ ){
+			if (i >= 0 && i < GL_MapTileW && j >= 0 && j < GL_MapTileH && TileMap::GetInst()->_board[j][i] != 0)
+			{
+				//if(checkY == false)
+				{
+					_vy = 0;
+					iColTer = true;
+					_y = TILE * (j) - _height;
+					if(_State != transform)
+						_State = stand;
+					break;
+				}
+			}
+		}
+		if (iColTer == true){
+			break;
+		}
+
+	}
+	if (iColTer == false){
+		_y = _nextY;
+	}
+	
+	}else{
+	// UP
+	int n = (_nextY/TILE);
+	int m = (_y/TILE);
+	if (n!=m ){
+
+		bool iColTerY = false;
+		for (int j = _y/TILE-1; j >  _nextY/TILE-1;j--){
+			for (int i = _x/TILE;i < (_x+_width)/TILE;i++ ){
+				if (i >= 0 && i < GL_MapTileW && j >= 0 && j < GL_MapTileH && TileMap::GetInst()->_board[j][i] != 0)
+				{
+					//if(checkY == true)
+					{
+						iColTerY = true;
+						_y = TILE * (j+1);
+					    _vy = 0;//fabs(_vy);
+						break;
+					}
+				}
+			}
+			if (iColTerY == true){
+				break;
+			}
+		}
+
+		if (iColTerY == false){
+			_y = _nextY;
+		}
+
+	}else{
+		_y = _nextY;
+	}
+
+	}
+
+
 	if (_vx > 0)
 	{
 		bool iColTerX1 = false;
@@ -166,66 +231,4 @@ void MyObject::CheckTitleCollision(float &_vx,float &_vy,float _nextX,float _nex
 
 		}		
 	}
-
-	if (_vy >= 0){
-	// DOWN
-	bool iColTer = false;
-	for (int j = (_y + _height)/TILE; j <  (_nextY+_height)/TILE ;j++){
-		for (int i = _x/TILE;i < (_x+_width)/TILE;i++ ){
-			if (i >= 0 && i < GL_MapTileW && j >= 0 && j < GL_MapTileH && TileMap::GetInst()->_board[j][i] != 0)
-			{
-				//if(checkY == false)
-				{
-					iColTer = true;
-					_y = TILE * (j) - _height;
-					_State = stand;
-					_vy = 0;
-					break;;
-				}
-			}
-		}
-		if (iColTer == true){
-			break;
-		}
-
-	}
-	if (iColTer == false){
-		_y = _nextY;
-	}
-	
-	}else{
-	// UP
-	int n = (_nextY/TILE);
-	int m = (_y/TILE);
-	if (n!=m ){
-
-		bool iColTerY = false;
-		for (int j = _y/TILE-1; j >  _nextY/TILE-1;j--){
-			for (int i = _x/TILE;i < (_x+_width)/TILE;i++ ){
-				if (i >= 0 && i < GL_MapTileW && j >= 0 && j < GL_MapTileH && TileMap::GetInst()->_board[j][i] != 0)
-				{
-					//if(checkY == true)
-					{
-						iColTerY = true;
-						_y = TILE * (j+1);
-					    _vy = 0;//fabs(_vy);
-						break;
-					}
-				}
-			}
-			if (iColTerY == true){
-				break;
-			}
-		}
-
-		if (iColTerY == false){
-			_y = _nextY;
-		}
-
-	}else{
-		_y = _nextY;
-	}
-
-	}
-
 }

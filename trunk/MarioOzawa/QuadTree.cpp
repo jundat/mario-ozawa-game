@@ -51,8 +51,7 @@ void QuadTree::UpdateRender(CRECT camera, Mario* mario, int time)
 	{
 		//update
 		(*i)->Update(time);
-		//render
-		(*i)->Render();
+
 
 		//check collision
 		if((*i)->CanCollide())
@@ -71,6 +70,10 @@ void QuadTree::UpdateRender(CRECT camera, Mario* mario, int time)
 			}
 		}
 
+		// fix lan 1
+		//render
+		(*i)->Render();
+		
 		// insert again
 		if((*i)->IsAlive())
 		{

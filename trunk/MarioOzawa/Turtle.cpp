@@ -45,9 +45,9 @@ void turtle::Render()
 	else
 	{
 		if((_State == attack) || (_State == stand))
-			_curSprite->RenderScaleX((int)_x, (int)_y + 25);
+			_curSprite->RenderScale((int)_x, (int)_y + 25);
 		else 
-			_curSprite->RenderScaleX((int)_x, (int)_y);
+			_curSprite->RenderScale((int)_x, (int)_y);
 	}
 }
 
@@ -107,7 +107,7 @@ void turtle::Update(int time)
 
 void turtle::CheckCollision(MyObject* obj)
 {
-	if(obj->_ID == EObject::BRICK)
+	if((obj->_ID == EObject::BRICKITEM) || (obj->_ID == EObject::BRICKQUESTION) || (obj->_ID == EObject::BRICKBREAK) )
 	{
 		if(obj->_State == dead)
 			return;
@@ -143,7 +143,7 @@ void turtle::CheckCollision(MyObject* obj)
 			break;
 		}
 	}
-
+	/*
 	if(obj->_ID == EObject::PIPE)
 	{
 		if(obj->_State == dead)
@@ -156,7 +156,7 @@ void turtle::CheckCollision(MyObject* obj)
 				_vy = 0;
 				_y = obj->_y + 100 + 1;
 			}
-			break; */
+			break; 
 		case Bottom:
 			if((_State == Move) || (_State == attack) || (_State == stand))
 			{
@@ -180,7 +180,7 @@ void turtle::CheckCollision(MyObject* obj)
 			break;
 		}
 	}
-
+	*/
 	if(obj->_ID == EObject::MARIO)
 	{
 		if((obj->_State == transform) || (obj->_State == dead) || (obj->_State == beforedead))
@@ -300,11 +300,25 @@ void turtle::CheckCollision(MyObject* obj)
 		switch(this->GetCollisionDirection(this->GetReSizeRect3(), obj->GetRect()))
 		{
 		case Left:
+			if(_State == attack)
+			{
+				obj->_State = beforedead2;
+				obj->_vx = 0.2;
+				obj->_vy = -1.1;
+				return;
+			}
 			_x = obj->_x + TILE + 1;
 			_turnLeft = false;
 			obj->_turnLeft = true;
 			break;
 		case Right:
+			if(_State == attack)
+			{
+				obj->_State = beforedead2;
+				obj->_vx = -0.2;
+				obj->_vy = -1.1;
+				return;
+			}
 			_x = obj->_x - this->_curSprite->_texture->Width - 1;
 			_turnLeft = true;
 			obj->_turnLeft = false;
@@ -419,9 +433,9 @@ void turtle::CheckTitleCollision(float &_vx,float &_vy,float _nextX,float _nextY
 					{
 						iColTer = true;
 						_y = TILE * (j) - _height;
-						_State = stand;
+						//_State = stand;
 						_vy = 0;
-						break;;
+						break;
 					}
 				}
 			}

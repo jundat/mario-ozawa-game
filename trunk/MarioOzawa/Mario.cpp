@@ -5,23 +5,25 @@
 #include "Brick.h"
 #include "SoundManager.h"
 
-#define ALL_LIFE 5
-#define START_X 10
-#define START_Y 10
-#define TIME_TO_DEAD 2000 //mất TIME_TO_DEAD milisecond (beforedead -> dead)
-
 Mario::Mario(float x, float y)	: MyObject(x, y)
 {
 
 	_sprMarioSmaller = new Sprite(ResourceMng::GetInst()->GetTexture("image/MarioSmaller.png"), 50);
 	_sprMarioLarger = new Sprite(ResourceMng::GetInst()->GetTexture("image/MarioLarger.png"), 50);
 	_sprMarioFire = new Sprite(ResourceMng::GetInst()->GetTexture("image/MarioFire.png"), 50);
-	
-	Reset();
-
-	gold = 0;
-	life = ALL_LIFE - 1;
-
+	_turnLeft = false;
+	_curSprite = _sprMarioLarger;
+	_curSprite->_start = 0;
+	_curSprite->_end = 2;
+	GL_CurForm = 1;
+	GL_NextForm = 1;
+	_State = stand;
+	_x = x;
+	_y = y;
+	_vx = 0;
+	_vy = 0;
+	_TimeTransform = 0;
+	_ID = EObject::MARIO;
 	//_listBullet = new vector <bullet*> ;
 
 	//bullet *aa;
@@ -51,15 +53,13 @@ void Mario::Update(int time)
 	_time = time;
 	float _NextX = _x + _vx ;
 	float _NextY = _y + _vy * _time;
-	
+
 	_vy += GRAVITY * time;
 	CheckTitleCollision(_vx,_vy,_NextX,_NextY, GL_Width, GL_Height, _curSprite->_texture->Width,_curSprite->_texture->Height);
 
 	if(_State == beforedead)
 	{
 		_curSprite->SelectIndex(5);
-		
-		//change to state dead
 		return;
 	}
 	
@@ -74,19 +74,18 @@ void Mario::Update(int time)
 		_curSprite->SelectIndex(4);
 	if((_turnLeft == false) && (_vx < 0.0f))
 		_curSprite->SelectIndex(4);
+
 	if(_State == jumping){
 		_curSprite->SelectIndex(3);
-	}
-
-	//out at right
-	if(this->GetRect().Right > GL_MapW)
-	{
-		_x = GL_MapW - (this->GetRect().Right - this->GetRect().Left) - 1;
 	}
 }
 
 void Mario::Render()
 {
+	if(_turnLeft == false)
+		_curSprite->Render((int)_x, (int)_y);
+	else _curSprite->RenderScale((int)_x, (int)_y);
+
 	int size = _listBullet.size();
 	bullet* sf;
 
@@ -95,10 +94,6 @@ void Mario::Render()
 		sf = _listBullet[i];
 		sf->Render();
 	}
-
-	if(_turnLeft == false)
-		_curSprite->Render((int)_x, (int)_y);
-	else _curSprite->RenderScaleX((int)_x, (int)_y);
 }
 
 void Mario::TurnRight()
@@ -114,7 +109,6 @@ void Mario::TurnRight()
 	if((_State != transform) && (_State != Move) && (_State != jumping))
 	{
 		_State = Move;
-
 	}
 	_turnLeft = false;
 }
@@ -169,23 +163,6 @@ void Mario::Stand()
 	}
 }
 
-void Mario::Reset()
-{
-	_turnLeft = false;
-	_curSprite = _sprMarioSmaller;
-	_curSprite->_start = 0;
-	_curSprite->_end = 2;
-	GL_CurForm = 0;
-	GL_NextForm = 1;
-	_State = stand;
-	_x = START_X;
-	_y = START_Y;
-	_vx = 0;
-	_vy = 0;
-	_TimeTransform = 0;
-	_ID = EObject::MARIO;
-}
-
 void Mario::Transform()
 {
 	if(_State == beforedead)
@@ -198,15 +175,24 @@ void Mario::Transform()
 		{
 			if(GL_NextForm == 0)
 			{
+				int _tempIndex = _curSprite->_index;
 				_curSprite = _sprMarioSmaller;
+				_curSprite->SelectIndex(_tempIndex);
+				//_y += 50;
 			}
 			if(GL_NextForm == 1)
 			{
+				int _tempIndex = _curSprite->_index;
 				_curSprite = _sprMarioLarger;
+				_curSprite->SelectIndex(_tempIndex);
+				if(GL_CurForm == 0)
+					_y -= 50;
 			}
 			if(GL_NextForm == 2)
 			{
+				int _tempIndex = _curSprite->_index;
 				_curSprite = _sprMarioFire;
+				_curSprite->SelectIndex(_tempIndex);
 			}
 		}
 		else
@@ -215,15 +201,25 @@ void Mario::Transform()
 			{
 				if(GL_CurForm == 0)
 				{
+					int _tempIndex = _curSprite->_index;
 					_curSprite = _sprMarioSmaller;
+					_curSprite->SelectIndex(_tempIndex);
+					//_y += 50;
+					if(GL_NextForm == 1)
+						_y +=50;
 				}
 				if(GL_CurForm == 1)
 				{
+					int _tempIndex = _curSprite->_index;
 					_curSprite =_sprMarioLarger;
+					_curSprite->SelectIndex(_tempIndex);
+					//_y -= 50;
 				}
 				if(GL_CurForm == 2)
 				{
+					int _tempIndex = _curSprite->_index;
 					_curSprite = _sprMarioFire;
+					_curSprite->SelectIndex(_tempIndex);
 				}
 			}
 		}
@@ -263,7 +259,8 @@ void Mario::CheckCollision(MyObject* obj)
 	}
 	if((_State == beforedead) || (_State == dead))
 		return;
-	if(obj->_ID == EObject::BRICK)
+	
+	if((obj->_ID == EObject::BRICKITEM) || (obj->_ID == EObject::BRICKQUESTION) || (obj->_ID == EObject::BRICKBREAK) )
 	{
 		//if(_State == transform)
 		//	return;
@@ -273,12 +270,12 @@ void Mario::CheckCollision(MyObject* obj)
 		{
 		case Top:
 			_vy = 0;
-			_y = obj->_y + TILE + 1;
+			_y = obj->_y + TILE + 1 ;
 			break;
 
 		case Bottom:
 			_vy = 0;
-			_y = obj->_y - _curSprite->_texture->Height;
+			_y = obj->_y - _curSprite->_texture->Height ;
 			if(_State != transform)
 				_State = stand;
 			break;
@@ -294,7 +291,7 @@ void Mario::CheckCollision(MyObject* obj)
 			break;
 		}
 	}
-
+	/*
 	if(obj->_ID == EObject::PIPE)
 	{
 		if(obj->_State == dead)
@@ -321,7 +318,7 @@ void Mario::CheckCollision(MyObject* obj)
 			break;
 		}
 	}
-
+	*/
 	if((obj->_ID == EObject::FUNGI) || (obj->_ID == EObject::TURTLE))
 	{
 		if(_State == transform)

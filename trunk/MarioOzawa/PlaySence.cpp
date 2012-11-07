@@ -57,6 +57,7 @@ void PlaySence::_OnKeyDown(int keyCode){
 
 			SoundManager::GetInst()->StopBgSound(SOUND_B_GAME1);
 			SoundManager::GetInst()->PlayBgSound(SOUND_B_MENU, true, true);
+			//PostQuitMessage(0);
 		}
 		break;
 
@@ -68,13 +69,16 @@ void PlaySence::_OnKeyDown(int keyCode){
 		_mario->Jump();
 		break;
 	case DIK_Q:
-		_mario->TransformMario(0,1);
+		_mario->TransformMario(1,0);
 		break;
 	case DIK_W:
 		_mario->TransformMario(1,2);
 		break;
 	case DIK_E:
-		_mario->TransformMario(2,0);
+		_mario->TransformMario(2,1);
+		break;
+	case DIK_Z:
+		_mario->Fire();
 		break;
 	}
 }
@@ -104,7 +108,6 @@ void PlaySence::_ProcessInput()
 void PlaySence::_UpdateRender(int time)
 {
 #pragma region Begin Render
-	//translate camera
 	D3DXMATRIX mat;
 	float x = _Camera->GetRect().Left;
 	float y = _Camera->GetRect().Top;
@@ -119,28 +122,30 @@ void PlaySence::_UpdateRender(int time)
 	RECT r = GL_WndSize;
 	r.top = GL_Height - _alpha * GL_Height;
 
-	ResourceMng::GetInst()->GetSurface("image/imgBgGame.png")->Render(NULL, &r);
+	ResourceMng::GetInst()->GetSurface("image/imgBgGame.png")->Draw(NULL, &r);
 	_BackgroundMng->UpdateRender(_Camera->GetCameraExpand(), time);
 	
+	/* Fix Lan 1
+	Ly do : sai thu tu vong lap logic
 	_mario->Update(time);
 	_mario->Render();
 
 	_QuadTree->UpdateRender(_Camera->GetCameraExpand(), _mario, time);
+	*/
+
+	// fix thanh
+	// =>
+	_mario->Update(time);
+
+	_QuadTree->UpdateRender(_Camera->GetCameraExpand(), _mario, time);
+	_mario->Render();
 
 	//------------------------------------------------------------------------
 #pragma region End Render
-	//translate camera back
+	GLSpriteHandler->End();
 	D3DXMATRIX matDefaut;
 	D3DXMatrixTransformation2D(&matDefaut, NULL, 0.0f, NULL, NULL, 0.0f, NULL); 
 	GLSpriteHandler->SetTransform(&matDefaut);
-	//
-
-	char gold[10];
-	sprintf(gold, "%d", _mario->gold);
-	Writer::RenderFont1(gold, 10, 10);
-
-	//end Render
-	GLSpriteHandler->End();
 #pragma endregion
 }
 

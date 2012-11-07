@@ -2,7 +2,6 @@
 // Project:		MarioOzawa
 // Create:		Pham Tan Long
 
-#pragma once
 
 #include <windows.h>
 #include "MarioGame.h"
