@@ -122,7 +122,7 @@ void PlaySence::_UpdateRender(int time)
 	RECT r = GL_WndSize;
 	r.top = GL_Height - _alpha * GL_Height;
 
-	ResourceMng::GetInst()->GetSurface("image/imgBgGame.png")->Draw(NULL, &r);
+	ResourceMng::GetInst()->GetSurface("image/imgBgGame.png")->Render(NULL, &r);
 	_BackgroundMng->UpdateRender(_Camera->GetCameraExpand(), time);
 	
 	/* Fix Lan 1
