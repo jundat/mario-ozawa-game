@@ -163,6 +163,20 @@ void Mario::Stand()
 	}
 }
 
+//tan long
+void Mario::ShitDown()
+{
+	if(_curSprite == _sprMarioLarger && _State == stand)
+	{
+		_vx = 0;
+		_curSprite->SelectIndex(5);
+	}
+	else
+	{
+		//nothing
+	}
+}
+
 void Mario::Transform()
 {
 	if(_State == beforedead)
