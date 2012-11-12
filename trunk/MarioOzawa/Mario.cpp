@@ -78,13 +78,15 @@ void Mario::Update(int time)
 	if(_State == jumping){
 		_curSprite->SelectIndex(3);
 	}
+
 }
 
 void Mario::Render()
 {
 	if(_turnLeft == false)
 		_curSprite->Render((int)_x, (int)_y);
-	else _curSprite->RenderScaleX((int)_x, (int)_y);
+	else 
+		_curSprite->RenderScaleX((int)_x, (int)_y);
 
 	int size = _listBullet.size();
 	bullet* sf;
@@ -176,6 +178,7 @@ void Mario::ShitDown()
 		//nothing
 	}
 }
+
 
 void Mario::Transform()
 {

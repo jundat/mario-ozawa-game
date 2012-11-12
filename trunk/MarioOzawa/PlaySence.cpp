@@ -99,10 +99,15 @@ void PlaySence::_ProcessInput()
 	{
 		_mario->TurnLeft();
 	}
-	else 
+	else if(_game->IsKeyDown(DIK_DOWN))
 	{ 
+		_mario->ShitDown();
+	}
+	else
+	{
 		_mario->Stand();
 	}
+
 }
 
 void PlaySence::_UpdateRender(int time)

@@ -13,6 +13,7 @@
 #define FRICTION_X		0.00001f
 #define ACCEL_X		1.5
 #define BOTTOM		600
+
 using namespace std;
 #pragma once
 class Mario : public MyObject
