@@ -113,8 +113,7 @@ void OptionSence::_UpdateRender(int t)
 	if(_sprMarioHead->_index == 1 && _sprMarioHead->_timeLocal >= _sprMarioHead->_timeAni/7)
 		_sprMarioHead->SelectIndex(0);
 	_sprMarioHead->Update(t);
-
-
+	
 	//--------------------------------------------RENDER------------------------------
 	GLSpriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 	//
