@@ -39,13 +39,13 @@ void MenuSence::_OnKeyDown(int keyCode){
 				_game->AddSence(zs);
 
 			}else if(_curSelect == 1){
-				_state = TransOff;
 				//do not stop sound
 				SoundManager::GetInst()->PlayEffSound(SOUND_E_SLIDE);
 
 				//goto option
 				OptionSence* ot= new OptionSence(_game, 100);
 				_game->AddSence(ot);
+				_state = TransOff;
 
 			}else if(_curSelect == 2){
 				SoundManager::GetInst()->PlayEffSound(SOUND_E_DEATH);

@@ -32,7 +32,7 @@ bool MyObject::CanCollide(){
 }
 
 bool MyObject::IsAlive(){
-	return true;
+	return (_State != dead);
 }
 
 void MyObject::Update(int time)

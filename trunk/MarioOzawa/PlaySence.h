@@ -20,6 +20,9 @@ public:
 	// tieu nun
 	Mario*	_mario;
 
+	//check if is extiing
+	bool _isExitting;
+
 	PlaySence(Game* game, int timeAni);
 	~PlaySence(void);
 
