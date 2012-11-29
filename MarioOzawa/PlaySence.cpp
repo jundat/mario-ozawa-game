@@ -60,7 +60,7 @@ void PlaySence::_OnKeyDown(int keyCode){
 	case DIK_ESCAPE:
 		{
 			//save game before exit
-			//this->_MapLoader->SaveGameToFile(_QuadTree, _mario, "saved/savedgame.txt");
+			this->_MapLoader->SaveGameToFile(_QuadTree, _mario, "saved/savedgame.txt");
 
 			_state = TransOff;
 			MenuSence* mn = new MenuSence(_game, 100);

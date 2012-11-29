@@ -15,7 +15,7 @@ public:
 	int _mapH;
 
 	//array 2 dimention type char
-	char **_board;
+	int **_board;
 	static TileMap* _instance;
 	static TileMap* GetInst();
 

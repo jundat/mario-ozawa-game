@@ -25,8 +25,8 @@ int MapLoader::_mapH = 0;
  int MapLoader::_nextForm = 0;
  int MapLoader::_marioState = 0; //state of mario
 
- int MapLoader::_mariox = 10; //vị trí của mario
- int MapLoader::_marioy = 10;
+ int MapLoader::_mariox = 2; //vị trí của mario, tính theo TILE
+ int MapLoader::_marioy = 2;
 
 MapLoader::MapLoader(void)
 {
@@ -195,11 +195,11 @@ HRESULT MapLoader::LoadMapFormFile (int mapNumber, bool isLoadMario, bool isLoad
 	_mapTexture->UnlockRect(0);
 
 	//----------------------
-	_board = new char*[_mapH];
+	_board = new int*[_mapH];
 
 	for(int i = 0; i < _mapH; i++)
 	{
-		_board[i] = new char[_mapW];
+		_board[i] = new int[_mapW];
 	}
 
 	//gan gia tri ve 0
@@ -209,15 +209,20 @@ HRESULT MapLoader::LoadMapFormFile (int mapNumber, bool isLoadMario, bool isLoad
 		}
 	}
 
-	//add pixel ID to board
+	//////////////////////////////////////////////////////////////////////////
 	for (i = 0 ; i < _mapH ; ++i)
 	{
 		for ( j = 0 ; j < _mapW ; ++j)
 		{
-			int blue = (pColor[i][j] & 0x000000ff);
-			
-			//filter and insert
-			if(blue == 1) //MARIO
+			D3DCOLOR color = (pColor[i][j]);
+			int blue = (color & 0x000000ff);
+			_board[i][j] = blue;
+
+			if(blue == 0)
+				continue;
+
+			//MARIO
+			if(blue == 1)
 			{
 				if(isLoadMario)
 				{
@@ -226,26 +231,29 @@ HRESULT MapLoader::LoadMapFormFile (int mapNumber, bool isLoadMario, bool isLoad
 				}
 			}
 
-			if(blue >= MIN_OBJ_ID && blue <= MAX_OBJ_ID) //OBJECT ID
+			//BACKGROUND ID
+			if((blue >= MIN_BG_ID && blue <= MAX_BG_ID) ||
+				blue >= MIN_TILE_ID && blue <= MAX_TILE_ID)
 			{
-				if(isLoadObjects)
+				if(isLoadBackground)
 				{
 					_board[i][j] = blue;
 				}
 			}
 
-			if(blue >= MIN_TILE_ID && blue <= MAX_TILE_ID) //TILE MAP ID
+			//TILE MAP ID / in Background
+			if(blue >= MIN_TILE_ID && blue <= MAX_TILE_ID)
 			{
 				if(isLoadTileMap)
 				{
 					_board[i][j] = blue;
 				}
 			}
-
-			if((blue >= MIN_BG_ID && blue <= MAX_BG_ID) ||
-				(blue >= MIN_TILE_ID && blue <= MAX_TILE_ID))  //BACKGROUND ID
+			
+			//OBJECT ID
+			if(blue >= MIN_OBJ_ID && blue <= MAX_OBJ_ID)
 			{
-				if(isLoadBackground)
+				if(isLoadObjects)
 				{
 					_board[i][j] = blue;
 				}
@@ -267,13 +275,13 @@ void MapLoader::TranslateMap (QuadTree* quadtree, BackgroundManager* background,
 	TileMap::GetInst()->_mapH = this->_mapH;
 
 	//init array
-	background->_board = new char*[_mapH];
-	TileMap::GetInst()->_board = new char*[_mapH];
+	background->_board = new int*[_mapH];
+	TileMap::GetInst()->_board = new int*[_mapH];
 
 	for(int i = 0; i < _mapH; i++)
 	{
-		background->_board[i] = new char[_mapW];
-		TileMap::GetInst()->_board[i] = new char[_mapW];
+		background->_board[i] = new int[_mapW];
+		TileMap::GetInst()->_board[i] = new int[_mapW];
 	}
 
 	//gan gia tri ve 0
@@ -285,8 +293,9 @@ void MapLoader::TranslateMap (QuadTree* quadtree, BackgroundManager* background,
 	}
 	
 	//mario
-	mario->_x = _mariox * TILE; //debug
+	mario->_x = _mariox * TILE;
 	mario->_y = _marioy * TILE;
+
 	GL_CurForm = _curForm;
 	GL_NextForm = _nextForm;
 	mario->gold = _gold;
@@ -301,9 +310,40 @@ void MapLoader::TranslateMap (QuadTree* quadtree, BackgroundManager* background,
 		{
 			blue = _board[i][j];
 
-			//if(blue == 0)
-			//	continue;
+			if(blue == 0)
+				continue;
+			
+			//BACKGROUND ID
+			if((blue >= MIN_BG_ID && blue <= MAX_BG_ID) ||
+				blue >= MIN_TILE_ID && blue <= MAX_TILE_ID)
+			{
+				background->_board[i][j] = blue;
+			}
 
+			//TILE MAP ID / in Background
+			if(blue >= MIN_TILE_ID && blue <= MAX_TILE_ID)
+			{
+				TileMap::GetInst()->_board[i][j] = 1;
+
+				if(blue == 103 || blue == 104 || blue == 105) //gound
+				{
+					if(i + 1 < _mapH)
+						TileMap::GetInst()->_board[i + 1][j] = 1;
+				}
+
+				if(blue == 106) //pipe
+				{
+					if(i + 1 < _mapH && j + 1 < _mapW)
+					{
+						TileMap::GetInst()->_board[i + 1][j] = 1;
+						TileMap::GetInst()->_board[i][j + 1] = 1;
+						TileMap::GetInst()->_board[i + 1][j + 1] = 1;
+					}
+
+				}
+			}
+			
+			
 			//OBJECT ID
 			if(blue >= MIN_OBJ_ID && blue <= MAX_OBJ_ID)
 			{
@@ -342,142 +382,115 @@ void MapLoader::TranslateMap (QuadTree* quadtree, BackgroundManager* background,
 					break;
 				}
 			}
-
-			//BACKGROUND ID
-			if((blue >= MIN_BG_ID && blue <= MAX_BG_ID) ||
-				blue >= MIN_TILE_ID && blue <= MAX_TILE_ID)
-			{
-				background->_board[i][j] = blue;
-			}
-
-			//TILE MAP ID
-			if(blue >= MIN_TILE_ID && blue <= MAX_TILE_ID)
-			{
-				TileMap::GetInst()->_board[i][j] = 1;
-				
-				if(blue == 103 || blue == 104 || blue == 105) //gound
-				{
-					if(i + 1 < _mapH)
-						TileMap::GetInst()->_board[i + 1][j] = 1;
-				}
-
-				if(blue == 106) //pipe
-				{
-					if(i + 1 < _mapH && j + 1 < _mapW)
-					{
-						TileMap::GetInst()->_board[i + 1][j] = 1;
-						TileMap::GetInst()->_board[i][j + 1] = 1;
-						TileMap::GetInst()->_board[i + 1][j + 1] = 1;
-					}
-				}
-			}
-
 		}
 	}
 }
 
 void MapLoader::SaveGameToFile(QuadTree* quadtree, Mario* mario, LPCTSTR fileToSave)
 {
-	ofstream fout(fileToSave, ios::end, ios_base::out);
+	ofstream fout(fileToSave, ios_base::trunc);
 
-	//mapNumber
-	fout<< _mapNumber << endl;
-
-	//gold
-	fout<< mario->gold << endl;
-
-	//life
-	fout<< mario->life << endl;
-
-	//curForm
-	fout<< GL_CurForm << endl;
-
-	//nextForm
-	fout<< GL_NextForm << endl;
-
-	//state
-	fout<< (int)mario->_State << endl;
-
-	//mario.x
-	fout<< mario->_x << endl;
-
-	//mario.y
-	fout<< mario->_y << endl;
-
-	//read from quadtree
-	RECT rect;
-	rect.left = 0;
-	rect.top = 0;
-	rect.right = GL_MapW;
-	rect.bottom = GL_MapH;
-
-	vector<MyObject*>* listObject = quadtree->_rootNode->GetObj(rect);
-
-	for (std::vector<MyObject*>::iterator i = listObject->begin(); 
-		i != listObject->end(); ++i)
+	if(fout != NULL)
 	{
-		MyObject* obj = (MyObject*)(*i);
-		switch (obj->_ID)
+		//mapNumber
+		fout<< _mapNumber << endl;
+
+		//gold
+		fout<< mario->gold << endl;
+
+		//life
+		fout<< mario->life << endl;
+
+		//curForm
+		fout<< GL_CurForm << endl;
+
+		//nextForm
+		fout<< GL_NextForm << endl;
+
+		//state
+		fout<< (int)mario->_State << endl;
+
+		//mario.x
+		fout<< (int)(mario->_x / TILE) << endl;
+
+		//mario.y
+		fout<< (int)(mario->_y / TILE) << endl;
+
+		//read from quadtree
+		RECT rect;
+		rect.left = 0;
+		rect.top = 0;
+		rect.right = GL_MapW;
+		rect.bottom = GL_MapH;
+
+		vector<MyObject*>* listObject = quadtree->_rootNode->GetObj(rect);
+
+		for (std::vector<MyObject*>::iterator i = listObject->begin(); 
+			i != listObject->end(); ++i)
 		{
-		case EObject::BRICK: //////////////////////////////////////////////////////////////////////////zs
-			break;
-
-		case EObject::BRICKBREAK: //151
+			MyObject* obj = (MyObject*)(*i);
+			switch (obj->_ID)
 			{
-				fout<< 151 << " " << obj->_x / TILE << " " << obj->_y / TILE << endl;
-			}
-			break;
+			case EObject::BRICK: //////////////////////////////////////////////////////////////////////////zs
+				break;
 
-		case EObject::BRICKITEM:
-			{
-				brickItem* item = (brickItem*)obj;
-				if (item->_item == EBrickItemKind::FLOWER) //153
+			case EObject::BRICKBREAK: //151
 				{
-
-				} 
-				else if (item->_item == EBrickItemKind::LARGER) //157
-				{
-
-				} 
-				else if (item->_item == EBrickItemKind::SHOOTER) //156
-				{
-
+					fout<< 151 << " " << (int)(obj->_x / TILE) << " " << (int)(obj->_y / TILE) << endl;
 				}
+				break;
+
+			case EObject::BRICKITEM:
+				{
+					brickItem* item = (brickItem*)obj;
+					if (item->_item == EBrickItemKind::FLOWER) //153
+					{
+
+					} 
+					else if (item->_item == EBrickItemKind::LARGER) //157
+					{
+
+					} 
+					else if (item->_item == EBrickItemKind::SHOOTER) //156
+					{
+
+					}
+				}
+				break;
+
+			case EObject::BRICKQUESTION: //155
+				{
+					fout<< 155 << " " << (int)(obj->_x / TILE) << " " << (int)(obj->_y / TILE) << endl;
+				}
+				break;
+
+			case EObject::COIN: //152
+				{
+					fout<< 152 << " " << (int)(obj->_x / TILE) << " " << (int)(obj->_y / TILE) << endl;
+				}
+				break;
+
+			case EObject::FUNGI: //154
+				{
+					fout<< 154 << " " << (int)(obj->_x / TILE) << " " << (int)(obj->_y / TILE) << endl;
+				}
+				break;
+
+			case EObject::MARIO: //////////////////////////////////////////////////////////////////////////
+				break;
+
+			case EObject::PIPE: //////////////////////////////////////////////////////////////////////////
+				break;
+
+			case EObject::TURTLE: //158
+				{
+					fout<< 158 << " " << (int)(obj->_x / TILE) << " " << (int)(obj->_y / TILE) << endl;
+				}
+				break;
 			}
-			break;
-
-		case EObject::BRICKQUESTION: //155
-			{
-				fout<< 155 << " " << obj->_x / TILE << " " << obj->_y / TILE << endl;
-			}
-			break;
-
-		case EObject::COIN: //152
-			{
-				fout<< 152 << " " << obj->_x / TILE << " " << obj->_y / TILE << endl;
-			}
-			break;
-
-		case EObject::FUNGI: //154
-			{
-				fout<< 154 << " " << obj->_x / TILE << " " << obj->_y / TILE << endl;
-			}
-			break;
-
-		case EObject::MARIO: //////////////////////////////////////////////////////////////////////////
-			break;
-
-		case EObject::PIPE: //////////////////////////////////////////////////////////////////////////
-			break;
-
-		case EObject::TURTLE: //158
-			{
-				fout<< 158 << " " << obj->_x / TILE << " " << obj->_y / TILE << endl;
-			}
-			break;
 		}
-	}
 
-	fout.close();
+		fout.close();
+	}	
 }
 
