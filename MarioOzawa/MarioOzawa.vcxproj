@@ -108,6 +108,7 @@
     <None Include="NOTES.txt" />
     <None Include="pipe.png" />
     <None Include="Question.png" />
+    <None Include="savedgame.txt" />
     <None Include="turtle.png" />
   </ItemGroup>
   <ItemGroup>

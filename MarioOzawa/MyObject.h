@@ -50,6 +50,9 @@ public:
 	// tieu nun
 	float _x;
 	float _y;
+
+	float _nextx;
+	float _nexty;
 	
 	float _vx;
 	float _vy;

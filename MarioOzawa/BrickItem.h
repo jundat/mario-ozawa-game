@@ -1,4 +1,4 @@
-#ifndef _BRICKITEM_H_
+﻿#ifndef _BRICKITEM_H_
 #define _BRICKITEM_H_
 
 
@@ -14,6 +14,14 @@
 // + can not break
 // + collision
 // + have item in it
+
+enum EBrickItemKind
+{
+	FLOWER, //thêm mạng
+	LARGER, //lớn lên
+	SHOOTER //có súng
+};
+
 class brickItem : public MyObject
 {
 protected:
@@ -24,17 +32,21 @@ protected:
 	// 0 : hoa, 1 : nam do, 2 : nam xanh
 	float _vxItem;
 	float _vyItem;
-	int _item;
 
 public:
+	EBrickItemKind _item;
+
 	//kindOfItem = 0:hoa | 1:nam do | 2:namxanh 
-	brickItem(float x, float y,int kindOfItem);
+	brickItem(float x, float y, EBrickItemKind kindOfItem);
 	virtual ~brickItem(void);
 	virtual void Update(int time);
 	virtual void Render();
 	virtual void CheckCollision(MyObject* obj);
 	CRECT GetItemRect();
 	CRECT GetResizeItemRect();
+
+	//tan long
+	virtual void CheckTitleCollision(float &_vx,float &_vy,float _nextX,float _nextY,float _maxWidth,float _maxHeight,int _width,int _height);
 };
 
 #endif

@@ -21,6 +21,7 @@ void QuadTree::Insert (MyObject* obj)
 
 void QuadTree::UpdateRender(CRECT camera, Mario* mario, int time)
 {
+#pragma region create rect camera
 	CRECT cameraCollision = camera;
 	if(cameraCollision.Left >= COLLIDE_EXPAND)
 		cameraCollision.Left -= COLLIDE_EXPAND;
@@ -41,9 +42,9 @@ void QuadTree::UpdateRender(CRECT camera, Mario* mario, int time)
 		cameraCollision.Bottom += COLLIDE_EXPAND;
 	else
 		cameraCollision.Bottom = GL_MapH;
+#pragma endregion
 
 	vector<MyObject*>* listCollision = this->_rootNode->GetObj(cameraCollision);
-
 	vector<MyObject*>* listUpdate = this->_rootNode->QueryObj(camera);
 	
 	for (std::vector<MyObject*>::iterator i = listUpdate->begin(); 
@@ -51,7 +52,6 @@ void QuadTree::UpdateRender(CRECT camera, Mario* mario, int time)
 	{
 		//update
 		(*i)->Update(time);
-
 
 		//check collision
 		if((*i)->CanCollide())
@@ -71,7 +71,7 @@ void QuadTree::UpdateRender(CRECT camera, Mario* mario, int time)
 		}
 
 		// fix lan 1
-		//render
+		// render
 		(*i)->Render();
 		
 		// insert again

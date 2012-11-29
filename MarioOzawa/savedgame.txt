@@ -1,0 +1,14 @@
+0//file map
+900//gold
+3//life
+1//curForm(0, 1, 2)
+0//nextform(0, 1, 2)
+2//state(0, ... 12)
+500//mario.x
+400//mario.y
+11 500 450//objectID x y
+11 300 450
+13 250 450
+
+
+

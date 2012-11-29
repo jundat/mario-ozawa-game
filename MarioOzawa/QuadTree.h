@@ -21,6 +21,5 @@ public:
 
 	//update all obj in quad tree
 	void UpdateRender(CRECT camera, Mario* mario, int time);
-
 };
 
