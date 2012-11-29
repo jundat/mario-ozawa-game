@@ -1,5 +1,6 @@
 ﻿#include "PlaySence.h"
 #include "MenuSence.h"
+#include "ZoomSence.h"
 #include "MapLoader.h"
 #include "Writer.h"
 #include "SoundManager.h"
@@ -8,6 +9,7 @@ PlaySence::PlaySence(Game* game, int timeAni)
 	: GameSence(game, timeAni)
 {
 	SoundManager::GetInst()->PlayBgSound(SOUND_B_GAME1);
+	_isExitting = false;
 }
 
 PlaySence::~PlaySence(void)
@@ -59,16 +61,21 @@ void PlaySence::_OnKeyDown(int keyCode){
 	switch(keyCode){
 	case DIK_ESCAPE:
 		{
-			//save game before exit
-			this->_MapLoader->SaveGameToFile(_QuadTree, _mario, "saved/savedgame.txt");
+			if(!_isExitting)
+			{
+				//save game before exit
+				this->_MapLoader->SaveGameToFile(_QuadTree, _mario, "saved/savedgame.txt");
 
-			_state = TransOff;
-			MenuSence* mn = new MenuSence(_game, 100);
-			_game->AddSence(mn);
+				_isExitting = true;
 
-			SoundManager::GetInst()->StopBgSound(SOUND_B_GAME1);
-			SoundManager::GetInst()->PlayBgSound(SOUND_B_MENU, true, true);
-			//PostQuitMessage(0);
+				//got to menu
+				MenuSence* mn = new MenuSence(_game, 0);
+				ZoomSence* zs = new ZoomSence(_game, 500, this, mn);
+				_game->AddSence(zs);
+
+				SoundManager::GetInst()->StopBgSound(SOUND_B_GAME1);
+				SoundManager::GetInst()->PlayBgSound(SOUND_B_MENU, true, true);
+			}			
 		}
 		break;
 
@@ -133,8 +140,6 @@ void PlaySence::_UpdateRender(int time)
 #pragma endregion
 	//------------------------------------------------------------------------
 
-
-
 	_Camera->Update(_mario);
 	RECT r = GL_WndSize;
 	r.top = GL_Height - _alpha * GL_Height;
@@ -156,7 +161,20 @@ void PlaySence::_UpdateRender(int time)
 	_QuadTree->UpdateRender(_Camera->GetCameraExpand(), _mario, time);
 	_mario->Render();
 
+	////fail game
+	if(_mario->life <= 0 && _mario->_State == dead && 
+		!_isExitting)
+	{
+		_isExitting = true;
 
+		//got to menu
+		MenuSence* mn = new MenuSence(_game, 0);
+		ZoomSence* zs = new ZoomSence(_game, 500, this, mn);
+		_game->AddSence(zs);
+
+		SoundManager::GetInst()->StopBgSound(SOUND_B_GAME1);
+		SoundManager::GetInst()->PlayBgSound(SOUND_B_MENU, true, true);
+	}
 
 	//------------------------------------------------------------------------
 #pragma region End Render

@@ -19,13 +19,13 @@
 int MapLoader::_mapW = 0;
 int MapLoader::_mapH = 0;
  int MapLoader::_mapNumber = 0; //số thứ tự của map
- int MapLoader::_gold = 0;
- int MapLoader::_life = 3;
- int MapLoader::_curForm = 0;
- int MapLoader::_nextForm = 0;
- int MapLoader::_marioState = 0; //state of mario
+ int MapLoader::_gold = -1;
+ int MapLoader::_life = -1;
+ int MapLoader::_curForm = -1;
+ int MapLoader::_nextForm = -1;
+ int MapLoader::_marioState = -1; //state of mario
 
- int MapLoader::_mariox = 2; //vị trí của mario, tính theo TILE
+ int MapLoader::_mariox = 2; //vị trí của mario TILE
  int MapLoader::_marioy = 2;
 
 MapLoader::MapLoader(void)
@@ -216,8 +216,7 @@ HRESULT MapLoader::LoadMapFormFile (int mapNumber, bool isLoadMario, bool isLoad
 		{
 			D3DCOLOR color = (pColor[i][j]);
 			int blue = (color & 0x000000ff);
-			_board[i][j] = blue;
-
+			
 			if(blue == 0)
 				continue;
 
@@ -296,11 +295,14 @@ void MapLoader::TranslateMap (QuadTree* quadtree, BackgroundManager* background,
 	mario->_x = _mariox * TILE;
 	mario->_y = _marioy * TILE;
 
-	GL_CurForm = _curForm;
-	GL_NextForm = _nextForm;
-	mario->gold = _gold;
-	mario->life = _life;
-	mario->_State = (State)_marioState;
+	if(_curForm > -1 && _nextForm > -1 && _gold > -1 && _life > -1 && _marioState > -1)
+	{
+		GL_CurForm = _curForm;
+		GL_NextForm = _nextForm;
+		mario->gold = _gold;
+		mario->life = _life;
+		mario->_State = (State)_marioState;
+	}	
 
 	//Insert Object
 	int blue;

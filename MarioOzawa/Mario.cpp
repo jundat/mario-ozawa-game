@@ -11,23 +11,21 @@ Mario::Mario(float x, float y)	: MyObject(x, y)
 	_sprMarioLarger = new Sprite(ResourceMng::GetInst()->GetTexture("image/MarioLarger.png"), 50);
 	_sprMarioFire = new Sprite(ResourceMng::GetInst()->GetTexture("image/MarioFire.png"), 50);
 	_turnLeft = false;
-	_curSprite = _sprMarioLarger;
+	_curSprite = _sprMarioSmaller;
 	_curSprite->_start = 0;
 	_curSprite->_end = 2;
-	GL_CurForm = 1;
-	GL_NextForm = 1;
+	GL_CurForm = 0;
+	GL_NextForm = 0;
 	_State = stand;
-	_x = x;
-	_y = y;
+	_lastx = _x = x;
+	_lasty = _y = y;
 	_vx = 0;
 	_vy = 0;
 	_TimeTransform = 0;
 	_ID = EObject::MARIO;
-	//_listBullet = new vector <bullet*> ;
 
-	//bullet *aa;
-	//aa = new bullet(0,0,true);
-	//_listBullet->push_back(aa);
+	life = 1;
+	gold = 0;
 }
 
 Mario::~Mario(void)
@@ -60,8 +58,52 @@ void Mario::Update(int time)
 	if(_State == beforedead)
 	{
 		_curSprite->SelectIndex(5);
+		
+		//check is dead
+		if(_y > 2 * GL_MapH)
+		{
+			_State = dead;
+
+			//reborn
+			if(this->life > 0)
+			{
+				this->life--;
+				this->_State = stand;
+
+				this->_vx = 0;
+				this->_vy = 0;
+				
+				this->_y = _lasty;
+				this->_x = _lastx;
+				//Jump();
+			}
+		}
+
 		return;
 	}
+	else
+	{
+		if(_y > GL_MapH)
+		{
+			_State = dead;
+			
+			//reborn
+			if(this->life > 0)
+			{
+				this->life--;
+				this->_State = stand;
+
+				this->_vx = 0;
+				this->_vy = 0;
+				
+				this->_y = _lasty;
+				this->_x = _lastx;
+				//Jump();
+			}
+		}
+	}
+
+	
 	
 	if(_vx != 0)
 	{
@@ -91,6 +133,16 @@ void Mario::Update(int time)
 		if(_x <= 0)
 		{
 			_x = 0;
+		}
+	}
+
+	//save last position
+	if(_State == stand || _State == Move)
+	{
+		if(abs(_x - _lastx) >= DISTANCE_WITH_LAST_POSITION_X)
+		{
+			_lastx = _x;
+			_lasty = _y;
 		}
 	}
 }
