@@ -54,7 +54,7 @@ LPD3DXSPRITE				GLSpriteHandler;	// spriteHandler to draw texture
 
 void GLTrace(char* format, ...)
 {	
-	char *_traceFile = "C:\\Temp\\TraceMarioOzawaGame.log";
+	char *_traceFile = "D:\\Trace Mario Ozawa Game.log";
 	int _traceNum = 1;
 
 	if (!_traceNum) return;

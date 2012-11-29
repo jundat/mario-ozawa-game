@@ -7,7 +7,6 @@
 
 Mario::Mario(float x, float y)	: MyObject(x, y)
 {
-
 	_sprMarioSmaller = new Sprite(ResourceMng::GetInst()->GetTexture("image/MarioSmaller.png"), 50);
 	_sprMarioLarger = new Sprite(ResourceMng::GetInst()->GetTexture("image/MarioLarger.png"), 50);
 	_sprMarioFire = new Sprite(ResourceMng::GetInst()->GetTexture("image/MarioFire.png"), 50);
@@ -48,6 +47,7 @@ void Mario::Update(int time)
 		sf = _listBullet[i];
 		sf->Update(time);
 	}
+
 	Transform();
 
 	_time = time;
@@ -69,6 +69,7 @@ void Mario::Update(int time)
 	}
 	if(_State == transform)
 		return;
+
 	// do when change dir suddenly
 	if((_turnLeft == true) && (_vx > 0.0f))
 		_curSprite->SelectIndex(4);
@@ -79,6 +80,19 @@ void Mario::Update(int time)
 		_curSprite->SelectIndex(3);
 	}
 
+	{//do not run out of the map
+		//right
+		if(_x + this->_curSprite->_texture->Width >= GL_MapW)
+		{
+			_x = GL_MapW - this->_curSprite->_texture->Width;
+		}
+
+		//left
+		if(_x <= 0)
+		{
+			_x = 0;
+		}
+	}
 }
 
 void Mario::Render()
@@ -308,6 +322,7 @@ void Mario::CheckCollision(MyObject* obj)
 			break;
 		}
 	}
+
 	/*
 	if(obj->_ID == EObject::PIPE)
 	{
@@ -336,6 +351,7 @@ void Mario::CheckCollision(MyObject* obj)
 		}
 	}
 	*/
+
 	if((obj->_ID == EObject::FUNGI) || (obj->_ID == EObject::TURTLE))
 	{
 		if(_State == transform)

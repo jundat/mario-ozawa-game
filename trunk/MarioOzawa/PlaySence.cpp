@@ -1,4 +1,4 @@
-#include "PlaySence.h"
+﻿#include "PlaySence.h"
 #include "MenuSence.h"
 #include "MapLoader.h"
 #include "Writer.h"
@@ -31,18 +31,26 @@ PlaySence::~PlaySence(void)
 void PlaySence::_Load()
 {
 	_mario = new Mario(50, 50);
-
 	_MapLoader = new MapLoader();
-	_MapLoader->LoadMapFormFile("map/map.png");
-	
-	CRECT mapRECT = CRECT(0, 0, GL_MapW, GL_MapH);
-
-	_QuadTree = new QuadTree(mapRECT);
 	_BackgroundMng = new BackgroundManager();
 	
+	//
+	//savedgame.txt trong thư mục saved chứa thông tin sau:
+	//+ map thứ mấy(tên file map, vd: "map0.png", rồi MapLoader sẽ vào thư mục map mà kiếm và load background của map đó lên
+	//+ trạng thái của map đó, bao gồm:
+	//tên obj:
+	//x
+	//y
+	//(gồm cả mario)
+	//nếu chưa có file savedgame hoặc savedgame không chứa gì
+	//khi đó sẽ load map đầu tiên như bình thường
+
+	_MapLoader->LoadSavedGameFormFile("saved/savedgame.txt");
+	CRECT mapRECT = CRECT(0, 0, GL_MapW, GL_MapH);
+	_QuadTree = new QuadTree(mapRECT);
+
 	_MapLoader->TranslateMap(_QuadTree, _BackgroundMng, _mario);
 	_BackgroundMng->Translate();
-	
 	_Camera = new Camera(CRECT(GL_WndSize));
 }
 
@@ -51,6 +59,9 @@ void PlaySence::_OnKeyDown(int keyCode){
 	switch(keyCode){
 	case DIK_ESCAPE:
 		{
+			//save game before exit
+			//this->_MapLoader->SaveGameToFile(_QuadTree, _mario, "saved/savedgame.txt");
+
 			_state = TransOff;
 			MenuSence* mn = new MenuSence(_game, 100);
 			_game->AddSence(mn);
@@ -107,7 +118,6 @@ void PlaySence::_ProcessInput()
 	{
 		_mario->Stand();
 	}
-
 }
 
 void PlaySence::_UpdateRender(int time)
@@ -122,11 +132,12 @@ void PlaySence::_UpdateRender(int time)
 	GLSpriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 #pragma endregion
 	//------------------------------------------------------------------------
-	_Camera->Update(_mario);
 
+
+
+	_Camera->Update(_mario);
 	RECT r = GL_WndSize;
 	r.top = GL_Height - _alpha * GL_Height;
-
 	ResourceMng::GetInst()->GetSurface("image/imgBgGame.png")->Render(NULL, &r);
 	_BackgroundMng->UpdateRender(_Camera->GetCameraExpand(), time);
 	
@@ -144,6 +155,8 @@ void PlaySence::_UpdateRender(int time)
 
 	_QuadTree->UpdateRender(_Camera->GetCameraExpand(), _mario, time);
 	_mario->Render();
+
+
 
 	//------------------------------------------------------------------------
 #pragma region End Render

@@ -33,7 +33,7 @@ void SelectWorldSence::_Load()
 	_mario = new Mario(50, 50);
 
 	_MapLoader = new MapLoader();
-	_MapLoader->LoadMapFormFile("map/selectworld.png");
+	_MapLoader->LoadMapFormFile(0, true, true, true, true);
 
 	CRECT mapRECT = CRECT(0, 0, GL_MapW, GL_MapH);
 

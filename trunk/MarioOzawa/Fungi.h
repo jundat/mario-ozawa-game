@@ -27,7 +27,6 @@ public:
 	CRECT GetReSizeRect();
 	void CheckCollision(MyObject* obj);
 	virtual void CheckTitleCollision(float &_vx,float &_vy,float _nextX,float _nextY,float _maxWidth,float _maxHeight,int _width,int _height);
-
 };
 
 #endif

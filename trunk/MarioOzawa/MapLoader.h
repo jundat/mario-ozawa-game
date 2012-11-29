@@ -1,7 +1,8 @@
-#pragma once
+﻿#pragma once
 
 #include <d3d9.h>
 #include <d3dx9.h>
+#include <fstream>
 #include "QuadTree.h"
 #include "BackgroundManager.h"
 #include "TileMap.h"
@@ -16,15 +17,34 @@ public:
 	LPDIRECT3DTEXTURE9 _mapTexture;
 	static int _mapW;	//number tile in width
 	static int _mapH;	//number tile in heigh
+
+	static int _mapNumber; //số thứ tự của map
+	static int _gold;
+	static int _life;
+	static int _curForm;
+	static int _nextForm;
+	static int _marioState; //state of mario
+
+	static int _mariox; //vị trí của mario
+	static int _marioy;
+
 	char **_board ;	//2dimention array to saved id of object in map
 
 	MapLoader(void);
 	~MapLoader(void);
 
+	//load save status, befrore call load file map
+	//before call LoadMapFromFile
+	void LoadSavedGameFormFile(LPCTSTR filesavegame);
+
 	//load map from an bitmap, save id(int) to array **_terrain
-	HRESULT LoadMapFormFile (LPCTSTR _file);
+	//after call LoadSavedGameFromFile
+	HRESULT LoadMapFormFile (int mapNumber, bool isLoadMario, bool isLoadBackground, bool isLoadObjects, bool isLoadTileMap);
 
 	//translate from _board to object, or save to BackgroundManager and TileMap
 	void TranslateMap (QuadTree* quadtree, BackgroundManager* background, Mario* mario);
+
+	//save game to file
+	void SaveGameToFile(QuadTree* quadtree, Mario* mario, LPCTSTR fileToSave);
 };
 

@@ -113,6 +113,7 @@
     <None Include="turtle.png">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="savedgame.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">

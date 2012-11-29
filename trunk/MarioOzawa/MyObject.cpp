@@ -46,6 +46,7 @@ void MyObject::Render()
 
 void MyObject::CheckCollision(MyObject* obj)
 {
+	/*
 	switch(this->GetCollisionDirection(obj->GetRect(), this->GetRect()))
 	{
 	case Top:
@@ -63,6 +64,16 @@ void MyObject::CheckCollision(MyObject* obj)
 	case None:
 		break;
 	}
+	*/
+
+	//line top
+	 
+
+
+	// line bottom
+
+
+
 }
 
 EDirect MyObject::GetCollisionDirection(CRECT r1, CRECT r2)
@@ -106,9 +117,7 @@ void MyObject::CheckTitleCollision(float &_vx,float &_vy,float _nextX,float _nex
 		//_x = _nextX;
 		_y = _nextY;
 		return;
-	}
-	
-
+	}	
 
 	if (_vy >= 0){
 	// DOWN
