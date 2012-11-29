@@ -4,11 +4,11 @@
 1//curForm(0, 1, 2)
 0//nextform(0, 1, 2)
 2//state(0, ... 12)
-500//mario.x
-400//mario.y
-11 500 450//objectID x y
-11 300 450
-13 250 450
+5//mario.x / TILE
+4//mario.y / TILE
+11 5 4//objectID x y in TILE
+11 3 4
+13 2 4
 
 
 

@@ -28,7 +28,7 @@ public:
 	static int _mariox; //vị trí của mario
 	static int _marioy;
 
-	char **_board ;	//2dimention array to saved id of object in map
+	int **_board ;	//2dimention array to saved id of object in map
 
 	MapLoader(void);
 	~MapLoader(void);

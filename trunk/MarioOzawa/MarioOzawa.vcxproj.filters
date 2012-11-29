@@ -225,6 +225,9 @@
     <ClCompile Include="SelectWorldSence.cpp">
       <Filter>sence</Filter>
     </ClCompile>
+    <ClCompile Include="_MapLoader">
+      <Filter>manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BrickBreak.h">
