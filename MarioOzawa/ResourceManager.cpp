@@ -17,6 +17,10 @@ ResourceMng::ResourceMng()
 	_listTexture.push_back(new TEXTURE("image/imgLogo.png", 1, 1, 1));
 	//---end intro
 
+	//selectworld
+	_listTexture.push_back(new TEXTURE("image/imgFlying.png", 9, 1, 9));
+	//---end selectworld
+
 	//menu
 	_listTexture.push_back(new TEXTURE("image/imgItemPlay.png", 1, 1, 1));
 	_listTexture.push_back(new TEXTURE("image/imgItemOption.png", 1, 1, 1));

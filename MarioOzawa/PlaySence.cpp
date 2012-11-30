@@ -160,7 +160,7 @@ void PlaySence::_UpdateRender(int time)
 
 	_QuadTree->UpdateRender(_Camera->GetCameraExpand(), _mario, time);
 	_mario->Render();
-
+	
 	////fail game
 	if(_mario->life <= 0 && _mario->_State == dead && 
 		!_isExitting)
@@ -178,10 +178,19 @@ void PlaySence::_UpdateRender(int time)
 
 	//------------------------------------------------------------------------
 #pragma region End Render
-	GLSpriteHandler->End();
 	D3DXMATRIX matDefaut;
 	D3DXMatrixTransformation2D(&matDefaut, NULL, 0.0f, NULL, NULL, 0.0f, NULL); 
 	GLSpriteHandler->SetTransform(&matDefaut);
+
+	//
+	//draw life and gold
+	char text[100];
+	sprintf(text, "life: %d", _mario->life);
+	Writer::RenderFont1(text, 0, 5, 1);
+	sprintf(text, "gold: %d", _mario->gold);
+	Writer::RenderFont1(text, 0, 35, 1);
+
+	GLSpriteHandler->End();
 #pragma endregion
 }
 

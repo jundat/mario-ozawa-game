@@ -28,10 +28,11 @@ int MapLoader::_mapH = 0;
  int MapLoader::_mariox = 2; //vị trí của mario TILE
  int MapLoader::_marioy = 2;
 
+ int** MapLoader::_board = NULL;
+ LPDIRECT3DTEXTURE9 MapLoader::_mapTexture = NULL;
+
 MapLoader::MapLoader(void)
 {
-	_mapW = 0;
-	_mapH = 0;
 }
 
 MapLoader::~MapLoader(void)
@@ -73,7 +74,7 @@ void MapLoader::LoadSavedGameFormFile(LPCTSTR _filesavegame)
 		//load map from file map
 		char mapfile[50];
 		sprintf(mapfile, "map%d.png", _mapNumber);
-		this->LoadMapFormFile(_mapNumber, false, true, false, true);
+		LoadMapFormFile(_mapNumber, false, true, false, true);
 
 		//read game state
 		//add to quadtree
@@ -95,7 +96,7 @@ void MapLoader::LoadSavedGameFormFile(LPCTSTR _filesavegame)
 	{
 		_mapNumber = 1;
 		//load map from file map
-		this->LoadMapFormFile(_mapNumber, true, true, true, true);
+		LoadMapFormFile(_mapNumber, true, true, true, true);
 	}
 
 	fin.close();
@@ -270,8 +271,8 @@ void MapLoader::TranslateMap (QuadTree* quadtree, BackgroundManager* background,
 	background->_mapH = _mapH;
 
 	//
-	TileMap::GetInst()->_mapW = this->_mapW;
-	TileMap::GetInst()->_mapH = this->_mapH;
+	TileMap::GetInst()->_mapW = _mapW;
+	TileMap::GetInst()->_mapH = _mapH;
 
 	//init array
 	background->_board = new int*[_mapH];

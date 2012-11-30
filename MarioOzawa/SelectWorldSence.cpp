@@ -1,8 +1,11 @@
 #include "SelectWorldSence.h"
 #include "MenuSence.h"
+#include "PlaySence.h"
 #include "MapLoader.h"
 #include "Writer.h"
 #include "SoundManager.h"
+#include "ZoomSence.h"
+
 
 SelectWorldSence::SelectWorldSence(Game* game, int timeAni)
 	: GameSence(game, timeAni)
@@ -26,14 +29,21 @@ SelectWorldSence::~SelectWorldSence(void)
 
 	if(_BackgroundMng != NULL)
 		delete _BackgroundMng;
+
+	if(_effectMoveDown != NULL)
+		delete _effectMoveDown;
 }
 
 void SelectWorldSence::_Load()
 {
 	_mario = new Mario(50, 50);
 
+	_effectMoveDown = NULL;
+	_isExitting = false;
+
 	_MapLoader = new MapLoader();
 	_MapLoader->LoadMapFormFile(0, true, true, true, true);
+	
 
 	CRECT mapRECT = CRECT(0, 0, GL_MapW, GL_MapH);
 
@@ -68,6 +78,20 @@ void SelectWorldSence::_OnKeyDown(int keyCode){
 	case DIK_UP:
 		_mario->Jump();
 		break;
+
+	case DIK_DOWN:
+		{
+			int col = (int)(_mario->_x / TILE);
+			int row = (int)(_mario->_y / TILE);
+
+			if((col == 9 || col == 10 || col == 13 || col == 14 || col == 17|| col == 18 )&&
+				(row == 3 || row == 4 || row == 5))
+			{
+				_effectMoveDown = new MarioMoveDown(_mario->_turnLeft, _mario->_curSprite, _mario->_x, _mario->_y);
+			}
+		}
+		break;
+
 	case DIK_Q:
 		_mario->TransformMario(0,1);
 		break;
@@ -83,6 +107,7 @@ void SelectWorldSence::_OnKeyDown(int keyCode){
 //nhan 1 lan
 void SelectWorldSence::_OnKeyUp(int keyCode)
 {
+	
 }
 
 // nhan va giu
@@ -127,10 +152,31 @@ void SelectWorldSence::_UpdateRender(int time)
 	ResourceMng::GetInst()->GetSurface("image/imgBgGame.png")->Render(NULL, &r);
 	_BackgroundMng->UpdateRender(_Camera->GetCameraExpand(), time);
 
-	_mario->Update(time);
-	_mario->Render();
-
 	_QuadTree->UpdateRender(_Camera->GetCameraExpand(), _mario, time);
+
+	//effect
+	if(_effectMoveDown != NULL)
+	{
+		_effectMoveDown->Update(time);
+		_effectMoveDown->Render();
+
+		//complete effect
+		if(_effectMoveDown->IsVisiable == false && _isExitting == false)
+		{
+			_isExitting = true;
+
+			_state = TransOff;
+			PlaySence* pl = new PlaySence(_game, 0);
+			//SelectWorldSence* pl = new SelectWorldSence(_game, 0);
+			//ZoomSence* zs = new ZoomSence(_game, 500, this, pl);
+			_game->AddSence(pl);
+		}
+	}
+	else
+	{
+		_mario->Update(time);
+		_mario->Render();
+	}
 
 	//text
 	Writer::RenderFont2("world 1", 420, 150, 0.7);
@@ -150,7 +196,6 @@ void SelectWorldSence::_UpdateRender(int time)
 	D3DXMatrixTransformation2D(&matDefaut, NULL, 0.0f, NULL, NULL, 0.0f, NULL); 
 	GLSpriteHandler->SetTransform(&matDefaut);
 	//
-
 	
 	//end Render
 	GLSpriteHandler->End();

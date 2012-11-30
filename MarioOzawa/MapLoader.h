@@ -14,7 +14,7 @@
 class MapLoader
 {
 public:
-	LPDIRECT3DTEXTURE9 _mapTexture;
+	static LPDIRECT3DTEXTURE9 _mapTexture;
 	static int _mapW;	//number tile in width
 	static int _mapH;	//number tile in heigh
 
@@ -28,23 +28,23 @@ public:
 	static int _mariox; //vị trí của mario
 	static int _marioy;
 
-	int **_board ;	//2dimention array to saved id of object in map
+	static int **_board ;	//2dimention array to saved id of object in map
 
 	MapLoader(void);
 	~MapLoader(void);
 
 	//load save status, befrore call load file map
 	//before call LoadMapFromFile
-	void LoadSavedGameFormFile(LPCTSTR filesavegame);
+	static void LoadSavedGameFormFile(LPCTSTR filesavegame);
 
 	//load map from an bitmap, save id(int) to array **_terrain
 	//after call LoadSavedGameFromFile
-	HRESULT LoadMapFormFile (int mapNumber, bool isLoadMario, bool isLoadBackground, bool isLoadObjects, bool isLoadTileMap);
+	static HRESULT LoadMapFormFile (int mapNumber, bool isLoadMario, bool isLoadBackground, bool isLoadObjects, bool isLoadTileMap);
 
 	//translate from _board to object, or save to BackgroundManager and TileMap
-	void TranslateMap (QuadTree* quadtree, BackgroundManager* background, Mario* mario);
+	static void TranslateMap (QuadTree* quadtree, BackgroundManager* background, Mario* mario);
 
 	//save game to file
-	void SaveGameToFile(QuadTree* quadtree, Mario* mario, LPCTSTR fileToSave);
+	static void SaveGameToFile(QuadTree* quadtree, Mario* mario, LPCTSTR fileToSave);
 };
 

@@ -7,6 +7,8 @@
 #include "MapLoader.h"
 #include "BackgroundManager.h"
 #include "TileMap.h"
+#include "MarioMoveDown.h"
+
 
 class SelectWorldSence :
 	public GameSence
@@ -19,6 +21,8 @@ public:
 
 	// tieu nun
 	Mario*	_mario;
+	MarioMoveDown* _effectMoveDown;
+	bool _isExitting;
 
 	SelectWorldSence(Game* game, int timeAni);
 	~SelectWorldSence(void);

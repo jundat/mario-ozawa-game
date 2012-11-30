@@ -80,8 +80,8 @@ public:
 		}
 	}
 
-	void Render(int x, int y){
-		D3DXVECTOR3 position((float)x, (float)y, 0);
+	void Render(int x, int y, float depth = 0.5f){
+		D3DXVECTOR3 position((float)x, (float)y, depth);
 
 		GLSpriteHandler->Draw(
 			Texture,
