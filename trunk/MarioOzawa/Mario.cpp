@@ -4,6 +4,7 @@
 #include "ResourceManager.h"
 #include "Brick.h"
 #include "SoundManager.h"
+#include "MapLoader.h"
 
 Mario::Mario(float x, float y)	: MyObject(x, y)
 {
@@ -15,7 +16,7 @@ Mario::Mario(float x, float y)	: MyObject(x, y)
 	_curSprite->_start = 0;
 	_curSprite->_end = 2;
 	GL_CurForm = 0;
-	GL_NextForm = 0;
+	GL_NextForm = 1;
 	_State = stand;
 	_lastx = _x = x;
 	_lasty = _y = y;
@@ -24,7 +25,7 @@ Mario::Mario(float x, float y)	: MyObject(x, y)
 	_TimeTransform = 0;
 	_ID = EObject::MARIO;
 
-	life = 1;
+	life = 3;
 	gold = 0;
 }
 
@@ -55,12 +56,13 @@ void Mario::Update(int time)
 	_vy += GRAVITY * time;
 	CheckTitleCollision(_vx,_vy,_NextX,_NextY, GL_Width, GL_Height, _curSprite->_texture->Width,_curSprite->_texture->Height);
 
+	//beforedead -> dead
 	if(_State == beforedead)
 	{
 		_curSprite->SelectIndex(5);
 		
 		//check is dead
-		if(_y > 2 * GL_MapH)
+		if(_y > FALL_DEAD_HIGH * GL_MapH)
 		{
 			_State = dead;
 
@@ -72,39 +74,23 @@ void Mario::Update(int time)
 
 				this->_vx = 0;
 				this->_vy = 0;
-				
-				this->_y = _lasty;
-				this->_x = _lastx;
-				//Jump();
+
+				this->_y = _lasty; //MapLoader::_mariox * TILE;
+				this->_x = _lastx; //MapLoader::_mariox * TILE;
 			}
 		}
 
 		return;
 	}
-	else
+	else //dead when fall out of map
 	{
-		if(_y > GL_MapH)
+		if(_y > GL_MapH && _State != dead && _State != beforedead && _State != beforedead2)
 		{
-			_State = dead;
-			
-			//reborn
-			if(this->life > 0)
-			{
-				this->life--;
-				this->_State = stand;
-
-				this->_vx = 0;
-				this->_vy = 0;
-				
-				this->_y = _lasty;
-				this->_x = _lastx;
-				//Jump();
-			}
+			_State = beforedead;
+			this->_vy = -2;
 		}
 	}
 
-	
-	
 	if(_vx != 0)
 	{
 		_curSprite->Update(time);
@@ -340,6 +326,7 @@ void Mario::CheckCollision(MyObject* obj)
 		sf = _listBullet[i];
 		sf->CheckCollision(obj);
 	}
+
 	if((_State == beforedead) || (_State == dead))
 		return;
 	
@@ -349,6 +336,7 @@ void Mario::CheckCollision(MyObject* obj)
 		//	return;
 		if(obj->_State == dead)
 			return;
+
 		switch(this->GetCollisionDirection(this->GetRect(), obj->GetRect()))
 		{
 		case Top:
@@ -408,8 +396,10 @@ void Mario::CheckCollision(MyObject* obj)
 	{
 		if(_State == transform)
 			return;
+
 		if(obj->_State == dead)
 			return;
+
 		switch(this->GetCollisionDirection(this->GetRect(), obj->GetRect()))
 		{
 			case Bottom:

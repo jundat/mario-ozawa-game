@@ -55,7 +55,7 @@ void Sprite::Update(int time)
 	}
 }
 
-void Sprite::Render(int X, int Y)
+void Sprite::Render(int X, int Y, float depth)
 {
 	RECT srect;
 
@@ -64,7 +64,7 @@ void Sprite::Render(int X, int Y)
 	srect.right = srect.left + _texture->Width;
 	srect.bottom = srect.top + _texture->Height;// + 1;
 
-	D3DXVECTOR3 position((float)X, (float)Y, 0);
+	D3DXVECTOR3 position((float)X, (float)Y, depth);
 
 	GLSpriteHandler->Draw(
 		_texture->Texture,
@@ -76,7 +76,7 @@ void Sprite::Render(int X, int Y)
 }
 
 
-void Sprite::RenderScaleX(int x, int y)
+void Sprite::RenderScaleX(int x, int y, float depth)
 {
 	D3DXMATRIX oldMt;
 	GLSpriteHandler->GetTransform(&oldMt);
@@ -89,13 +89,13 @@ void Sprite::RenderScaleX(int x, int y)
 	D3DXMATRIX finalMt = newMt * oldMt ;
 	GLSpriteHandler->SetTransform(&finalMt);
 
-	this->Render(x, y);
+	this->Render(x, y,depth);
 
 	GLSpriteHandler->SetTransform(&oldMt);
 }
 
 // tieu nun
-void Sprite::RenderScaleY(int x, int y)
+void Sprite::RenderScaleY(int x, int y, float depth)
 {
 	D3DXMATRIX oldMt;
 	GLSpriteHandler->GetTransform(&oldMt);
@@ -108,21 +108,21 @@ void Sprite::RenderScaleY(int x, int y)
 	D3DXMATRIX finalMt = newMt * oldMt ;
 	GLSpriteHandler->SetTransform(&finalMt);
 
-	this->Render(x, y);
+	this->Render(x, y, depth);
 
 	GLSpriteHandler->SetTransform(&oldMt);
 }
 
 // tieu nun
-void Sprite::RenderRect(int X, int Y,RECT Rect)
+void Sprite::RenderRect(int x, int y, RECT Rect, float depth)
 {
-	D3DXVECTOR3 position((float)X, (float)Y, 0);
+	D3DXVECTOR3 position((float)x, (float)y, depth);
 	GLSpriteHandler->Draw(
 		_texture->Texture,
 		&Rect,
 		NULL,
 		&position,
-		D3DCOLOR_XRGB(255, 255, 255)
+		0xFFFFFFFF//D3DCOLOR_XRGB(255, 255, 255)
 		);
 }
 

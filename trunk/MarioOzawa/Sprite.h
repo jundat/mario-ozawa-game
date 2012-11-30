@@ -28,21 +28,21 @@ public:
 	void Update(int time);
 
 	// Render current sprite at location (X,Y) at the target surface
-	void Render(int x, int y);
+	void Render(int x, int y, float depth = 0.5f);
 	
 	//Render with scale (-1, 1)
-	void RenderScaleX(int x, int y);
+	void RenderScaleX(int x, int y, float depth = 0.5f);
 
 	// tieu nun
 	//render with scale (1, -1)
-	void RenderScaleY(int x, int y);
+	void RenderScaleY(int x, int y, float depth = 0.5f);
 
 	// tieu nun
 	//Render Rect of texture at (x,y)
-	void RenderRect(int X, int Y,RECT Rect);
+	void RenderRect(int x, int y, RECT Rect, float depth = 0.5f);
 
 	//Render with detail
-	void RenderTransform(int x, int y, D3DXVECTOR2 scale, float degRotate, float depth);
+	void RenderTransform(int x, int y, D3DXVECTOR2 scale, float degRotate, float depth = 0.5f);
 	~Sprite();
 };
 

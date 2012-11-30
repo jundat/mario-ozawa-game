@@ -13,18 +13,15 @@
 #define FRICTION_X		0.00001f
 #define ACCEL_X		1.5
 #define BOTTOM		600
-#define DISTANCE_WITH_LAST_POSITION_X 500 //distance between the current position and last position to update last position
+#define DISTANCE_WITH_LAST_POSITION_X 400 //distance between the current position and last position to update last position
+#define FALL_DEAD_HIGH 8 //the high mario fall out of game before reborn
 
 using namespace std;
 #pragma once
 class Mario : public MyObject
 {
 protected:
-	Sprite* _sprMarioSmaller;
-	Sprite* _sprMarioLarger;
-	Sprite* _sprMarioFire;
-	Sprite* _curSprite;
-
+	
 	int _TimeTransform;
 	int _time;
 
@@ -34,6 +31,11 @@ protected:
 	vector <bullet*> _listBullet;
 
 public:
+	Sprite* _sprMarioSmaller;
+	Sprite* _sprMarioLarger;
+	Sprite* _sprMarioFire;
+	Sprite* _curSprite;
+
 	int gold;
 	int life; //số mạng sống còn lại của mario
 

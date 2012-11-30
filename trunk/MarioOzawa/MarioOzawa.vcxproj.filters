@@ -114,6 +114,12 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="savedgame.txt" />
+    <None Include="marioicon.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icon1.ico">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -224,9 +230,6 @@
     </ClCompile>
     <ClCompile Include="SelectWorldSence.cpp">
       <Filter>sence</Filter>
-    </ClCompile>
-    <ClCompile Include="_MapLoader">
-      <Filter>manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -344,7 +347,6 @@
     <ClInclude Include="SoundManager.h">
       <Filter>soundplayer</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h" />
     <ClInclude Include="StorySence.h">
       <Filter>sence</Filter>
     </ClInclude>
@@ -354,5 +356,14 @@
     <ClInclude Include="SelectWorldSence.h">
       <Filter>sence</Filter>
     </ClInclude>
+    <ClInclude Include="MarioMoveDown.h">
+      <Filter>kenel</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="MarioOzawa.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

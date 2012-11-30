@@ -86,6 +86,7 @@
     <None Include="Coin.png" />
     <None Include="Flower.png" />
     <None Include="Fungi.png" />
+    <None Include="icon1.ico" />
     <None Include="imgBgCredit.png" />
     <None Include="imgBgGame.png" />
     <None Include="imgBgMenu.png" />
@@ -103,6 +104,7 @@
     <None Include="Lager.png" />
     <None Include="map.png" />
     <None Include="MarioFire.png" />
+    <None Include="marioicon.ico" />
     <None Include="MarioLarger.png" />
     <None Include="MarioSmaller.png" />
     <None Include="NOTES.txt" />
@@ -171,6 +173,7 @@
     <ClInclude Include="MapLoader.h" />
     <ClInclude Include="Mario.h" />
     <ClInclude Include="MarioGame.h" />
+    <ClInclude Include="MarioMoveDown.h" />
     <ClInclude Include="MenuSence.h" />
     <ClInclude Include="MyObject.h" />
     <ClInclude Include="OptionSence.h" />
@@ -193,6 +196,9 @@
     <ClInclude Include="Turtle.h" />
     <ClInclude Include="Writer.h" />
     <ClInclude Include="ZoomSence.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="MarioOzawa.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
