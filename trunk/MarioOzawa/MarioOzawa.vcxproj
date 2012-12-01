@@ -121,6 +121,7 @@
     <ClCompile Include="BrickQuestion.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="ChangeMapSence.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="CreditSence.cpp" />
     <ClCompile Include="dsutil.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="BrickQuestion.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="ChangeMapSence.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="CreditSence.h" />
     <ClInclude Include="dsutil.h" />

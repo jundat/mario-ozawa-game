@@ -19,6 +19,8 @@ BackgroundManager::~BackgroundManager()
 {
 	delete[] _board;
 	delete[] _boardSprite;
+	_board = NULL;
+	_boardSprite = NULL;
 }
 
 void BackgroundManager::Translate()

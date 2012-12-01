@@ -36,6 +36,12 @@ ResourceMng::ResourceMng()
 	//credit
 	//---end credit
 
+	//change map
+	_listSurface.push_back(new SURFACE("image/change_map.png"));
+	_listTexture.push_back(new TEXTURE("image/fire_to_start.png", 1, 1, 1));
+	_listTexture.push_back(new TEXTURE("image/ball.png", 1, 1, 1));
+	//---end change map
+
 	//zoom
 	_listTexture.push_back(new TEXTURE("image/imgZoom.png", 1, 1, 1));
 	//---end zoom

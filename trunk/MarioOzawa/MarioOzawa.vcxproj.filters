@@ -231,6 +231,9 @@
     <ClCompile Include="SelectWorldSence.cpp">
       <Filter>sence</Filter>
     </ClCompile>
+    <ClCompile Include="ChangeMapSence.cpp">
+      <Filter>sence</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BrickBreak.h">
@@ -360,6 +363,9 @@
       <Filter>kenel</Filter>
     </ClInclude>
     <ClInclude Include="resource.h" />
+    <ClInclude Include="ChangeMapSence.h">
+      <Filter>sence</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MarioOzawa.rc">

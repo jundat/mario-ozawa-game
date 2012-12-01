@@ -16,22 +16,40 @@ SelectWorldSence::SelectWorldSence(Game* game, int timeAni)
 SelectWorldSence::~SelectWorldSence(void)
 {
 	if(_QuadTree != NULL)
+	{
 		delete _QuadTree;
+		_QuadTree = NULL;
+	}
 
 	if(_MapLoader != NULL)
+	{
 		delete _MapLoader;
+		_MapLoader = NULL;
+	}
 
 	if(_Camera != NULL)
+	{
 		delete _Camera;
+		_Camera = NULL;
+	}
 
 	if(_mario != NULL)
+	{
 		delete _mario;
+		_mario = NULL;
+	}
 
 	if(_BackgroundMng != NULL)
+	{
 		delete _BackgroundMng;
+		_BackgroundMng = NULL;
+	}
 
 	if(_effectMoveDown != NULL)
+	{
 		delete _effectMoveDown;
+		_effectMoveDown = NULL;
+	}
 }
 
 void SelectWorldSence::_Load()

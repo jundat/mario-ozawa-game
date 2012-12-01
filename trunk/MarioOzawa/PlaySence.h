@@ -7,6 +7,7 @@
 #include "MapLoader.h"
 #include "BackgroundManager.h"
 #include "TileMap.h"
+#include "ChangeMapSence.h"
 
 
 class PlaySence :
@@ -19,10 +20,11 @@ public:
 
 	// tieu nun
 	Mario*	_mario;
+	bool IsVisiable;
 
 	//check if is extiing
 	bool _isExitting;
-
+	
 	PlaySence(Game* game, int timeAni);
 	~PlaySence(void);
 
@@ -31,5 +33,7 @@ public:
 	virtual void _OnKeyDown(int keyCode);
 	virtual void _OnKeyUp(int keyCode);
 	virtual void _Load();
+
+	void LoadNewMap(void);
 };
 

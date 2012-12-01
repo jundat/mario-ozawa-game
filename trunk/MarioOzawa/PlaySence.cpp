@@ -10,21 +10,34 @@ PlaySence::PlaySence(Game* game, int timeAni)
 {
 	SoundManager::GetInst()->PlayBgSound(SOUND_B_GAME1);
 	_isExitting = false;
+	IsVisiable = true;
 }
 
 PlaySence::~PlaySence(void)
 {
 	if(_QuadTree != NULL)
+	{
 		delete _QuadTree;
+		_QuadTree = NULL;
+	}
 
 	if(_Camera != NULL)
+	{
 		delete _Camera;
+		_Camera = NULL;
+	}
 
 	if(_mario != NULL)
+	{
 		delete _mario;
+		_mario = NULL;
+	}
 
 	if(_BackgroundMng != NULL)
+	{
 		delete _BackgroundMng;
+		_BackgroundMng = NULL;
+	}
 }
 
 void PlaySence::_Load()
@@ -126,6 +139,9 @@ void PlaySence::_ProcessInput()
 
 void PlaySence::_UpdateRender(int time)
 {
+	if(! IsVisiable)
+		return;
+
 #pragma region Begin Render
 	D3DXMATRIX mat;
 	float x = _Camera->GetRect().Left;
@@ -143,16 +159,6 @@ void PlaySence::_UpdateRender(int time)
 	ResourceMng::GetInst()->GetSurface("image/imgBgGame.png")->Render(NULL, &r);
 	_BackgroundMng->UpdateRender(_Camera->GetCameraExpand(), time);
 	
-	/* Fix Lan 1
-	Ly do : sai thu tu vong lap logic
-	_mario->Update(time);
-	_mario->Render();
-
-	_QuadTree->UpdateRender(_Camera->GetCameraExpand(), _mario, time);
-	*/
-
-	// fix thanh
-	// =>
 	_mario->Update(time);
 
 	_QuadTree->UpdateRender(_Camera->GetCameraExpand(), _mario, time);
@@ -195,30 +201,39 @@ void PlaySence::_UpdateRender(int time)
 		//save game
 		MapLoader::SaveGameToFile(_QuadTree, _mario, GL_FILE_SAVE_GAME);
 
-		//delete resource
-		delete _QuadTree;
-		delete _BackgroundMng;
-		delete _Camera;
+		LoadNewMap();
 
-		_QuadTree = NULL;
-		_BackgroundMng = NULL;
-		_Camera = NULL;
+		//change sence
+		IsVisiable = false;
+		_game->AddSence(new ChangeMapSence(_game, &IsVisiable, MapLoader::_mapNumber, 100));
 		
-		//Load new game
-		MapLoader::LoadMapFormFile(MapLoader::_mapNumber + 1, true, true, true, true);
-
-		CRECT mapRECT = CRECT(0, 0, GL_MapW, GL_MapH);
-		_QuadTree = new QuadTree(mapRECT);
-		_BackgroundMng = new BackgroundManager();
-		_Camera = new Camera(CRECT(GL_WndSize));
-
-		MapLoader::TranslateMap(_QuadTree, _BackgroundMng, _mario);
-		_BackgroundMng->Translate();
+		//load new map after changemapsence end
 
 		return;
 	}
 #pragma endregion
 }
 
+void PlaySence::LoadNewMap(void)
+{
+	//delete resource
+	delete _QuadTree;
+	delete _BackgroundMng;
+	delete _Camera;
 
+	_QuadTree = NULL;
+	_BackgroundMng = NULL;
+	_Camera = NULL;
+
+	//Load new game
+	MapLoader::LoadMapFormFile(MapLoader::_mapNumber + 1, true, true, true, true);
+
+	CRECT mapRECT = CRECT(0, 0, GL_MapW, GL_MapH);
+	_QuadTree = new QuadTree(mapRECT);
+	_BackgroundMng = new BackgroundManager();
+	_Camera = new Camera(CRECT(GL_WndSize));
+
+	MapLoader::TranslateMap(_QuadTree, _BackgroundMng, _mario);
+	_BackgroundMng->Translate();
+}
 
