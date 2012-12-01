@@ -1,14 +1,13 @@
 #pragma once
 
 #include "gamesence.h"
-
+#define ALL_TIME_INTRO 100
 
 class IntroSence :
 	public GameSence
 {
 public:
 	DWORD _startTime;
-	DWORD _allTime;
 	bool _stopUpdate;
 
 	IntroSence(Game* game, int timeAni);

@@ -104,13 +104,17 @@ void brickBreak::CheckCollision(MyObject* obj)
 {
 	if(_State != stand)
 		return;
+
 	if(obj->_ID == EObject::MARIO)
 	{
 		if((obj->_State == beforedead) || (obj->_State == dead))
 			return;
+
 		if(GL_CurForm == 0)
 			return;
-		switch(this->GetCollisionDirection(this->GetRect(), obj->GetRect()))
+		EDirect dir = this->GetCollisionDirection(this->GetRect(), obj->GetRect());
+
+		switch(dir)
 		{
 		case Bottom:
 			if(_State == stand)
@@ -118,6 +122,17 @@ void brickBreak::CheckCollision(MyObject* obj)
 				_State = breaking;
 				SoundManager::GetInst()->PlayEffSound(SOUND_E_BROKEN);
 			}
+			break;
+		case Top:
+			break;
+
+		case Left:
+			break;
+
+		case Right:
+			break;
+			
+		case None:
 			break;
 		}
 	}

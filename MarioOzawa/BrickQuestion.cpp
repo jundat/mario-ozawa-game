@@ -2,6 +2,7 @@
 #include "SoundManager.h"
 #include "BrickQuestion.h"
 #include "ResourceManager.h"
+#include "Mario.h"
 
 brickQuestion::brickQuestion(float x, float y)	: MyObject(x, y)
 {
@@ -67,8 +68,10 @@ void brickQuestion::CheckCollision(MyObject* obj)
 				_State = noCoin;
 				_curSprite->SelectIndex(0);
 				
-				// tien tang
+				//tien tang
+				((Mario*)obj)->gold++;
 
+				//sound
 				SoundManager::GetInst()->PlayEffSound(SOUND_E_COIN);
 			}
 			break;

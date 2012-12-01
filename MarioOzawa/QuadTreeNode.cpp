@@ -11,12 +11,12 @@ QuadTreeNode::~QuadTreeNode(void)
 {
 	if (_listChild != NULL)
 	{
-		delete _listChild;
+		delete[] _listChild;
 	}
 
 	if (_content != NULL)
 	{
-		delete _content;
+		_content->clear();
 	}
 }
 

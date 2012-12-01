@@ -23,8 +23,8 @@ int			GL_ColorMode;
 bool		GL_IsFullScreen;
 D3DFORMAT	GL_BackBufferFormat;
 
-bool		GL_HasBGSound = false;
-bool		GL_HasEffectSound = false;
+bool		GL_HasBGSound = true;
+bool		GL_HasEffectSound = true;
 
 int			GL_MapW;
 int			GL_MapH;

@@ -8,13 +8,13 @@
 #include "BackgroundManager.h"
 #include "TileMap.h"
 
+
 class PlaySence :
 	public GameSence
 {
 public:
 	QuadTree*	_QuadTree;
 	Camera*		_Camera;
-	MapLoader*	_MapLoader;
 	BackgroundManager*	_BackgroundMng;
 
 	// tieu nun

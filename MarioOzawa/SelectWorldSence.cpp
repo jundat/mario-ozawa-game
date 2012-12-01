@@ -10,7 +10,7 @@
 SelectWorldSence::SelectWorldSence(Game* game, int timeAni)
 	: GameSence(game, timeAni)
 {
-	SoundManager::GetInst()->PlayBgSound(SOUND_B_GAME1);
+	//no play sound
 }
 
 SelectWorldSence::~SelectWorldSence(void)
@@ -66,8 +66,9 @@ void SelectWorldSence::_OnKeyDown(int keyCode){
 			MenuSence* mn = new MenuSence(_game, 100);
 			_game->AddSence(mn);
 
+			/*SoundManager::GetInst()->StopBgSound(SOUND_B_MENU);
 			SoundManager::GetInst()->StopBgSound(SOUND_B_GAME1);
-			SoundManager::GetInst()->PlayBgSound(SOUND_B_MENU, true, true);
+			SoundManager::GetInst()->PlayBgSound(SOUND_B_MENU, true, true);*/
 		}
 		break;
 
@@ -88,6 +89,9 @@ void SelectWorldSence::_OnKeyDown(int keyCode){
 				(row == 3 || row == 4 || row == 5))
 			{
 				_effectMoveDown = new MarioMoveDown(_mario->_turnLeft, _mario->_curSprite, _mario->_x, _mario->_y);
+				//e_boss_hurt
+				SoundManager::GetInst()->PlayEffSound(SOUND_E_BOSS_HURT);
+
 			}
 		}
 		break;
@@ -165,16 +169,33 @@ void SelectWorldSence::_UpdateRender(int time)
 		{
 			_isExitting = true;
 
-			_state = TransOff;
+			//stop and play new sound
+			SoundManager::GetInst()->StopBgSound(SOUND_B_MENU);
+			SoundManager::GetInst()->PlayEffSound(SOUND_E_PIPE);
+
+			//goto play game
 			PlaySence* pl = new PlaySence(_game, 0);
-			//SelectWorldSence* pl = new SelectWorldSence(_game, 0);
-			//ZoomSence* zs = new ZoomSence(_game, 500, this, pl);
-			_game->AddSence(pl);
+			ZoomSence* zs = new ZoomSence(_game, 500, this, pl);
+			_game->AddSence(zs);
 		}
 	}
 	else
 	{
 		_mario->Update(time);
+
+		{//do not run out of the map
+			//right
+			if(_mario->GetRect().Right >= GL_MapW)
+			{
+				_mario->_x = GL_MapW - _mario->_curSprite->_texture->Width;
+			}
+
+			//left
+			if(_mario->_x <= 0)
+			{
+				_mario->_x = 0;
+			}
+		}
 		_mario->Render();
 	}
 

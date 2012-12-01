@@ -5,7 +5,6 @@
 IntroSence::IntroSence(Game* game, int timeAni)
 	:GameSence(game, timeAni)
 {
-	_allTime = 100;
 	_startTime = GetTickCount();
 	_stopUpdate = false;
 }
@@ -35,7 +34,7 @@ void IntroSence::_UpdateRender(int t)
 {
 	//update
 	//begin to load out
-	if(GetTickCount() - _startTime >= _allTime)
+	if(GetTickCount() - _startTime >= ALL_TIME_INTRO)
 	{
 		_state = TransOff;
 	}
@@ -45,6 +44,7 @@ void IntroSence::_UpdateRender(int t)
 	{
 		SoundManager::GetInst()->PlayBgSound(SOUND_B_MENU);
 		_stopUpdate = true;
+
 		MenuSence* mn = new MenuSence(_game, 100);
 		_game->AddSence(mn);
 	}

@@ -113,7 +113,7 @@ HRESULT MapLoader::LoadMapFormFile (int mapNumber, bool isLoadMario, bool isLoad
 
 	if(FAILED(hr))
 	{
-		GLMessage("Load MAP failed!!!");
+		GLMessage("No map to load!!!");
 		return hr;
 	}
 
@@ -241,6 +241,16 @@ HRESULT MapLoader::LoadMapFormFile (int mapNumber, bool isLoadMario, bool isLoad
 				}
 			}
 
+			//TILE MAP && BACKGROUND
+			//BrickItem
+			if(blue == 153 || blue == 155 || blue == 156 || blue == 157)
+			{
+				if(isLoadTileMap)
+				{
+					_board[i][j] = blue;
+				}
+			}
+
 			//TILE MAP ID / in Background
 			if(blue >= MIN_TILE_ID && blue <= MAX_TILE_ID)
 			{
@@ -322,7 +332,7 @@ void MapLoader::TranslateMap (QuadTree* quadtree, BackgroundManager* background,
 			{
 				background->_board[i][j] = blue;
 			}
-
+			
 			//TILE MAP ID / in Background
 			if(blue >= MIN_TILE_ID && blue <= MAX_TILE_ID)
 			{
@@ -361,6 +371,8 @@ void MapLoader::TranslateMap (QuadTree* quadtree, BackgroundManager* background,
 					break;
 
 				case 153: //flower
+					//also in tile map
+					TileMap::GetInst()->_board[i][j] = 1;
 					quadtree->Insert(new brickItem(j * TILE, i * TILE, EBrickItemKind::FLOWER));
 					break;
 
@@ -369,14 +381,20 @@ void MapLoader::TranslateMap (QuadTree* quadtree, BackgroundManager* background,
 					break;
 
 				case 155: //brick question
+					//also in tile map
+					TileMap::GetInst()->_board[i][j] = 1;
 					quadtree->Insert(new brickQuestion(j * TILE, i * TILE));
 					break;
 
 				case 156: //larger blue
+					//also in tile map
+					TileMap::GetInst()->_board[i][j] = 1;
 					quadtree->Insert(new brickItem(j * TILE, i * TILE, EBrickItemKind::SHOOTER));
 					break;
 
 				case 157: //larger red
+					//also in tile map
+					TileMap::GetInst()->_board[i][j] = 1;
 					quadtree->Insert(new brickItem(j * TILE, i * TILE, EBrickItemKind::LARGER));
 					break;
 
