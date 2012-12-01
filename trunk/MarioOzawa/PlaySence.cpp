@@ -17,9 +17,6 @@ PlaySence::~PlaySence(void)
 	if(_QuadTree != NULL)
 		delete _QuadTree;
 
-	if(_MapLoader != NULL)
-		delete _MapLoader;
-	
 	if(_Camera != NULL)
 		delete _Camera;
 
@@ -33,7 +30,6 @@ PlaySence::~PlaySence(void)
 void PlaySence::_Load()
 {
 	_mario = new Mario(50, 50);
-	_MapLoader = new MapLoader();
 	_BackgroundMng = new BackgroundManager();
 	
 	//
@@ -46,15 +42,16 @@ void PlaySence::_Load()
 	//(gồm cả mario)
 	//nếu chưa có file savedgame hoặc savedgame không chứa gì
 	//khi đó sẽ load map đầu tiên như bình thường
-
-	_MapLoader->LoadSavedGameFormFile("saved/savedgame.txt");
+	MapLoader::LoadSavedGameFormFile(GL_FILE_SAVE_GAME);
+	
 	CRECT mapRECT = CRECT(0, 0, GL_MapW, GL_MapH);
 	_QuadTree = new QuadTree(mapRECT);
 
-	_MapLoader->TranslateMap(_QuadTree, _BackgroundMng, _mario);
+	MapLoader::TranslateMap(_QuadTree, _BackgroundMng, _mario);
 	_BackgroundMng->Translate();
 	_Camera = new Camera(CRECT(GL_WndSize));
 }
+
 
 // nhan 1 lan
 void PlaySence::_OnKeyDown(int keyCode){
@@ -64,7 +61,7 @@ void PlaySence::_OnKeyDown(int keyCode){
 			if(!_isExitting)
 			{
 				//save game before exit
-				this->_MapLoader->SaveGameToFile(_QuadTree, _mario, "saved/savedgame.txt");
+				MapLoader::SaveGameToFile(_QuadTree, _mario, GL_FILE_SAVE_GAME);
 
 				_isExitting = true;
 
@@ -161,7 +158,7 @@ void PlaySence::_UpdateRender(int time)
 	_QuadTree->UpdateRender(_Camera->GetCameraExpand(), _mario, time);
 	_mario->Render();
 	
-	////fail game
+	//check fail game
 	if(_mario->life <= 0 && _mario->_State == dead && 
 		!_isExitting)
 	{
@@ -191,6 +188,35 @@ void PlaySence::_UpdateRender(int time)
 	Writer::RenderFont1(text, 0, 35, 1);
 
 	GLSpriteHandler->End();
+
+	//check complete mappppppppppppppppppppppppppppppppppppppppppppppppppppppp
+	if(_mario->GetRect().Right >= GL_MapW)
+	{
+		//save game
+		MapLoader::SaveGameToFile(_QuadTree, _mario, GL_FILE_SAVE_GAME);
+
+		//delete resource
+		delete _QuadTree;
+		delete _BackgroundMng;
+		delete _Camera;
+
+		_QuadTree = NULL;
+		_BackgroundMng = NULL;
+		_Camera = NULL;
+		
+		//Load new game
+		MapLoader::LoadMapFormFile(MapLoader::_mapNumber + 1, true, true, true, true);
+
+		CRECT mapRECT = CRECT(0, 0, GL_MapW, GL_MapH);
+		_QuadTree = new QuadTree(mapRECT);
+		_BackgroundMng = new BackgroundManager();
+		_Camera = new Camera(CRECT(GL_WndSize));
+
+		MapLoader::TranslateMap(_QuadTree, _BackgroundMng, _mario);
+		_BackgroundMng->Translate();
+
+		return;
+	}
 #pragma endregion
 }
 

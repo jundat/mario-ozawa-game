@@ -29,14 +29,14 @@ void MenuSence::_OnKeyDown(int keyCode){
 		case DIK_RETURN:
 			if(_curSelect == 0){
 				//stop sound
-				SoundManager::GetInst()->StopBgSound(SOUND_B_MENU);
-				SoundManager::GetInst()->PlayEffSound(SOUND_E_PIPE);
+				//SoundManager::GetInst()->StopBgSound(SOUND_B_MENU);
+				//SoundManager::GetInst()->PlayEffSound(SOUND_E_PIPE);
 				
 				//goto game
 				//PlaySence* pl = new PlaySence(_game, 0);
 				SelectWorldSence* pl = new SelectWorldSence(_game, 0);
-				ZoomSence* zs = new ZoomSence(_game, 500, this, pl);
-				_game->AddSence(zs);
+				//ZoomSence* zs = new ZoomSence(_game, 500, this, pl);
+				_game->AddSence(pl);
 
 			}else if(_curSelect == 1){
 				//do not stop sound

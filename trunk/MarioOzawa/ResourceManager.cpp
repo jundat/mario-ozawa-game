@@ -44,7 +44,7 @@ ResourceMng::ResourceMng()
 	//TEXTURE
 	_listTexture.push_back(new TEXTURE("image/MarioSmaller.png", 6, 1, 6));
 	_listTexture.push_back(new TEXTURE("image/MarioLarger.png", 6, 1, 6));
-	_listTexture.push_back(new TEXTURE("image/MarioFire.png", 5, 1, 5));
+	_listTexture.push_back(new TEXTURE("image/MarioFire.png", 6, 1, 6));
 
 	_listTexture.push_back(new TEXTURE("image/brick.png", 2, 1, 2));
 	_listTexture.push_back(new TEXTURE("image/Brick_Break.png", 1, 1, 1));

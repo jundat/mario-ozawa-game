@@ -87,7 +87,7 @@ void Mario::Update(int time)
 		if(_y > GL_MapH && _State != dead && _State != beforedead && _State != beforedead2)
 		{
 			_State = beforedead;
-			this->_vy = -2;
+			this->_vy = -2.5f;
 		}
 	}
 
@@ -108,6 +108,7 @@ void Mario::Update(int time)
 		_curSprite->SelectIndex(3);
 	}
 
+	/*
 	{//do not run out of the map
 		//right
 		if(_x + this->_curSprite->_texture->Width >= GL_MapW)
@@ -121,6 +122,7 @@ void Mario::Update(int time)
 			_x = 0;
 		}
 	}
+	*/
 
 	//save last position
 	if(_State == stand || _State == Move)
@@ -156,8 +158,8 @@ void Mario::TurnRight()
 		return;
 	// if press Right, Update _vx
 	_vx += FRICTION_X * _time;
-	if(_vx >= 12.0f)
-		_vx = 12.0f;
+	if(_vx >= MAX_MARIO_VX)
+		_vx = MAX_MARIO_VX;
 	_curSprite->_start = 0;
 	_curSprite->_end = 2;
 	if((_State != transform) && (_State != Move) && (_State != jumping))
@@ -173,8 +175,8 @@ void Mario::TurnLeft()
 		return;
 	// if press Left, Update _vx
 	_vx -= FRICTION_X * _time;
-	if(_vx <= -12.0f)
-		_vx = -12.0f;
+	if(_vx <= - MAX_MARIO_VX)
+		_vx = - MAX_MARIO_VX;
 	_curSprite->_start = 0;
 	_curSprite->_end = 2;
 	if((_State != transform) && (_State != Move) && (_State != jumping))
@@ -403,8 +405,12 @@ void Mario::CheckCollision(MyObject* obj)
 		switch(this->GetCollisionDirection(this->GetRect(), obj->GetRect()))
 		{
 			case Bottom:
-				_vy = -1.5;
+				{_vy = -1.5;
 				_State = jumping;
+
+				//sound
+				SoundManager::GetInst()->PlayEffSound(SOUND_E_TOUCH_TIRTLE);
+				}				
 				break;
 		}
 	}
@@ -413,10 +419,10 @@ void Mario::CheckCollision(MyObject* obj)
 CRECT Mario::GetRect()
 {
 	return CRECT(
-		_x, 
-		_y, 
-		_x + _curSprite->_texture->Width, 
-		_y + _curSprite->_texture->Height);
+		_x + DELTA_RECT_X, 
+		_y + DELTA_RECT_Y, 
+		_x + _curSprite->_texture->Width - 2 * DELTA_RECT_X, 
+		_y + _curSprite->_texture->Height - 2 * DELTA_RECT_Y);
 }
 
 void Mario::Fire()

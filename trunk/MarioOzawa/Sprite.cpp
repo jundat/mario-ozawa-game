@@ -71,10 +71,9 @@ void Sprite::Render(int X, int Y, float depth)
 		&srect,
 		NULL,
 		&position,
-		0xFFFFFFFF //color
+		0xFFFFFFFF
 	);
 }
-
 
 void Sprite::RenderScaleX(int x, int y, float depth)
 {
@@ -122,7 +121,7 @@ void Sprite::RenderRect(int x, int y, RECT Rect, float depth)
 		&Rect,
 		NULL,
 		&position,
-		0xFFFFFFFF//D3DCOLOR_XRGB(255, 255, 255)
+		0xFFFFFFFF
 		);
 }
 
