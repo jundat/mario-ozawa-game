@@ -48,6 +48,7 @@ brickBreak::brickBreak(float x, float y)	: MyObject(x, y)
 brickBreak::~brickBreak(void)
 {
 	delete _curSprite;
+	_curSprite = NULL;
 }
 
 void brickBreak::Update(int time)

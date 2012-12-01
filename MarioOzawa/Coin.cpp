@@ -13,6 +13,7 @@ coin::coin(float x, float y)	: MyObject(x, y)
 coin::~coin(void)
 {
 	delete _curSprite;
+	_curSprite = NULL;
 }
 
 void coin::Update(int time)

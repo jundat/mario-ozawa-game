@@ -16,6 +16,7 @@ bullet::bullet(float x, float y,bool turnLeft) : MyObject(x, y)
 bullet::~bullet(void)
 {
 	delete _curSprite;
+	_curSprite = NULL;
 }
 
 void bullet::Update(int time)

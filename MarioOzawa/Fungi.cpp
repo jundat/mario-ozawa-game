@@ -21,6 +21,7 @@ fungi::fungi(float x, float y)	: MyObject(x, y)
 fungi::~fungi(void)
 {
 	delete _curSprite;
+	_curSprite = NULL;
 }
 
 void fungi::Update(int time)

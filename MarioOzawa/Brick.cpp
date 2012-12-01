@@ -11,6 +11,7 @@ brick::brick(float x, float y)	: MyObject(x, y)
 brick::~brick(void)
 {
 	delete _curSprite;
+	_curSprite = NULL;
 }
 
 void brick::Update(int time)

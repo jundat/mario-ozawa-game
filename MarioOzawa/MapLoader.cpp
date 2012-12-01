@@ -39,6 +39,9 @@ MapLoader::~MapLoader(void)
 {
 	delete _mapTexture;
 	delete[] _board;
+
+	_mapTexture = NULL;
+	_board = NULL;
 }
 
 void MapLoader::LoadSavedGameFormFile(LPCTSTR _filesavegame)

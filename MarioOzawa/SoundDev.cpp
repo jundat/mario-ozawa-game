@@ -45,5 +45,8 @@ CSound* DSound::LoadSound(char* filename)
 void DSound::Destroy()
 {
 	if(pDSound!=NULL)
+	{
 		delete pDSound;
+		pDSound = NULL;
+	}
 }

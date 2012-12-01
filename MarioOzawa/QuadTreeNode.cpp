@@ -12,11 +12,14 @@ QuadTreeNode::~QuadTreeNode(void)
 	if (_listChild != NULL)
 	{
 		delete[] _listChild;
+		_listChild = NULL;
 	}
 
 	if (_content != NULL)
 	{
 		_content->clear();
+		delete _content;
+		_content = NULL;
 	}
 }
 
@@ -152,6 +155,7 @@ std::vector<MyObject*>* QuadTreeNode::QueryObj(CRECT area)
 			queryList->clear();
 		}
 		delete queryList;
+		queryList = NULL;
 	}
 
 	return result;
@@ -189,6 +193,7 @@ vector<MyObject*>* QuadTreeNode::GetObj (CRECT area)
 			queryList->clear();
 		}
 		delete queryList;
+		queryList = NULL;
 	}
 
 	return result;

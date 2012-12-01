@@ -44,6 +44,7 @@ brickItem::brickItem(float x, float y,EBrickItemKind kindOfItem) : MyObject(x, y
 brickItem::~brickItem(void)
 {
 	delete _curSprite;
+	_curSprite = NULL;
 }
 
 void brickItem::Update(int time)

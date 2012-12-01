@@ -34,6 +34,10 @@ Mario::~Mario(void)
 	delete _sprMarioSmaller;
 	delete _sprMarioLarger;
 	delete _sprMarioFire;
+
+	_sprMarioSmaller = NULL;
+	_sprMarioLarger = NULL;
+	_sprMarioFire = NULL;
 }
 
 void Mario::Update(int time)

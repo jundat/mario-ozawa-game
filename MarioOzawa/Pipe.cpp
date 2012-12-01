@@ -12,6 +12,7 @@ pipe::pipe(float x, float y)	: MyObject(x, y)
 pipe::~pipe(void)
 {
 	delete _curSprite;
+	_curSprite = NULL;
 }
 
 void pipe::Update(int time)

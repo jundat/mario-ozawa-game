@@ -25,6 +25,7 @@ Sprite::Sprite(TEXTURE* texture, int timeAnimation)
 Sprite::~Sprite()
 {
 	delete _texture;
+	_texture = NULL;
 }
 
 void Sprite::Next() 

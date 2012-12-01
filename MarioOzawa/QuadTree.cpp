@@ -11,7 +11,10 @@ QuadTree::QuadTree(CRECT bound)
 QuadTree::~QuadTree(void)
 {
 	if(_rootNode != NULL)
+	{
 		delete _rootNode;
+		_rootNode = NULL;
+	}
 }
 
 void QuadTree::Insert (MyObject* obj)

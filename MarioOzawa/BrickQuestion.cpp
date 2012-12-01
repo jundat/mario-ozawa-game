@@ -22,6 +22,7 @@ brickQuestion::brickQuestion(float x, float y)	: MyObject(x, y)
 brickQuestion::~brickQuestion(void)
 {
 	delete _curSprite;
+	_curSprite = NULL;
 }
 
 void brickQuestion::Update(int time)

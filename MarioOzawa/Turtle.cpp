@@ -24,6 +24,7 @@ turtle::turtle(float x, float y)	: MyObject(x, y)
 turtle::~turtle(void)
 {
 	delete _curSprite;
+	_curSprite = NULL;
 }
 
 void turtle::Render()
