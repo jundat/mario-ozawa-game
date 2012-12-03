@@ -67,6 +67,11 @@ void MenuSence::_OnKeyDown(int keyCode){
 				SoundManager::GetInst()->PlayEffSound(SOUND_E_CLICK);
 			}
 			break;
+
+		case DIK_DELETE:
+			DeleteFile("\saved\savedgame.txt");
+			remove("\saved\savedgame.txt");
+			break;
 	}
 }
 

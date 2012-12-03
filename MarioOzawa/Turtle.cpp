@@ -12,7 +12,7 @@ turtle::turtle(float x, float y)	: MyObject(x, y)
 	_y = y;
 	_vx = 0;
 	_vy = 0;
-	_turnLeft = false;
+	_turnLeft = true;
 	_ID = EObject::TURTLE;
 	_State = Move;
 	_TimeStand = 0;
@@ -308,6 +308,7 @@ void turtle::CheckCollision(MyObject* obj)
 			_turnLeft = false;
 			obj->_turnLeft = true;
 			break;
+
 		case Right:
 			if(_State == attack)
 			{

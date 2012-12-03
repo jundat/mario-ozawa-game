@@ -11,7 +11,12 @@ fungi::fungi(float x, float y)	: MyObject(x, y)
 	_y = y;
 	_vx = 0;
 	_vy = 0;
-	_turnLeft = false;
+
+	//position when init
+	_startx = _x;
+	_starty = _y;
+
+	_turnLeft = true;
 	_timeTransform = 0;
 	_ID = EObject::FUNGI;
 	_State = Move;
@@ -38,12 +43,15 @@ void fungi::Update(int time)
 	{
 		_NextX = _x + _vx * time;
 		_NextY = _y + _vy * time;
+
+
 	}
 	else
 	{
 		_NextX = _x;
 		_NextY = _y;
 	}
+
 	if(_State == beforedead)
 	{
 		_curSprite->SelectIndex(2);
@@ -68,6 +76,7 @@ void fungi::Update(int time)
 		_y = BOTTOM - _curSprite->_texture->Height - 1;
 	}
 	*/
+	
 	_curSprite->Update(time);
 }
 
@@ -75,9 +84,11 @@ void fungi::Render()
 {
 	if(_State == dead)
 		return;
+
 	//if(_turnLeft == false)
 	if(_State != beforedead2)
 		_curSprite->Render((int)_x, (int)_y);
+
 	if(_State == beforedead2)
 		_curSprite->RenderScaleY((int)_x, (int)_y);
 	//else _curSprite->RenderScale((int)_x, (int)_y);
@@ -95,14 +106,46 @@ void fungi::CheckCollision(MyObject* obj)
 			_vy = 0;
 			_y = obj->_y + TILE + 1;
 			break;
+
 		case Bottom:
-			_vy = 0;
-			_y = obj->_y - _curSprite->_texture->Height ;
+			{
+				int lasty = _y;
+				static int iscolide = 0;
+
+				_vy = 0;
+				_y = obj->_y - _curSprite->_texture->Height ;
+
+				//tan long new
+				//check die if a brickbreak lift it up
+
+				if(lasty - _y >= 5)
+				{
+					if(iscolide == 0)
+					{
+						iscolide = 1;
+					}
+					else
+					{
+						iscolide++;
+
+						if(iscolide >= 2)
+						if(_State != dead && _State != beforedead && _State != beforedead2)
+						{
+							_State = beforedead2;
+							_vy = - 1.1f;
+							iscolide = 0;
+						}
+					}
+				}					
+			}
+			
 			break;
+
 		case Left:
 			_x = obj->_x + TILE ;
 			_turnLeft = false;
 			break;
+
 		case Right:
 			_x = obj->_x - this->_curSprite->_texture->Width ;
 			_turnLeft = true;
@@ -193,19 +236,21 @@ void fungi::CheckCollision(MyObject* obj)
 		}
 	}
 
+
 	if((obj->_ID == EObject::FUNGI) || (obj->_ID == EObject::TURTLE))
 	{
 		switch(this->GetCollisionDirection(this->GetRect(), obj->GetRect()))
 		{
 		case Left:
-			_x = obj->_x + TILE + 1;
+				_x = obj->_x + TILE + 1;
 				_turnLeft = false;
 				obj->_turnLeft = true;
 			break;
+
 		case Right:
-			_x = obj->_x - this->_curSprite->_texture->Width - 1;
-			_turnLeft = true;
-			obj->_turnLeft = false;
+				_x = obj->_x - this->_curSprite->_texture->Width - 1;
+				_turnLeft = true;
+				obj->_turnLeft = false;
 			break;
 		}
 	}

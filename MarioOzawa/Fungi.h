@@ -15,9 +15,12 @@ protected:
 	//0: Left | 1: Right
 	//bool _turnLeft;
 
-	//float _vx;
-	//float _vy;
+	//position when init
+	float _startx;
+	float _starty;
+
 	int _timeTransform;
+
 public:
 	fungi(float x, float y);
 	virtual ~fungi(void);
