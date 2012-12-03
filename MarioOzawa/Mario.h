@@ -41,6 +41,7 @@ public:
 
 	int gold;
 	int life; //số mạng sống còn lại của mario
+	int exp;
 
 	Mario(float x, float y);
 	virtual ~Mario(void);

@@ -1,8 +1,6 @@
 
 #include "Global.h"
 
-
-
 #include <d3d9.h>
 #include <d3dx9.h>
 #include <dinput.h>
@@ -23,8 +21,8 @@ int			GL_ColorMode;
 bool		GL_IsFullScreen;
 D3DFORMAT	GL_BackBufferFormat;
 
-bool		GL_HasBGSound = true;
-bool		GL_HasEffectSound = true;
+bool		GL_HasBGSound = false;
+bool		GL_HasEffectSound = false;
 
 int			GL_MapW;
 int			GL_MapH;

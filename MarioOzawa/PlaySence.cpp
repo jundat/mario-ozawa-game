@@ -5,6 +5,9 @@
 #include "Writer.h"
 #include "SoundManager.h"
 
+#define MARIO_VX_COMPLETE_MAP 7.0f
+#define MARIO_DELTA_X_COMPLETE_MAP 400
+
 PlaySence::PlaySence(Game* game, int timeAni)
 	: GameSence(game, timeAni)
 {
@@ -125,11 +128,13 @@ void PlaySence::_ProcessInput()
 	}	
 	else if (_game->IsKeyDown(DIK_LEFT))
 	{
-		_mario->TurnLeft();
+		if(! (_mario->_x >= GL_MapW - MARIO_DELTA_X_COMPLETE_MAP))
+			_mario->TurnLeft();
 	}
 	else if(_game->IsKeyDown(DIK_DOWN))
 	{ 
-		_mario->ShitDown();
+		if(! (_mario->_x >= GL_MapW - MARIO_DELTA_X_COMPLETE_MAP))
+			_mario->ShitDown();
 	}
 	else
 	{
@@ -149,7 +154,7 @@ void PlaySence::_UpdateRender(int time)
 	D3DXVECTOR2 trans(- x, - y);
 	D3DXMatrixTransformation2D(&mat, NULL, 0.0f, NULL, NULL, 0.0f, &trans);
 	GLSpriteHandler->SetTransform(&mat);
-	GLSpriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
+	GLSpriteHandler->Begin(D3DXSPRITE_SORT_DEPTH_FRONTTOBACK | D3DXSPRITE_ALPHABLEND);
 #pragma endregion
 	//------------------------------------------------------------------------
 
@@ -195,9 +200,18 @@ void PlaySence::_UpdateRender(int time)
 
 	GLSpriteHandler->End();
 
+	if(_mario->_x >= GL_MapW - MARIO_DELTA_X_COMPLETE_MAP)
+	{
+		_mario->TurnRight();
+		_mario->_vx = MARIO_VX_COMPLETE_MAP;
+	}
+
 	//check complete mappppppppppppppppppppppppppppppppppppppppppppppppppppppp
 	if(_mario->GetRect().Right >= GL_MapW)
 	{
+		//stop mario
+		_mario->_vx = 0;
+
 		//save game
 		MapLoader::SaveGameToFile(_QuadTree, _mario, GL_FILE_SAVE_GAME);
 
@@ -206,9 +220,6 @@ void PlaySence::_UpdateRender(int time)
 		//change sence
 		IsVisiable = false;
 		_game->AddSence(new ChangeMapSence(_game, &IsVisiable, MapLoader::_mapNumber, 100));
-		
-		//load new map after changemapsence end
-
 		return;
 	}
 #pragma endregion
