@@ -1,4 +1,4 @@
-
+﻿
 #pragma once
 
 #include "Rect.h"
@@ -14,7 +14,7 @@ class Camera
 {
 protected:
 public:
-	CRECT _rectCamera;		//bound
+	CRECT _rectCamera;		//bound //800x600
 
 	float _vx;				//velocity 
 	float _vy;
@@ -24,6 +24,7 @@ public:
 
 	void Update(MyObject* player);
 	
+	//trả về kích thước màn hình
 	CRECT GetRect()
 	{
 		return _rectCamera;

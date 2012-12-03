@@ -27,6 +27,7 @@ Mario::Mario(float x, float y)	: MyObject(x, y)
 
 	life = 3;
 	gold = 0;
+	exp = 0;
 }
 
 Mario::~Mario(void)
@@ -409,11 +410,12 @@ void Mario::CheckCollision(MyObject* obj)
 		switch(this->GetCollisionDirection(this->GetRect(), obj->GetRect()))
 		{
 			case Bottom:
-				{_vy = -1.5;
-				_State = jumping;
+				{
+					_vy = -1.5;
+					_State = jumping;
 
-				//sound
-				SoundManager::GetInst()->PlayEffSound(SOUND_E_TOUCH_TIRTLE);
+					//sound
+					SoundManager::GetInst()->PlayEffSound(SOUND_E_TOUCH_TIRTLE);
 				}				
 				break;
 		}

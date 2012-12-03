@@ -163,7 +163,7 @@ void SelectWorldSence::_UpdateRender(int time)
 	D3DXVECTOR2 trans(- x, - y);
 	D3DXMatrixTransformation2D(&mat, NULL, 0.0f, NULL, NULL, 0.0f, &trans);
 	GLSpriteHandler->SetTransform(&mat);
-	GLSpriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
+	GLSpriteHandler->Begin(D3DXSPRITE_SORT_DEPTH_FRONTTOBACK | D3DXSPRITE_ALPHABLEND);
 #pragma endregion
 	//------------------------------------------------------------------------
 	_Camera->Update(_mario);
