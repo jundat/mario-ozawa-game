@@ -20,6 +20,10 @@ protected:
 	int _yBreak1,_yBreak2,_yBreak3,_yBreak4;
 	RECT _rectBreak1,_rectBreak2,_rectBreak3,_rectBreak4;
 
+	//start position when init
+	float _startx;
+	float _starty;
+
 public:
 	brickBreak(float x, float y);
 	virtual ~brickBreak(void);

@@ -74,7 +74,10 @@ void PlaySence::_Load()
 }
 
 // nhan 1 lan
-void PlaySence::_OnKeyDown(int keyCode){
+void PlaySence::_OnKeyDown(int keyCode)
+{
+	static int countMapToGo = 0;
+
 	switch(keyCode){
 	case DIK_ESCAPE:
 		{
@@ -115,6 +118,42 @@ void PlaySence::_OnKeyDown(int keyCode){
 		break;
 	case DIK_Z:
 		_mario->Fire();
+		break;
+
+	case DIK_L:
+		_mario->life++;
+		break;
+
+	case DIK_G:
+		_mario->gold++;
+		break;
+
+	case DIK_T:
+		_timeForLevel += 5000;
+		break;
+
+	case DIK_X:
+		_mario->exp++;
+		break;
+
+	case DIK_1:
+		countMapToGo++;
+		break;
+		
+	case DIK_END:
+		{
+			if(countMapToGo >= 1)
+			{
+				_mario->_vx = 0;
+				MapLoader::_mapNumber = countMapToGo - 1;
+				LoadNewMap();
+
+				//change sence
+				IsVisiable = false;
+				_game->AddSence(new ChangeMapSence(_game, &IsVisiable, MapLoader::_mapNumber, 100));
+				countMapToGo = 0;
+			}
+		}
 		break;
 	}
 }
@@ -180,7 +219,12 @@ void PlaySence::_UpdateRender(int time)
 	_Camera->Update(_mario);
 	RECT r = GL_WndSize;
 	r.top = GL_Height - _alpha * GL_Height;
-	ResourceMng::GetInst()->GetSurface("image/imgBgGame.png")->Render(NULL, &r);
+
+	if(MapLoader::_mapNumber == 2)
+		ResourceMng::GetInst()->GetSurface("image/imgBgGame2.png")->Render(NULL, &r);
+	else
+		ResourceMng::GetInst()->GetSurface("image/imgBgGame.png")->Render(NULL, &r);
+
 	_BackgroundMng->UpdateRender(_Camera->GetCameraExpand(), time);
 	
 	_mario->Update(time);

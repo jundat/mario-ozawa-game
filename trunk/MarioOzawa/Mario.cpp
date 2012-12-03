@@ -19,8 +19,8 @@ Mario::Mario(float x, float y)	: MyObject(x, y)
 	GL_CurForm = 0;
 	GL_NextForm = 1;
 	_State = stand;
-	_lastx = _x = x;
-	_lasty = _y = y;
+	_startx = _x = x;
+	_starty = _y = y;
 	_vx = 0;
 	_vy = 0;
 	_TimeTransform = 0;
@@ -81,8 +81,8 @@ void Mario::Update(int time)
 				this->_vx = 0;
 				this->_vy = 0;
 
-				this->_y = _lasty; //MapLoader::_mariox * TILE;
-				this->_x = _lastx; //MapLoader::_mariox * TILE;
+				this->_y = _starty; //MapLoader::_mariox * TILE;
+				this->_x = _startx; //MapLoader::_mariox * TILE;
 			}
 		}
 
@@ -94,6 +94,20 @@ void Mario::Update(int time)
 		{
 			RunBeforeDie();
 		}
+	}
+
+	//change sprite
+	if(GL_CurForm == 0) // smaller
+	{
+		_curSprite = _sprMarioSmaller;
+	}
+	else if(GL_CurForm == 1) // larger
+	{
+		_curSprite = _sprMarioLarger;
+	}
+	else					// fire
+	{
+		_curSprite = _sprMarioFire;
 	}
 
 	if(_vx != 0)
@@ -116,12 +130,12 @@ void Mario::Update(int time)
 	}
 
 	//save last position
-	if(_State == stand || _State == Move)
+	if(_State == State::stand || _State == State::Move)
 	{
-		if(abs(_x - _lastx) >= DISTANCE_WITH_LAST_POSITION_X)
+		if(abs(_x - _startx) >= DISTANCE_WITH_LAST_POSITION_X)
 		{
-			_lastx = _x;
-			_lasty = _y;
+			_startx = _x;
+			_starty = _y;
 		}
 	}
 }
@@ -332,8 +346,10 @@ void Mario::CheckCollision(MyObject* obj)
 	{
 		//if(_State == transform)
 		//	return;
-		if(obj->_State == dead)
-			return;
+
+		//debug
+		//if(obj->_State == dead)
+		//	return;
 
 		switch(this->GetCollisionDirection(this->GetRect(), obj->GetRect()))
 		{
@@ -382,15 +398,21 @@ void Mario::CheckCollision(MyObject* obj)
 		{
 			case Bottom:
 				{
-					_vy = -1.5;
-					_State = jumping;
+					if(obj->_ID == EObject::FUNGI && obj->_State == beforedead2)
+					{
+					}
+					else
+					{
+						_vy = -1.5;
+						_State = jumping;
 
-					//tan long
-					//add exp
-					exp += EXP_FOR_OBJECT;
+						//tan long
+						//add exp
+						exp += EXP_FOR_OBJECT;
 
-					//sound
-					SoundManager::GetInst()->PlayEffSound(SOUND_E_TOUCH_TIRTLE);
+						//sound
+						SoundManager::GetInst()->PlayEffSound(SOUND_E_TOUCH_TIRTLE);
+					}
 				}				
 				break;
 		}

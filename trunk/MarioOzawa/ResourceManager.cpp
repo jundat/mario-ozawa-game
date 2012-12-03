@@ -8,6 +8,7 @@ ResourceMng::ResourceMng()
 {
 	//SURFACE
 	_listSurface.push_back(new SURFACE("image/imgBgGame.png"));
+	_listSurface.push_back(new SURFACE("image/imgBgGame2.png"));
 	_listSurface.push_back(new SURFACE("image/imgBgMenu.png"));
 	_listSurface.push_back(new SURFACE("image/imgBgOption.png"));
 	_listSurface.push_back(new SURFACE("image/imgBgCredit.png"));

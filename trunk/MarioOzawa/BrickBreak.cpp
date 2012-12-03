@@ -42,6 +42,10 @@ brickBreak::brickBreak(float x, float y)	: MyObject(x, y)
 	_xBreak4 = _x + TILE/2;
 	_yBreak4 = _y + TILE/2;
 
+	//start position when init
+	_startx = _x;
+	_starty = _y;
+	_vx = _vy = 0;
 }
 
 
@@ -53,6 +57,17 @@ brickBreak::~brickBreak(void)
 
 void brickBreak::Update(int time)
 {
+	//update position
+	_y += time * _vy;
+
+	//gravity
+	_vy += 0.01f * time;
+
+	if(_y >= _starty)
+	{
+		_y = _starty;
+	}
+
 	if(_State == breaking)
 	{
 		if((_x - _xBreak1) < 50)
@@ -80,6 +95,7 @@ void brickBreak::Update(int time)
 			_yBreak3 += 1.0*time;
 			_yBreak4 += 1.0*time;
 		}
+
 		if((_x - _xBreak1) > 100)
 			_State = dead;
 
@@ -91,6 +107,7 @@ void brickBreak::Render()
 {
 	if(_State == stand)
 		_curSprite->Render((int)_x, (int)_y);
+
 	if(_State == breaking)
 	{
 		_curSprite->RenderRect((int)_xBreak1,(int)_yBreak1,_rectBreak1);
@@ -111,18 +128,29 @@ void brickBreak::CheckCollision(MyObject* obj)
 		if((obj->_State == beforedead) || (obj->_State == dead))
 			return;
 
-		if(GL_CurForm == 0)
-			return;
+		//if(GL_CurForm == 0)
+		//	return;
+		
 		EDirect dir = this->GetCollisionDirection(this->GetRect(), obj->GetRect());
 
 		switch(dir)
 		{
 		case Bottom:
-			if(_State == stand)
+			//large and fire
+			if(GL_CurForm != 0)
 			{
-				_State = breaking;
-				SoundManager::GetInst()->PlayEffSound(SOUND_E_BROKEN);
+				if(_State == stand)
+				{
+					_State = breaking;
+					SoundManager::GetInst()->PlayEffSound(SOUND_E_BROKEN);
+				}
+			}//small
+			else
+			{
+				//tan long new
+				_vy = -0.5f;
 			}
+			
 			break;
 		case Top:
 			break;

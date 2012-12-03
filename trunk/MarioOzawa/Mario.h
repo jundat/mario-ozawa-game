@@ -31,8 +31,8 @@ protected:
 	int _TimeTransform;
 	int _time;
 
-	int _lastx; //the last position at that mario is (move or stand) and alive
-	int _lasty;
+	int _startx; //the start position when mario init
+	int _starty;
 
 	vector <bullet*> _listBullet;
 
