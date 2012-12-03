@@ -21,6 +21,7 @@ int MapLoader::_mapH = 0;
  int MapLoader::_mapNumber = 0; //số thứ tự của map
  int MapLoader::_gold = -1;
  int MapLoader::_life = -1;
+ int MapLoader::_exp = -1;
  int MapLoader::_curForm = -1;
  int MapLoader::_nextForm = -1;
  int MapLoader::_marioState = -1; //state of mario
@@ -60,6 +61,9 @@ void MapLoader::LoadSavedGameFormFile(LPCTSTR _filesavegame)
 
 		//life
 		fin>> _life;
+
+		//exp
+		fin>> _exp;
 
 		//curForm
 		fin>> _curForm;
@@ -309,12 +313,13 @@ void MapLoader::TranslateMap (QuadTree* quadtree, BackgroundManager* background,
 	mario->_x = _mariox * TILE;
 	mario->_y = _marioy * TILE;
 
-	if(_curForm > -1 && _nextForm > -1 && _gold > -1 && _life > -1 && _marioState > -1)
+	if(_curForm > -1 && _nextForm > -1 && _gold > -1 && _life > -1 && _exp > -1 && _marioState > -1)
 	{
 		GL_CurForm = _curForm;
 		GL_NextForm = _nextForm;
 		mario->gold = _gold;
 		mario->life = _life;
+		mario->exp = _exp;
 		mario->_State = (State)_marioState;
 	}	
 
@@ -424,6 +429,9 @@ void MapLoader::SaveGameToFile(QuadTree* quadtree, Mario* mario, LPCTSTR fileToS
 
 		//life
 		fout<< mario->life << endl;
+
+		//exp
+		fout<< mario->exp << endl;
 
 		//curForm
 		fout<< GL_CurForm << endl;

@@ -21,6 +21,7 @@ public:
 	static int _mapNumber; //số thứ tự của map
 	static int _gold;
 	static int _life;
+	static int _exp;
 	static int _curForm;
 	static int _nextForm;
 	static int _marioState; //state of mario

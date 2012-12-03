@@ -5,8 +5,6 @@
 #include "Writer.h"
 #include "SoundManager.h"
 
-#define MARIO_VX_COMPLETE_MAP 7.0f
-#define MARIO_DELTA_X_COMPLETE_MAP 400
 
 PlaySence::PlaySence(Game* game, int timeAni)
 	: GameSence(game, timeAni)
@@ -45,6 +43,9 @@ PlaySence::~PlaySence(void)
 
 void PlaySence::_Load()
 {
+	//reset time
+	_timeForLevel = TIME_FOR_LEVEL;
+
 	_mario = new Mario(50, 50);
 	_BackgroundMng = new BackgroundManager();
 	
@@ -66,15 +67,19 @@ void PlaySence::_Load()
 	MapLoader::TranslateMap(_QuadTree, _BackgroundMng, _mario);
 	_BackgroundMng->Translate();
 	_Camera = new Camera(CRECT(GL_WndSize));
-}
 
+	//change sence
+	IsVisiable = false;
+	_game->AddSence(new ChangeMapSence(_game, &IsVisiable, MapLoader::_mapNumber, 100));
+}
 
 // nhan 1 lan
 void PlaySence::_OnKeyDown(int keyCode){
 	switch(keyCode){
 	case DIK_ESCAPE:
 		{
-			if(!_isExitting)
+			if(! (_mario->_x >= GL_MapW - MARIO_DELTA_X_COMPLETE_MAP))
+			if(! _isExitting)
 			{
 				//save game before exit
 				MapLoader::SaveGameToFile(_QuadTree, _mario, GL_FILE_SAVE_GAME);
@@ -157,7 +162,21 @@ void PlaySence::_UpdateRender(int time)
 	GLSpriteHandler->Begin(D3DXSPRITE_SORT_DEPTH_FRONTTOBACK | D3DXSPRITE_ALPHABLEND);
 #pragma endregion
 	//------------------------------------------------------------------------
+	
+	//update time
+	if(_timeForLevel > 0)
+	{
+		_timeForLevel -= time;
 
+		//check time out
+		if(_timeForLevel < 0)
+		{
+			_timeForLevel = 0;
+			_mario->RunBeforeDie();
+			_timeForLevel = TIME_FOR_LEVEL + 3 * 500;
+		}
+	}
+	
 	_Camera->Update(_mario);
 	RECT r = GL_WndSize;
 	r.top = GL_Height - _alpha * GL_Height;
@@ -189,14 +208,32 @@ void PlaySence::_UpdateRender(int time)
 	D3DXMATRIX matDefaut;
 	D3DXMatrixTransformation2D(&matDefaut, NULL, 0.0f, NULL, NULL, 0.0f, NULL); 
 	GLSpriteHandler->SetTransform(&matDefaut);
-
-	//
-	//draw life and gold
+#pragma endregion
+	
+	//draw life and gold  and info
 	char text[100];
-	sprintf(text, "life: %d", _mario->life);
-	Writer::RenderFont1(text, 0, 5, 1);
-	sprintf(text, "gold: %d", _mario->gold);
-	Writer::RenderFont1(text, 0, 35, 1);
+	
+	//life
+	sprintf(text, "life x %d", _mario->life);
+	Writer::RenderFont2(text, 0, 5, 0.75f);
+
+	//exp
+	sprintf(text, "exp x %d", _mario->exp);
+	Writer::RenderFont2(text, 6, 35, 0.75f);
+
+	//gold
+	Sprite* sprCoin = new Sprite(ResourceMng::GetInst()->GetTexture("image/Coin.png"), -1);
+	sprCoin->RenderTransform(220, 5, D3DXVECTOR2(0.8f, 0.8f), 0);
+	sprintf(text, " x %d", _mario->gold);
+	Writer::RenderFont2(text, 220, 5, 0.75f);
+
+	//map
+	sprintf(text, "map x %d", MapLoader::_mapNumber);
+	Writer::RenderFont2(text, 400-20, 5, 0.75f);
+
+	//time
+	sprintf(text, "time x %d", _timeForLevel / 500);
+	Writer::RenderFont2(text, 600-20, 5, 0.75f);
 
 	GLSpriteHandler->End();
 
@@ -222,19 +259,31 @@ void PlaySence::_UpdateRender(int time)
 		_game->AddSence(new ChangeMapSence(_game, &IsVisiable, MapLoader::_mapNumber, 100));
 		return;
 	}
-#pragma endregion
 }
 
 void PlaySence::LoadNewMap(void)
 {
-	//delete resource
-	delete _QuadTree;
-	delete _BackgroundMng;
-	delete _Camera;
+	//reset time
+	_timeForLevel = TIME_FOR_LEVEL;
 
-	_QuadTree = NULL;
-	_BackgroundMng = NULL;
-	_Camera = NULL;
+	//delete resource
+	if(_QuadTree != NULL)
+	{
+		delete _QuadTree;
+		_QuadTree = NULL;
+	}
+
+	if(_BackgroundMng != NULL)
+	{
+		delete _BackgroundMng;
+		_BackgroundMng = NULL;
+	}
+
+	if(_Camera != NULL)
+	{
+		delete _Camera;
+		_Camera = NULL;
+	}
 
 	//Load new game
 	MapLoader::LoadMapFormFile(MapLoader::_mapNumber + 1, true, true, true, true);

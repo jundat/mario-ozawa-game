@@ -41,39 +41,10 @@ void MyObject::Update(int time)
 
 void MyObject::Render()
 {
-
 }
 
 void MyObject::CheckCollision(MyObject* obj)
 {
-	/*
-	switch(this->GetCollisionDirection(obj->GetRect(), this->GetRect()))
-	{
-	case Top:
-		break;
-
-	case Bottom:
-		break;
-
-	case Left:
-		break;
-
-	case Right:
-		break;
-
-	case None:
-		break;
-	}
-	*/
-
-	//line top
-	 
-
-
-	// line bottom
-
-
-
 }
 
 EDirect MyObject::GetCollisionDirection(CRECT r1, CRECT r2)
@@ -110,7 +81,7 @@ EDirect MyObject::GetCollisionDirection(CRECT r1, CRECT r2)
 	return EDirect::None;
 }
 
-void MyObject::CheckTitleCollision(float &_vx,float &_vy,float _nextX,float _nextY,float _maxWidth,float _maxHeight,int _width,int _height)
+void MyObject::CheckTitleCollision(float &_vx, float &_vy, float _nextX, float _nextY, float _maxWidth, float _maxHeight, int _width, int _height)
 {
 	if((_State == beforedead) || (_State == dead))
 	{

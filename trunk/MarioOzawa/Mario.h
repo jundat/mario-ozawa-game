@@ -19,6 +19,9 @@
 #define DELTA_RECT_X 2 //delta to sub in x when call getRect
 #define DELTA_RECT_Y 0 //delta to sub in y when call getRect
 
+#define EXP_FOR_BRICK 5 //point for exp
+#define EXP_FOR_OBJECT 10
+
 using namespace std;
 #pragma once
 class Mario : public MyObject
@@ -56,8 +59,10 @@ public:
 
 	//tan long
 	void ShitDown();
+	
+	//call when you want mario die
+	void RunBeforeDie();
 
-	void Reset(); //reset position mario to replay level
 	void Fire();
 	void TransformMario(int x,int y);
 	void Transform();
