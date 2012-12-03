@@ -40,6 +40,9 @@ void ChangeMapSence::_OnKeyDown(int keyCode)
 {
 	switch(keyCode){
 	case DIK_RETURN:
+		break;
+
+	case DIK_UP:
 		{
 			SoundManager::GetInst()->PlayEffSound(SOUND_E_SLIDE);
 			_state = TransOff;
@@ -47,7 +50,12 @@ void ChangeMapSence::_OnKeyDown(int keyCode)
 		}
 		break;
 
-	case DIK_UP:
+	case DIK_SPACE:
+		{
+			SoundManager::GetInst()->PlayEffSound(SOUND_E_SLIDE);
+			_state = TransOff;
+			*this->IsVisiable = true;
+		}
 		break;
 
 	case DIK_DOWN:

@@ -6,6 +6,7 @@
 #include "SoundManager.h"
 #include "MapLoader.h"
 
+
 Mario::Mario(float x, float y)	: MyObject(x, y)
 {
 	_sprMarioSmaller = new Sprite(ResourceMng::GetInst()->GetTexture("image/MarioSmaller.png"), 50);
@@ -59,7 +60,7 @@ void Mario::Update(int time)
 	float _NextY = _y + _vy * _time;
 
 	_vy += GRAVITY * time;
-	CheckTitleCollision(_vx,_vy,_NextX,_NextY, GL_Width, GL_Height, _curSprite->_texture->Width,_curSprite->_texture->Height);
+	CheckTitleCollision(_vx, _vy, _NextX,_NextY, GL_Width, GL_Height, _curSprite->_texture->Width,_curSprite->_texture->Height);
 
 	//beforedead -> dead
 	if(_State == beforedead)
@@ -91,8 +92,7 @@ void Mario::Update(int time)
 	{
 		if(_y > GL_MapH && _State != dead && _State != beforedead && _State != beforedead2)
 		{
-			_State = beforedead;
-			this->_vy = -2.5f;
+			RunBeforeDie();
 		}
 	}
 
@@ -100,34 +100,20 @@ void Mario::Update(int time)
 	{
 		_curSprite->Update(time);
 	}
+
 	if(_State == transform)
 		return;
 
 	// do when change dir suddenly
 	if((_turnLeft == true) && (_vx > 0.0f))
 		_curSprite->SelectIndex(4);
+	
 	if((_turnLeft == false) && (_vx < 0.0f))
 		_curSprite->SelectIndex(4);
 
 	if(_State == jumping){
 		_curSprite->SelectIndex(3);
 	}
-
-	/*
-	{//do not run out of the map
-		//right
-		if(_x + this->_curSprite->_texture->Width >= GL_MapW)
-		{
-			_x = GL_MapW - this->_curSprite->_texture->Width;
-		}
-
-		//left
-		if(_x <= 0)
-		{
-			_x = 0;
-		}
-	}
-	*/
 
 	//save last position
 	if(_State == stand || _State == Move)
@@ -238,6 +224,11 @@ void Mario::ShitDown()
 	}
 }
 
+void Mario::RunBeforeDie()
+{
+	_State = beforedead;
+	this->_vy = -2.5f;
+}
 
 void Mario::Transform()
 {
@@ -334,7 +325,7 @@ void Mario::CheckCollision(MyObject* obj)
 		sf->CheckCollision(obj);
 	}
 
-	if((_State == beforedead) || (_State == dead))
+	if(_State == beforedead || _State == dead || _State == beforedead2)
 		return;
 	
 	if((obj->_ID == EObject::BRICKITEM) || (obj->_ID == EObject::BRICKQUESTION) || (obj->_ID == EObject::BRICKBREAK) )
@@ -349,6 +340,15 @@ void Mario::CheckCollision(MyObject* obj)
 		case Top:
 			_vy = 0;
 			_y = obj->_y + TILE + 1 ;
+
+			//add exp
+			exp += EXP_FOR_BRICK;
+
+			//gold
+			if(obj->_ID == BRICKQUESTION)
+			{
+				((Mario*)obj)->gold++;
+			}
 			break;
 
 		case Bottom:
@@ -370,35 +370,6 @@ void Mario::CheckCollision(MyObject* obj)
 		}
 	}
 
-	/*
-	if(obj->_ID == EObject::PIPE)
-	{
-		if(obj->_State == dead)
-			return;
-		switch(this->GetCollisionDirection(this->GetRect(), obj->GetRect()))
-		{
-		case Top:
-			_vy = 0;
-			_y = obj->_y + 100 + 1;
-			break;
-		case Bottom:
-			_vy = 0;
-			_y = obj->_y - _curSprite->_texture->Height ;
-			if((_vy == 0) && (_State != transform))
-				_State = stand;
-			break;
-		case Left:
-			//_vx = 0;
-			_x = obj->_x + 100 ;
-			break;
-		case Right:
-			//_vx = 0;
-			_x = obj->_x - this->_curSprite->_texture->Width ;
-			break;
-		}
-	}
-	*/
-
 	if((obj->_ID == EObject::FUNGI) || (obj->_ID == EObject::TURTLE))
 	{
 		if(_State == transform)
@@ -413,6 +384,10 @@ void Mario::CheckCollision(MyObject* obj)
 				{
 					_vy = -1.5;
 					_State = jumping;
+
+					//tan long
+					//add exp
+					exp += EXP_FOR_OBJECT;
 
 					//sound
 					SoundManager::GetInst()->PlayEffSound(SOUND_E_TOUCH_TIRTLE);

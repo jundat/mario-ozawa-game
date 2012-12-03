@@ -13,7 +13,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	MarioGame game(hInstance,
 		"Mario",
 		GL_RESOLUTION_800_600_24,
-		1,
+		0,
 		60);
 	game.Init();
 	game.Run();

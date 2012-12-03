@@ -27,18 +27,17 @@ void MenuSence::_Load()
 void MenuSence::_OnKeyDown(int keyCode){
 	switch(keyCode){
 		case DIK_RETURN:
-			if(_curSelect == 0){
+			if(_curSelect == 0){ //play
 				//stop sound
-				//SoundManager::GetInst()->StopBgSound(SOUND_B_MENU);
-				//SoundManager::GetInst()->PlayEffSound(SOUND_E_PIPE);
-				
+				SoundManager::GetInst()->StopBgSound(SOUND_B_MENU);
+				SoundManager::GetInst()->PlayEffSound(SOUND_E_PIPE);
 				//goto game
-				//PlaySence* pl = new PlaySence(_game, 0);
-				SelectWorldSence* pl = new SelectWorldSence(_game, 0);
+				PlaySence* pl = new PlaySence(_game, 0);
+				//SelectWorldSence* pl = new SelectWorldSence(_game, 0);
 				//ZoomSence* zs = new ZoomSence(_game, 500, this, pl);
 				_game->AddSence(pl);
 
-			}else if(_curSelect == 1){
+			}else if(_curSelect == 1){ //option
 				//do not stop sound
 				SoundManager::GetInst()->PlayEffSound(SOUND_E_SLIDE);
 
@@ -47,9 +46,9 @@ void MenuSence::_OnKeyDown(int keyCode){
 				_game->AddSence(ot);
 				_state = TransOff;
 
-			}else if(_curSelect == 2){
+			}else if(_curSelect == 2){ //exit
 				SoundManager::GetInst()->PlayEffSound(SOUND_E_DEATH);
-				ZoomSence* zs = new ZoomSence(_game, 1000, this, NULL);
+				ZoomSence* zs = new ZoomSence(_game, 1500, this, NULL);
 				_game->AddSence(zs);
 			}
 

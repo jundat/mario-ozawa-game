@@ -40,7 +40,6 @@ brickItem::brickItem(float x, float y,EBrickItemKind kindOfItem) : MyObject(x, y
 	}
 }
 
-
 brickItem::~brickItem(void)
 {
 	delete _curSprite;
@@ -254,7 +253,6 @@ void brickItem::CheckCollision(MyObject* obj)
 		}
 	}
 }
-
 
 CRECT brickItem::GetResizeItemRect()
 {
