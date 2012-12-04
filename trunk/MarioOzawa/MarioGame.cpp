@@ -25,7 +25,7 @@ void MarioGame::LoadResources()
 {
 	SoundManager::GetInst();
 
-	IntroSence* mn = new IntroSence(this, 2000);
+	IntroSence* mn = new IntroSence(this, 4000);
 	this->AddSence(mn);
 }
 

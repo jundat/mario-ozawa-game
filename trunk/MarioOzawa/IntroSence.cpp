@@ -5,6 +5,7 @@
 IntroSence::IntroSence(Game* game, int timeAni)
 	:GameSence(game, timeAni)
 {
+	_timeAni = 1000;
 	_startTime = GetTickCount();
 	_stopUpdate = false;
 }
@@ -34,7 +35,7 @@ void IntroSence::_UpdateRender(int t)
 {
 	//update
 	//begin to load out
-	if(GetTickCount() - _startTime >= ALL_TIME_INTRO)
+	if(GetTickCount() - _startTime >= START_TIME_INTRO)
 	{
 		_state = TransOff;
 	}

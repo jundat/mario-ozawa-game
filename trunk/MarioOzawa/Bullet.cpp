@@ -108,15 +108,6 @@ CRECT bullet::GetRect()
 
 void bullet::CheckTitleCollision(float &_vx,float &_vy,float _nextX,float _nextY,float _maxWidth,float _maxHeight,int _width,int _height)
 {
-
-	/*
-	if((_State == beforedead2) || (_State == beforedead) || (_State == dead))
-	{
-		_x = _nextX;
-		_y = _nextY;
-		return;
-	}
-	*/
 	if (_vy >= 0)
 	{
 		// DOWN

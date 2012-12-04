@@ -432,7 +432,8 @@ void Mario::Fire()
 {
 	if(GL_CurForm != 2)
 		return;
-	if((_State == stand) || (_State == jumping))
+
+	if((_State == stand) || (_State == jumping) || (_State == Move))
 	{
 		bullet* sf;
 		if(_turnLeft == true)

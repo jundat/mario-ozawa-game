@@ -48,7 +48,6 @@ brickBreak::brickBreak(float x, float y)	: MyObject(x, y)
 	_vx = _vy = 0;
 }
 
-
 brickBreak::~brickBreak(void)
 {
 	delete _curSprite;
@@ -137,6 +136,7 @@ void brickBreak::CheckCollision(MyObject* obj)
 		{
 		case Bottom:
 			//large and fire
+			//break brick
 			if(GL_CurForm != 0)
 			{
 				if(_State == stand)
@@ -145,11 +145,12 @@ void brickBreak::CheckCollision(MyObject* obj)
 					SoundManager::GetInst()->PlayEffSound(SOUND_E_BROKEN);
 				}
 			}//small
-			else
-			{
+			//just lift it up
+			//else
+			//{
 				//tan long new
 				_vy = -0.5f;
-			}
+			//}
 			
 			break;
 		case Top:
