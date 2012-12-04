@@ -103,13 +103,13 @@ void SelectWorldSence::_OnKeyDown(int keyCode){
 			int col = (int)(_mario->_x / TILE);
 			int row = (int)(_mario->_y / TILE);
 
+			if(_mario->_State == stand || _mario->_State == Move)
 			if((col == 9 || col == 10 || col == 13 || col == 14 || col == 17|| col == 18 )&&
 				(row == 3 || row == 4 || row == 5))
 			{
 				_effectMoveDown = new MarioMoveDown(_mario->_turnLeft, _mario->_curSprite, _mario->_x, _mario->_y);
 				//e_boss_hurt
-				SoundManager::GetInst()->PlayEffSound(SOUND_E_BOSS_HURT);
-
+				SoundManager::GetInst()->PlayEffSound(SOUND_E_BOSS_BEFORE_DIE);//e_boss_before_die
 			}
 		}
 		break;

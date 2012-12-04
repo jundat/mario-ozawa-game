@@ -252,7 +252,6 @@ void PlaySence::_UpdateRender(int time)
 	D3DXMATRIX matDefaut;
 	D3DXMatrixTransformation2D(&matDefaut, NULL, 0.0f, NULL, NULL, 0.0f, NULL); 
 	GLSpriteHandler->SetTransform(&matDefaut);
-#pragma endregion
 	
 	//draw life and gold  and info
 	char text[100];
@@ -278,8 +277,9 @@ void PlaySence::_UpdateRender(int time)
 	//time
 	sprintf(text, "time x %d", _timeForLevel / 500);
 	Writer::RenderFont2(text, 600-20, 5, 0.75f);
-
+	
 	GLSpriteHandler->End();
+#pragma endregion
 
 	if(_mario->_x >= GL_MapW - MARIO_DELTA_X_COMPLETE_MAP)
 	{
