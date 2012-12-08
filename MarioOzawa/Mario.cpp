@@ -23,7 +23,6 @@ Mario::Mario(float x, float y)	: MyObject(x, y)
 	_starty = _y = y;
 	_vx = 0;
 	_vy = 0;
-	_TimeTransform = 0;
 	_ID = EObject::MARIO;
 
 	life = 3;
@@ -54,8 +53,22 @@ void Mario::Update(int time)
 		sf->Update(time);
 	}
 
+	//change sprite
+	if(GL_CurForm == 0) // smaller
+	{
+		_curSprite = _sprMarioSmaller;
+	}
+	else if(GL_CurForm == 1) // larger
+	{
+		_curSprite = _sprMarioLarger;
+	}
+	else					// fire
+	{
+		_curSprite = _sprMarioFire;
+	}
 
-	//check if transfoming
+
+	//effect transfoming
 	Transform();
 
 	static int timeReborn = TIME_REBORN + 1;
@@ -112,22 +125,9 @@ void Mario::Update(int time)
 		}
 	}
 
-	//change sprite
-	if(GL_CurForm == 0) // smaller
-	{
-		_curSprite = _sprMarioSmaller;
-	}
-	else if(GL_CurForm == 1) // larger
-	{
-		_curSprite = _sprMarioLarger;
-	}
-	else					// fire
-	{
-		_curSprite = _sprMarioFire;
-	}
 
 	//new tan long
-	if(abs(_vy) >= 0.5f && _State != reborn && _State != beforedead && _State != beforedead2 && _State != dead)
+	if(abs(_vy) >= 0.5f && _State != reborn && _State != beforedead && _State != beforedead2 && _State != dead && _State != transform)
 	{
 		_State = jumping;
 	}
@@ -294,10 +294,13 @@ void Mario::Transform()
 	if(_State == beforedead)
 		return;
 
+	static int countToTransform = 0;
+
 	if(_State == transform)
 	{
-		_TimeTransform++;
-		if(_TimeTransform % 5 == 0)
+		countToTransform++;
+
+		if(countToTransform % 4 == 0)
 		{
 			if(GL_NextForm == 0)
 			{
@@ -312,8 +315,8 @@ void Mario::Transform()
 				int _tempIndex = _curSprite->_index;
 				_curSprite = _sprMarioLarger;
 				_curSprite->SelectIndex(_tempIndex);
-				if(GL_CurForm == 0)
-					_y -= 50;
+				//if(GL_CurForm == 0)
+				//	_y -= 50;
 			}
 
 			if(GL_NextForm == 2)
@@ -325,7 +328,7 @@ void Mario::Transform()
 		}
 		else
 		{
-			if(_TimeTransform % 5 == 2)
+			if(countToTransform % 4 == 2)
 			{
 				if(GL_CurForm == 0)
 				{
@@ -333,9 +336,10 @@ void Mario::Transform()
 					_curSprite = _sprMarioSmaller;
 					_curSprite->SelectIndex(_tempIndex);
 					//_y += 50;
-					if(GL_NextForm == 1)
-						_y +=50;
+					//if(GL_NextForm == 1)
+					//	_y +=50;
 				}
+
 				if(GL_CurForm == 1)
 				{
 					int _tempIndex = _curSprite->_index;
@@ -343,6 +347,7 @@ void Mario::Transform()
 					_curSprite->SelectIndex(_tempIndex);
 					//_y -= 50;
 				}
+
 				if(GL_CurForm == 2)
 				{
 					int _tempIndex = _curSprite->_index;
@@ -352,13 +357,16 @@ void Mario::Transform()
 			}
 		}
 
-		if(_TimeTransform == 30)
+		if(countToTransform >= 20)
 		{
-			_TimeTransform = 0;
+			countToTransform = 0;
+			
 			GL_CurForm = GL_NextForm;
+
 			if(_vy == 0)
 				_State = stand;
-			else _State = jumping;
+			else 
+				_State = jumping;
 		}
 	}
 }
@@ -368,11 +376,9 @@ void Mario::TransformMario(int curForm, int nextForm)
 	_State = transform;
 	GL_CurForm = curForm;
 	GL_NextForm = nextForm;
-
-	//Jump();
-
-	//if((GL_CurForm == 0) && (GL_NextForm == 1))
-	_vy -= 0.5f;
+	
+	//if(GL_CurForm == 0)
+	_y -= 50.0f;
 
 	//SOUND
 	SoundManager::GetInst()->PlayEffSound(SOUND_E_GROW);

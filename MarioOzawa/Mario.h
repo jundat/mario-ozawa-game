@@ -30,7 +30,6 @@ class Mario : public MyObject
 {
 protected:
 	
-	int _TimeTransform;
 	int _time;
 
 	int _startx; //the start position when mario init
@@ -68,8 +67,8 @@ public:
 	//fire bullets
 	void Fire();
 
-	//check transform transform
-	void TransformMario(int x,int y);
+	//call 1 time to transform
+	void TransformMario(int curForm,int nextForm);
 
 	//effect transform mario from: small->big->fire
 	void Transform();
