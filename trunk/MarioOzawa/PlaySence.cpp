@@ -168,12 +168,20 @@ void PlaySence::_ProcessInput()
 {
 	if (_game->IsKeyDown(DIK_RIGHT))
 	{
-		_mario->TurnRight();
+		//if(_mario->_State != jumping)
+		{
+			_mario->TurnRight();
+		}
 	}	
 	else if (_game->IsKeyDown(DIK_LEFT))
 	{
 		if(! (_mario->_x >= GL_MapW - MARIO_DELTA_X_COMPLETE_MAP))
-			_mario->TurnLeft();
+		{
+			//if(_mario->_State != jumping)
+			{
+				_mario->TurnLeft();
+			}
+		}
 	}
 	else if(_game->IsKeyDown(DIK_DOWN))
 	{ 

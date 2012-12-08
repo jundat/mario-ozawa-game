@@ -44,6 +44,7 @@ Mario::~Mario(void)
 
 void Mario::Update(int time)
 {
+	//bullets
 	int size = _listBullet.size();
 	bullet* sf;
 
@@ -53,13 +54,31 @@ void Mario::Update(int time)
 		sf->Update(time);
 	}
 
+
+	//check if transfoming
 	Transform();
 
+	static int timeReborn = 0;
+
 	_time = time;
+
+	timeReborn += time;
+	if(timeReborn < TIME_REBORN)
+	{
+		_State = reborn;
+	}else
+	{
+		timeReborn = TIME_REBORN + 1;
+	}
+
 	float _NextX = _x + _vx ;
 	float _NextY = _y + _vy * _time;
 
 	_vy += GRAVITY * time;
+
+	//if mario move so fast, collision is not true
+	if(_vy > MAX_MARIO_VY)
+		_vy = MAX_MARIO_VY;
 	CheckTitleCollision(_vx, _vy, _NextX,_NextY, GL_Width, GL_Height, _curSprite->_texture->Width,_curSprite->_texture->Height);
 
 	//beforedead -> dead
@@ -75,14 +94,17 @@ void Mario::Update(int time)
 			//reborn
 			if(this->life > 0)
 			{
+				timeReborn = 0;
 				this->life--;
 				this->_State = stand;
 
 				this->_vx = 0;
-				this->_vy = 0;
+				this->_vy = -2.0f;
 
 				this->_y = _starty; //MapLoader::_mariox * TILE;
 				this->_x = _startx; //MapLoader::_mariox * TILE;
+
+				this->Jump();
 			}
 		}
 
@@ -110,6 +132,12 @@ void Mario::Update(int time)
 		_curSprite = _sprMarioFire;
 	}
 
+	//new tan long
+	if(abs(_vy) >= 0.5f)
+	{
+		_State = jumping;
+	}
+
 	if(_vx != 0)
 	{
 		_curSprite->Update(time);
@@ -130,7 +158,7 @@ void Mario::Update(int time)
 	}
 
 	//save last position
-	if(_State == State::stand || _State == State::Move)
+	if(_State == State::stand || _State == State::Move || _State == State::alive)
 	{
 		if(abs(_x - _startx) >= DISTANCE_WITH_LAST_POSITION_X)
 		{
@@ -143,9 +171,9 @@ void Mario::Update(int time)
 void Mario::Render()
 {
 	if(_turnLeft == false)
-		_curSprite->Render((int)_x, (int)_y);
+		_curSprite->Render((int)_x, (int)_y + 1);
 	else 
-		_curSprite->RenderScaleX((int)_x, (int)_y);
+		_curSprite->RenderScaleX((int)_x, (int)_y + 1);
 
 	int size = _listBullet.size();
 	bullet* sf;
@@ -161,6 +189,7 @@ void Mario::TurnRight()
 {
 	if(_State == beforedead)
 		return;
+
 	// if press Right, Update _vx
 	_vx += FRICTION_X * _time;
 	if(_vx >= MAX_MARIO_VX)
@@ -178,6 +207,7 @@ void Mario::TurnLeft()
 {
 	if(_State == beforedead)
 		return;
+
 	// if press Left, Update _vx
 	_vx -= FRICTION_X * _time;
 	if(_vx <= - MAX_MARIO_VX)
@@ -330,6 +360,7 @@ void Mario::TransformMario(int x, int y)
 
 void Mario::CheckCollision(MyObject* obj)
 {	
+	//check collision bullet with object
 	int size = _listBullet.size();
 	bullet* sf;
 
@@ -339,23 +370,24 @@ void Mario::CheckCollision(MyObject* obj)
 		sf->CheckCollision(obj);
 	}
 
+	//check collision mario
 	if(_State == beforedead || _State == dead || _State == beforedead2)
 		return;
 	
 	if((obj->_ID == EObject::BRICKITEM) || (obj->_ID == EObject::BRICKQUESTION) || (obj->_ID == EObject::BRICKBREAK) )
 	{
-		//if(_State == transform)
-		//	return;
+		if(_State == transform)
+			return;
 
 		//debug
-		//if(obj->_State == dead)
-		//	return;
+		if(obj->_State == dead)
+			return;
 
 		switch(this->GetCollisionDirection(this->GetRect(), obj->GetRect()))
 		{
 		case Top:
-			_vy = 0;
-			_y = obj->_y + TILE + 1 ;
+			_vy = GRAVITY * _time;
+			_y = obj->_y + TILE;
 
 			//add exp
 			exp += EXP_FOR_BRICK;
@@ -363,7 +395,7 @@ void Mario::CheckCollision(MyObject* obj)
 			//gold
 			if(obj->_ID == BRICKQUESTION)
 			{
-				((Mario*)obj)->gold++;
+				this->gold++;
 			}
 			break;
 
@@ -376,7 +408,7 @@ void Mario::CheckCollision(MyObject* obj)
 
 		case Left:
 			//_vx = 0;
-			_x = obj->_x + TILE ;
+			_x = obj->_x + TILE;
 			break;
 
 		case Right:
@@ -422,10 +454,10 @@ void Mario::CheckCollision(MyObject* obj)
 CRECT Mario::GetRect()
 {
 	return CRECT(
-		_x + DELTA_RECT_X, 
-		_y + DELTA_RECT_Y, 
-		_x + _curSprite->_texture->Width - 2 * DELTA_RECT_X, 
-		_y + _curSprite->_texture->Height - 2 * DELTA_RECT_Y);
+		_x, //+ DELTA_RECT_X, 
+		_y, //+ DELTA_RECT_Y, 
+		_x + _curSprite->_texture->Width,// - 2 * DELTA_RECT_X, 
+		_y + _curSprite->_texture->Height);// - 2 * DELTA_RECT_Y);
 }
 
 void Mario::Fire()
