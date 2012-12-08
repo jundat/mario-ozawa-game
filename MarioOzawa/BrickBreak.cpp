@@ -3,6 +3,7 @@
 #include "ResourceManager.h"
 #include "Global.h"
 #include "SoundManager.h"
+#include "TileMap.h"
 
 brickBreak::brickBreak(float x, float y)	: MyObject(x, y)
 {
@@ -142,6 +143,7 @@ void brickBreak::CheckCollision(MyObject* obj)
 				if(_State == stand)
 				{
 					_State = breaking;
+					TileMap::RemoveTileAt(_x + 5, _y + 5);
 					SoundManager::GetInst()->PlayEffSound(SOUND_E_BROKEN);
 				}
 			}//small
@@ -149,7 +151,7 @@ void brickBreak::CheckCollision(MyObject* obj)
 			//else
 			//{
 				//tan long new
-				_vy = -0.5f;
+			_vy = -0.5f;
 			//}
 			
 			break;

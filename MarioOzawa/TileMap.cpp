@@ -28,6 +28,6 @@ void TileMap::RemoveTileAt(int posxPixel, int posyPixel)
 	int column = posxPixel / TILE;
 	int row = posyPixel / TILE;
 
-	if(column >= 0 && column < _mapH && row >= 0 && row < _mapW)
-		_board[column][row] = 0;
+	if(column >= 0 && column < _mapW && row >= 0 && row < _mapH)
+		_board[row][column] = 0;
 }
