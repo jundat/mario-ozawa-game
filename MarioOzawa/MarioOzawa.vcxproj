@@ -130,6 +130,7 @@
     <ClCompile Include="GameSence.cpp" />
     <ClCompile Include="Global.cpp" />
     <ClCompile Include="IntroSence.cpp" />
+    <ClCompile Include="LoseGameSence.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapLoader.cpp" />
     <ClCompile Include="Mario.cpp" />
@@ -172,6 +173,7 @@
     <ClInclude Include="Global.h" />
     <ClInclude Include="IntroSence.h" />
     <ClInclude Include="ISence.h" />
+    <ClInclude Include="LoseGameSence.h" />
     <ClInclude Include="MapLoader.h" />
     <ClInclude Include="Mario.h" />
     <ClInclude Include="MarioGame.h" />

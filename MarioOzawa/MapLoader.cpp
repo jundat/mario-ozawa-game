@@ -25,6 +25,7 @@ int MapLoader::_mapH = 0;
  int MapLoader::_curForm = -1;
  int MapLoader::_nextForm = -1;
  int MapLoader::_marioState = -1; //state of mario
+ int MapLoader::_timeInGame = -1;
 
  int MapLoader::_mariox = 2; //vị trí của mario TILE
  int MapLoader::_marioy = 2;
@@ -73,6 +74,9 @@ void MapLoader::LoadSavedGameFormFile(LPCTSTR _filesavegame)
 
 		//state
 		fin>> _marioState;
+
+		//time in game
+		fin>> _timeInGame;
 
 		//read mario x, y
 		fin>> _mariox;
@@ -281,7 +285,7 @@ HRESULT MapLoader::LoadMapFormFile (int mapNumber, bool isLoadMario, bool isLoad
 	return S_OK;
 }
 
-void MapLoader::TranslateMap (QuadTree* quadtree, BackgroundManager* background, Mario* mario)
+void MapLoader::TranslateMap (QuadTree* quadtree, BackgroundManager* background, Mario* mario, int &timeInGame)
 {
 	//
 	background->_mapW = _mapW;
@@ -308,7 +312,11 @@ void MapLoader::TranslateMap (QuadTree* quadtree, BackgroundManager* background,
 			TileMap::GetInst()->_board[i][j] = 0;
 		}
 	}
-	
+
+	//time in game
+	if(_timeInGame > -1)
+		timeInGame = _timeInGame;
+
 	//mario
 	mario->_x = _mariox * TILE;
 	mario->_y = _marioy * TILE;
@@ -415,7 +423,7 @@ void MapLoader::TranslateMap (QuadTree* quadtree, BackgroundManager* background,
 	}
 }
 
-void MapLoader::SaveGameToFile(QuadTree* quadtree, Mario* mario, LPCTSTR fileToSave)
+void MapLoader::SaveGameToFile(QuadTree* quadtree, Mario* mario, int timeInGame, LPCTSTR fileToSave)
 {
 	ofstream fout(fileToSave, ios_base::trunc);
 
@@ -441,6 +449,9 @@ void MapLoader::SaveGameToFile(QuadTree* quadtree, Mario* mario, LPCTSTR fileToS
 
 		//state
 		fout<< (int)mario->_State << endl;
+
+		//time in game
+		fout<< timeInGame << endl;
 
 		//mario.x
 		fout<< (int)(mario->_x / TILE) << endl;
@@ -524,5 +535,36 @@ void MapLoader::SaveGameToFile(QuadTree* quadtree, Mario* mario, LPCTSTR fileToS
 
 		fout.close();
 	}	
+}
+
+void MapLoader::DeleteSavedGame(LPCTSTR fileSavedGame)
+{
+	//delete savedgame file
+	if( remove( "saved/savedgame.txt" ) != 0 )
+	{
+		//GLMessage("PlaySence.cpp->line:312: Can not delete savedgame.txt!");
+	}
+	else
+	{
+		//GLMessage("PlaySence.cpp->line:312: Delete savedgame.txt! successfull");
+	}
+
+	//reset all static value
+	MapLoader::_mapW = 0;
+	MapLoader::_mapH = 0;
+	MapLoader::_mapNumber = 0; //số thứ tự của map
+	MapLoader::_gold = -1;
+	MapLoader::_life = -1;
+	MapLoader::_exp = -1;
+	MapLoader::_curForm = -1;
+	MapLoader::_nextForm = -1;
+	MapLoader::_marioState = -1; //state of mario
+	MapLoader::_timeInGame = -1;
+
+	MapLoader::_mariox = 2; //vị trí của mario TILE
+	MapLoader::_marioy = 2;
+
+	MapLoader::_board = NULL;
+	MapLoader::_mapTexture = NULL;
 }
 

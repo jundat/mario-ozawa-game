@@ -69,8 +69,12 @@ void MenuSence::_OnKeyDown(int keyCode){
 			break;
 
 		case DIK_DELETE:
-			DeleteFile("\saved\savedgame.txt");
-			remove("\saved\savedgame.txt");
+			{
+				if( remove( "saved/savedgame.txt" ) != 0 )
+					GLMessage("PlaySence.cpp->line:312: Can not delete savedgame.txt!");
+				else
+					GLMessage("PlaySence.cpp->line:312: Delete savedgame.txt! successfull");
+			}			
 			break;
 	}
 }
