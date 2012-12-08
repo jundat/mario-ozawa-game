@@ -180,6 +180,7 @@ void fungi::CheckCollision(MyObject* obj)
 	{
 		if((obj->_State == transform) || (obj->_State == dead) || (obj->_State == beforedead))
 			return;
+
 		switch(this->GetCollisionDirection(this->GetReSizeRect(), obj->GetRect()))
 		{
 		case Top:
@@ -190,8 +191,9 @@ void fungi::CheckCollision(MyObject* obj)
 	
 	if(obj->_ID == EObject::MARIO)
 	{
-		if((obj->_State == transform) || (obj->_State == dead) || (obj->_State == beforedead))
+		if((obj->_State == transform) || (obj->_State == dead) || (obj->_State == beforedead || (obj->_State == reborn)))
 			return;
+
 		switch(this->GetCollisionDirection(this->GetRect(), obj->GetRect()))
 		{
 		case Left:
@@ -200,7 +202,7 @@ void fungi::CheckCollision(MyObject* obj)
 				GL_NextForm = GL_CurForm - 1;
 			if(GL_CurForm == 0)
 			{
-				obj->_vy = -2.0;
+				obj->_vy = -2.0f;
 				obj->_State = beforedead;
 				return;
 			}
@@ -213,7 +215,7 @@ void fungi::CheckCollision(MyObject* obj)
 				GL_NextForm = GL_CurForm - 1;
 			if(GL_CurForm == 0)
 			{
-				obj->_vy = -2.0;
+				obj->_vy = -2.0f;
 				obj->_State = beforedead;
 				return;
 			}
@@ -226,7 +228,7 @@ void fungi::CheckCollision(MyObject* obj)
 				GL_NextForm = GL_CurForm - 1;
 			if(GL_CurForm == 0)
 			{
-				obj->_vy = -2.0;
+				obj->_vy = -2.0f;
 				obj->_State = beforedead;
 				return;
 			}

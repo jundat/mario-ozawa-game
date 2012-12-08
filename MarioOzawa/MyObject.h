@@ -4,6 +4,7 @@
 
 // tieu nun
 enum State{
+	reborn,
 	stand,
 	Move,
 	alive,
