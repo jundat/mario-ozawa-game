@@ -8,6 +8,10 @@
 #include "TileMap.h"
 #include "Mario.h"
 
+#ifndef TIME_FOR_LEVEL
+	#define TIME_FOR_LEVEL 150000
+#endif
+
 //load map from a bitmap
 //+ save it to an array
 //+ translate it to obj (add to quadtree, backgroundManader), or tile map(to check collision)
@@ -25,6 +29,7 @@ public:
 	static int _curForm;
 	static int _nextForm;
 	static int _marioState; //state of mario
+	static int _timeInGame;
 
 	static int _mariox; //vị trí của mario
 	static int _marioy;
@@ -43,9 +48,12 @@ public:
 	static HRESULT LoadMapFormFile (int mapNumber, bool isLoadMario, bool isLoadBackground, bool isLoadObjects, bool isLoadTileMap);
 
 	//translate from _board to object, or save to BackgroundManager and TileMap
-	static void TranslateMap (QuadTree* quadtree, BackgroundManager* background, Mario* mario);
+	static void TranslateMap (QuadTree* quadtree, BackgroundManager* background, Mario* mario, int &timeInGame);
 
 	//save game to file
-	static void SaveGameToFile(QuadTree* quadtree, Mario* mario, LPCTSTR fileToSave);
+	static void SaveGameToFile(QuadTree* quadtree, Mario* mario, int timeInGame, LPCTSTR fileToSave);
+
+	//delete all saved game file and reset static value in MapLoader
+	static void DeleteSavedGame(LPCTSTR fileSavedGame);
 };
 

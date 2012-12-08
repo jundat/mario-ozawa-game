@@ -4,7 +4,7 @@
 #include "MapLoader.h"
 #include "Writer.h"
 #include "SoundManager.h"
-
+#include "LoseGameSence.h"
 
 PlaySence::PlaySence(Game* game, int timeAni)
 	: GameSence(game, timeAni)
@@ -64,7 +64,7 @@ void PlaySence::_Load()
 	CRECT mapRECT = CRECT(0, 0, GL_MapW, GL_MapH);
 	_QuadTree = new QuadTree(mapRECT);
 
-	MapLoader::TranslateMap(_QuadTree, _BackgroundMng, _mario);
+	MapLoader::TranslateMap(_QuadTree, _BackgroundMng, _mario, _timeForLevel);
 	_BackgroundMng->Translate();
 	_Camera = new Camera(CRECT(GL_WndSize));
 
@@ -84,8 +84,15 @@ void PlaySence::_OnKeyDown(int keyCode)
 			if(! (_mario->_x >= GL_MapW - MARIO_DELTA_X_COMPLETE_MAP))
 			if(! _isExitting)
 			{
-				//save game before exit
-				MapLoader::SaveGameToFile(_QuadTree, _mario, GL_FILE_SAVE_GAME);
+				//save game
+				if(_mario->life >= 0 && _mario->_State != dead) // save game
+				{
+					MapLoader::SaveGameToFile(_QuadTree, _mario, _timeForLevel, GL_FILE_SAVE_GAME);
+				}
+				else // delete file save
+				{
+					MapLoader::DeleteSavedGame(GL_FILE_SAVE_GAME);
+				}
 
 				_isExitting = true;
 
@@ -244,15 +251,23 @@ void PlaySence::_UpdateRender(int time)
 	if(_mario->life <= 0 && _mario->_State == dead && 
 		!_isExitting)
 	{
+		MapLoader::DeleteSavedGame(GL_FILE_SAVE_GAME);
+
 		_isExitting = true;
 
-		//got to menu
-		MenuSence* mn = new MenuSence(_game, 0);
-		ZoomSence* zs = new ZoomSence(_game, 500, this, mn);
-		_game->AddSence(zs);
-
 		SoundManager::GetInst()->StopBgSound(SOUND_B_GAME1);
-		SoundManager::GetInst()->PlayBgSound(SOUND_B_MENU, true, true);
+
+		LoseGameSence* screen = new LoseGameSence(_game, 1000);
+
+		_game->AddSence(screen);
+
+		////got to menu
+		//MenuSence* mn = new MenuSence(_game, 0);
+		//ZoomSence* zs = new ZoomSence(_game, 500, this, mn);
+		//_game->AddSence(zs);
+
+		//SoundManager::GetInst()->StopBgSound(SOUND_B_GAME1);
+		//SoundManager::GetInst()->PlayBgSound(SOUND_B_MENU, true, true);
 	}
 
 	//------------------------------------------------------------------------
@@ -302,7 +317,7 @@ void PlaySence::_UpdateRender(int time)
 		_mario->_vx = 0;
 
 		//save game
-		MapLoader::SaveGameToFile(_QuadTree, _mario, GL_FILE_SAVE_GAME);
+		MapLoader::SaveGameToFile(_QuadTree, _mario, _timeForLevel, GL_FILE_SAVE_GAME);
 
 		LoadNewMap();
 
@@ -345,7 +360,7 @@ void PlaySence::LoadNewMap(void)
 	_BackgroundMng = new BackgroundManager();
 	_Camera = new Camera(CRECT(GL_WndSize));
 
-	MapLoader::TranslateMap(_QuadTree, _BackgroundMng, _mario);
+	MapLoader::TranslateMap(_QuadTree, _BackgroundMng, _mario, _timeForLevel);
 	_BackgroundMng->Translate();
 }
 

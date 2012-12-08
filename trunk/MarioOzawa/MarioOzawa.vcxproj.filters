@@ -234,6 +234,9 @@
     <ClCompile Include="ChangeMapSence.cpp">
       <Filter>sence</Filter>
     </ClCompile>
+    <ClCompile Include="LoseGameSence.cpp">
+      <Filter>sence</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BrickBreak.h">
@@ -364,6 +367,9 @@
     </ClInclude>
     <ClInclude Include="resource.h" />
     <ClInclude Include="ChangeMapSence.h">
+      <Filter>sence</Filter>
+    </ClInclude>
+    <ClInclude Include="LoseGameSence.h">
       <Filter>sence</Filter>
     </ClInclude>
   </ItemGroup>

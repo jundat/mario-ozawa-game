@@ -62,12 +62,12 @@ void SelectWorldSence::_Load()
 	_MapLoader = new MapLoader();
 	_MapLoader->LoadMapFormFile(0, true, true, true, true);
 	
-
 	CRECT mapRECT = CRECT(0, 0, GL_MapW, GL_MapH);
 
 	_QuadTree = new QuadTree(mapRECT);
 	_BackgroundMng = new BackgroundManager();
-	_MapLoader->TranslateMap(_QuadTree, _BackgroundMng, _mario);
+	int tempNoNeed = 0;
+	_MapLoader->TranslateMap(_QuadTree, _BackgroundMng, _mario, tempNoNeed);
 	_BackgroundMng->Translate();
 	_Camera = new Camera(CRECT(GL_WndSize));
 
