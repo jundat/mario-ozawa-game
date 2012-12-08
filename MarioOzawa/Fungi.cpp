@@ -178,7 +178,7 @@ void fungi::CheckCollision(MyObject* obj)
 	*/
 	if(obj->_ID == EObject::MARIO)
 	{
-		if((obj->_State == transform) || (obj->_State == dead) || (obj->_State == beforedead))
+		if((obj->_State == transform) || (obj->_State == dead) || (obj->_State == beforedead || (obj->_State == reborn)))
 			return;
 
 		switch(this->GetCollisionDirection(this->GetReSizeRect(), obj->GetRect()))

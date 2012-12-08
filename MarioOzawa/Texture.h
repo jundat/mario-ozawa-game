@@ -87,8 +87,8 @@ public:
 			Texture,
 			&Size,
 			NULL,
-			&position, 
-			0xFFFFFFFF //color
+			&position,
+			D3DCOLOR_ARGB(255, 255, 255, 255)
 			);
 	}
 };
