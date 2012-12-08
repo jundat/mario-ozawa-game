@@ -254,7 +254,7 @@ HRESULT MapLoader::LoadMapFormFile (int mapNumber, bool isLoadMario, bool isLoad
 
 			//TILE MAP && BACKGROUND
 			//BrickItem
-			if(blue == 153 || blue == 155 || blue == 156 || blue == 157)
+			if(blue == 151 || blue == 153 || blue == 155 || blue == 156 || blue == 157)
 			{
 				if(isLoadTileMap)
 				{
@@ -379,6 +379,8 @@ void MapLoader::TranslateMap (QuadTree* quadtree, BackgroundManager* background,
 				switch(blue)
 				{
 				case 151: //brick break
+					//also in tile map
+					TileMap::GetInst()->_board[i][j] = 1;
 					quadtree->Insert(new brickBreak(j * TILE, i * TILE));
 					break;
 
@@ -567,4 +569,3 @@ void MapLoader::DeleteSavedGame(LPCTSTR fileSavedGame)
 	MapLoader::_board = NULL;
 	MapLoader::_mapTexture = NULL;
 }
-
