@@ -9,7 +9,7 @@
 #include <vector>
 #define MARIO_VX	0.0001f
 #define MARIO_VY	2.2f
-#define MAX_MARIO_VX 10.0f
+#define MAX_MARIO_VX 8.0f
 #define MAX_MARIO_VY 2.0f
 #define GRAVITY		0.01f
 #define FRICTION_X		0.00001f
@@ -22,7 +22,7 @@
 
 #define EXP_FOR_BRICK 5 //point for exp
 #define EXP_FOR_OBJECT 10
-#define TIME_REBORN 1500
+#define TIME_REBORN 1000
 
 using namespace std;
 #pragma once

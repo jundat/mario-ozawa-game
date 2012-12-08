@@ -10,6 +10,8 @@ Sprite::Sprite(TEXTURE* texture, int start, int end, int timeAnimation)
 	_timeAni = timeAnimation;
 	_index = start;
 	_timeLocal = 0;
+
+	_color = D3DCOLOR_ARGB(255, 255, 255, 255);
 }
 
 Sprite::Sprite(TEXTURE* texture, int timeAnimation)
@@ -20,6 +22,8 @@ Sprite::Sprite(TEXTURE* texture, int timeAnimation)
 	_timeAni = timeAnimation;
 	_index = 0;
 	_timeLocal = 0;
+
+	_color = D3DCOLOR_ARGB(255, 255, 255, 255);
 }
 
 Sprite::~Sprite()
@@ -72,7 +76,7 @@ void Sprite::Render(int X, int Y, float depth)
 		&srect,
 		NULL,
 		&position,
-		0xFFFFFFFF
+		this->_color
 	);
 }
 
@@ -122,7 +126,7 @@ void Sprite::RenderRect(int x, int y, RECT Rect, float depth)
 		&Rect,
 		NULL,
 		&position,
-		0xFFFFFFFF
+		this->_color
 		);
 }
 
@@ -161,7 +165,7 @@ void Sprite::RenderTransform(int x, int y, D3DXVECTOR2 scale, float degRotate, f
 		&srect,
 		NULL,
 		&D3DXVECTOR3(x, y, depth),
-		0xFFFFFFFF
+		this->_color
 		);
 
 	GLSpriteHandler->SetTransform(&oldMt);

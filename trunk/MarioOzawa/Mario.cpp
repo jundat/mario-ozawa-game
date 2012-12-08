@@ -58,18 +58,9 @@ void Mario::Update(int time)
 	//check if transfoming
 	Transform();
 
-	static int timeReborn = 0;
+	static int timeReborn = TIME_REBORN + 1;
 
 	_time = time;
-
-	timeReborn += time;
-	if(timeReborn < TIME_REBORN)
-	{
-		_State = reborn;
-	}else
-	{
-		timeReborn = TIME_REBORN + 1;
-	}
 
 	float _NextX = _x + _vx ;
 	float _NextY = _y + _vy * _time;
@@ -95,6 +86,7 @@ void Mario::Update(int time)
 			if(this->life > 0)
 			{
 				timeReborn = 0;
+
 				this->life--;
 				this->_State = stand;
 
@@ -105,6 +97,8 @@ void Mario::Update(int time)
 				this->_x = _startx; //MapLoader::_mariox * TILE;
 
 				this->Jump();
+
+				_State = reborn;
 			}
 		}
 
@@ -133,11 +127,22 @@ void Mario::Update(int time)
 	}
 
 	//new tan long
-	if(abs(_vy) >= 0.5f)
+	if(abs(_vy) >= 0.5f && _State != reborn && _State != beforedead && _State != beforedead2 && _State != dead)
 	{
 		_State = jumping;
 	}
 
+	//reborn state
+	timeReborn += _time;
+	if(timeReborn < TIME_REBORN)
+	{
+		_State = reborn;
+	}else
+	{
+		timeReborn = TIME_REBORN + 1;
+	}
+
+	//update sprite
 	if(_vx != 0)
 	{
 		_curSprite->Update(time);
@@ -170,10 +175,20 @@ void Mario::Update(int time)
 
 void Mario::Render()
 {
+	//reborn alpha
+	if(_State == reborn)
+		_curSprite->_color = D3DCOLOR_ARGB(100, 255, 255, 255);
+	else
+		_curSprite->_color = D3DCOLOR_ARGB(255, 255, 255, 255);
+
 	if(_turnLeft == false)
+	{
 		_curSprite->Render((int)_x, (int)_y + 1);
+	}
 	else 
+	{
 		_curSprite->RenderScaleX((int)_x, (int)_y + 1);
+	}
 
 	int size = _listBullet.size();
 	bullet* sf;
@@ -291,6 +306,7 @@ void Mario::Transform()
 				_curSprite->SelectIndex(_tempIndex);
 				//_y += 50;
 			}
+
 			if(GL_NextForm == 1)
 			{
 				int _tempIndex = _curSprite->_index;
@@ -299,6 +315,7 @@ void Mario::Transform()
 				if(GL_CurForm == 0)
 					_y -= 50;
 			}
+
 			if(GL_NextForm == 2)
 			{
 				int _tempIndex = _curSprite->_index;
@@ -346,13 +363,16 @@ void Mario::Transform()
 	}
 }
 
-void Mario::TransformMario(int x, int y)
+void Mario::TransformMario(int curForm, int nextForm)
 {
 	_State = transform;
-	GL_CurForm = x;
-	GL_NextForm = y;
-	if((GL_CurForm == 0) && (GL_NextForm == 1))
-		_y -= 50;
+	GL_CurForm = curForm;
+	GL_NextForm = nextForm;
+
+	//Jump();
+
+	//if((GL_CurForm == 0) && (GL_NextForm == 1))
+	_vy -= 0.5f;
 
 	//SOUND
 	SoundManager::GetInst()->PlayEffSound(SOUND_E_GROW);
@@ -371,7 +391,7 @@ void Mario::CheckCollision(MyObject* obj)
 	}
 
 	//check collision mario
-	if(_State == beforedead || _State == dead || _State == beforedead2)
+	if(_State == beforedead || _State == dead || _State == beforedead2 || _State == reborn)
 		return;
 	
 	if((obj->_ID == EObject::BRICKITEM) || (obj->_ID == EObject::BRICKQUESTION) || (obj->_ID == EObject::BRICKBREAK) )
