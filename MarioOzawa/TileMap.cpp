@@ -1,6 +1,9 @@
 #include "TileMap.h"
 
 TileMap* TileMap::_instance = NULL;
+int** TileMap::_board = NULL;
+int TileMap::_mapW = 0;
+int TileMap::_mapH = 0;
 
 TileMap::TileMap(void)
 {
@@ -18,4 +21,13 @@ TileMap* TileMap::GetInst()
 	}
 
 	return _instance;
+}
+
+void TileMap::RemoveTileAt(int posxPixel, int posyPixel)
+{
+	int column = posxPixel / TILE;
+	int row = posyPixel / TILE;
+
+	if(column >= 0 && column < _mapH && row >= 0 && row < _mapW)
+		_board[column][row] = 0;
 }

@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "Rect.h"
+#include "Global.h"
 
 #define MIN_TILE_ID 101
 #define MAX_TILE_ID 106
@@ -11,13 +12,16 @@
 class TileMap
 {
 public:
-	int _mapW; //chiều rộng của map theo ô (1 ô 50x50px)
-	int _mapH;
+	static int _mapW; //chiều rộng của map theo ô (1 ô 50x50px)
+	static int _mapH;
 
 	//array 2 dimention type char
-	int **_board;
+	static int **_board;
 	static TileMap* _instance;
 	static TileMap* GetInst();
+
+	//delete a tile in position (int posxPixel, int posyPixel)
+	static void RemoveTileAt(int posxPixel, int posyPixel);
 
 	~TileMap(void);
 
