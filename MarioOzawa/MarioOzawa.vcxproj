@@ -77,9 +77,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="..\..\..\mario-ozawa\MarioOzawa\MarioOzawa.vcxproj" />
+    <None Include="..\..\..\mario-ozawa-game22 - Copy - Copy\MarioOzawa\MarioOzawa.vcxproj" />
     <None Include="..\..\..\mario-ozawa\MarioOzawa\MarioOzawa.vcxproj.filters" />
-    <None Include="..\..\..\mario-ozawa\MarioOzawa\MarioOzawa.vcxproj.user" />
+    <None Include="..\..\..\mario-ozawa-game22 - Copy - Copy\MarioOzawa\MarioOzawa.vcxproj.user" />
     <None Include="brick.png" />
     <None Include="Brick_Break.png" />
     <None Include="Bullet.png" />
