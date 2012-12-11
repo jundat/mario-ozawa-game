@@ -271,6 +271,8 @@ void fungi::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 			}
 			if((idobject == EObject::FUNGI) || (idobject == EObject::TURTLE))
 			{
+				if(listcollision->at(index)->_State == State::attack)
+					break;
 				if(dir == Left)
 				{
 					//_x = listcollision->at(index)->_x + TILE + 1;

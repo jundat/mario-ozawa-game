@@ -239,6 +239,8 @@ void turtle::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 					//_x = listcollision->at(index)->_x + TILE + 1;
 					else
 					{
+						if(listcollision->at(index)->_State == State::attack)
+							break;
 						_turnLeft = false;
 						listcollision->at(index)->_turnLeft = true;
 						break;
@@ -256,6 +258,8 @@ void turtle::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 					//_x = listcollision->at(index)->_x - this->_curSprite->_texture->Width - 1;
 					else
 					{
+						if(listcollision->at(index)->_State == State::attack)
+							break;
 						_turnLeft = true;
 						listcollision->at(index)->_turnLeft = false;
 						break;
