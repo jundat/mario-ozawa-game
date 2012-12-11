@@ -123,6 +123,15 @@
     <None Include="icon1.ico">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="image\Boss.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="image\FireBoss.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="image\TreeMonster.png">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -207,44 +216,47 @@
     <ClCompile Include="LoseGameSence.cpp">
       <Filter>sence</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mario-ozawa-game 9-12-2012\MarioOzawa\Brick.cpp">
-      <Filter>object</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\mario-ozawa-game 9-12-2012\MarioOzawa\BrickBreak.cpp">
-      <Filter>object</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\mario-ozawa-game 9-12-2012\MarioOzawa\BrickItem.cpp">
-      <Filter>object</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\mario-ozawa-game 9-12-2012\MarioOzawa\BrickQuestion.cpp">
-      <Filter>object</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\mario-ozawa-game 9-12-2012\MarioOzawa\Bullet.cpp">
-      <Filter>object</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\mario-ozawa-game 9-12-2012\MarioOzawa\Coin.cpp">
-      <Filter>object</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\mario-ozawa-game 9-12-2012\MarioOzawa\Fungi.cpp">
-      <Filter>object</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\mario-ozawa-game 9-12-2012\MarioOzawa\Item.cpp">
-      <Filter>object</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\mario-ozawa-game 9-12-2012\MarioOzawa\MyObject.cpp">
-      <Filter>object</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\mario-ozawa-game 9-12-2012\MarioOzawa\Turtle.cpp">
-      <Filter>object</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\mario-ozawa-game 9-12-2012\MarioOzawa\Mario.cpp">
-      <Filter>mario</Filter>
-    </ClCompile>
     <ClCompile Include="CollisionData.cpp">
       <Filter>RealTimeCollision</Filter>
     </ClCompile>
     <ClCompile Include="ListCollisionData.cpp">
       <Filter>RealTimeCollision</Filter>
+    </ClCompile>
+    <ClCompile Include="Fungi.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="Coin.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="MyObject.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="BrickQuestion.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="BrickItem.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="BrickBreak.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="Turtle.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="Brick.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="Mario.cpp">
+      <Filter>mario</Filter>
+    </ClCompile>
+    <ClCompile Include="TreeMonster.cpp">
+      <Filter>object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -348,44 +360,47 @@
     <ClInclude Include="LoseGameSence.h">
       <Filter>sence</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\mario-ozawa-game 9-12-2012\MarioOzawa\Brick.h">
-      <Filter>object</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\mario-ozawa-game 9-12-2012\MarioOzawa\BrickBreak.h">
-      <Filter>object</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\mario-ozawa-game 9-12-2012\MarioOzawa\BrickItem.h">
-      <Filter>object</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\mario-ozawa-game 9-12-2012\MarioOzawa\BrickQuestion.h">
-      <Filter>object</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\mario-ozawa-game 9-12-2012\MarioOzawa\Bullet.h">
-      <Filter>object</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\mario-ozawa-game 9-12-2012\MarioOzawa\Coin.h">
-      <Filter>object</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\mario-ozawa-game 9-12-2012\MarioOzawa\Fungi.h">
-      <Filter>object</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\mario-ozawa-game 9-12-2012\MarioOzawa\Item.h">
-      <Filter>object</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\mario-ozawa-game 9-12-2012\MarioOzawa\MyObject.h">
-      <Filter>object</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\mario-ozawa-game 9-12-2012\MarioOzawa\Turtle.h">
-      <Filter>object</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\mario-ozawa-game 9-12-2012\MarioOzawa\Mario.h">
-      <Filter>mario</Filter>
-    </ClInclude>
     <ClInclude Include="CollisionData.h">
       <Filter>RealTimeCollision</Filter>
     </ClInclude>
     <ClInclude Include="ListCollisionData.h">
       <Filter>RealTimeCollision</Filter>
+    </ClInclude>
+    <ClInclude Include="Turtle.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="MyObject.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="Fungi.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="Coin.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="BrickQuestion.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="BrickBreak.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="Brick.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="BrickItem.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="Mario.h">
+      <Filter>mario</Filter>
+    </ClInclude>
+    <ClInclude Include="TreeMonster.h">
+      <Filter>object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

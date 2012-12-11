@@ -5,21 +5,23 @@
 //#include <vector>
 using namespace std;
 // tieu nun
-enum State{
-	stand,
-	Move,
-	alive,
-	jumping,
-	beforedead,
-	beforedead2,
-	dead,
-	transform,
-	attack,
-	hasCoin,
-	noCoin,
-	hasItem,
-	breaking
-};
+// enum State{
+// 	stand,
+// 	Move,
+// 	alive,
+// 	jumping,
+// 	beforedead,
+// 	beforedead2,
+// 	dead,
+// 	transform,
+// 	attack,
+// 	hasCoin,
+// 	noCoin,
+// 	hasItem,
+// 	moveDown,
+// 	moveUp,
+// 	breaking
+// };
 /*
 // tieu nun
 enum EObject

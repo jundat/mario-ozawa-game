@@ -1,6 +1,7 @@
 #include "Item.h"
 #include "ResourceManager.h"
 #include "TileMap.h"
+#include "SoundManager.h"
 Item::Item(float x, float y, EBrickItemKind kindOfItem): MyObject(x, y)
 {
 	_curSprite = new Sprite(ResourceMng::GetInst()->GetTexture("image/brick.png"), 0);
@@ -81,9 +82,9 @@ void Item::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 	if(_State == stand)
 	{
 		_y-= 0.1*time;
-		if(_y <= (oriY - 50))
+		if(_y <= (oriY - 44))
 		{
-			_y = oriY - 50;
+			_y = oriY - 44.0f;
 			_State = Move;
 		}
 	}
@@ -102,14 +103,14 @@ void Item::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 				{
 					if(listcollision->at(k) == this)
 						continue;
-					if(listcollision->at(k)->_ID == EObject::MARIO)
+					if((listcollision->at(k)->_ID == EObject::MARIO) || (listcollision->at(k)->_ID == EObject::BRICKBREAK))
 						this->RealTimeCollision1(this->GetRect(),listcollision->at(k),k,time);
 				}
 			}
 			bool check = _listCollisionData.check();
 			if(check == true) // co va cham
 			{
-				//bool backPosition = false;
+				bool backPosition = false;
 				int a = _listCollisionData._listNewData.size();
 				for(int m = 0;m < _listCollisionData._listNewData.size();m++)
 				{
@@ -117,6 +118,20 @@ void Item::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 					int idobject = _listCollisionData._listNewData.at(m)->_ID;
 					EDirect dir = _listCollisionData._listNewData.at(m)->_dirCollision;
 					State stateObject = listcollision->at(index)->_State;
+					/*
+					//if(backPosition == false)
+					{
+						if((idobject == BRICKBREAK) && (stateObject == Move))
+						{
+							// newwwwwwwwwwwwwwww
+							_nextx -= _listCollisionData._listNewData.at(m)->_deltaX;
+							_nexty -= _listCollisionData._listNewData.at(m)->_deltaY;
+							_vy = - 10.0f;
+							_turnLeft = !_turnLeft;
+							backPosition = true;
+						}
+					}
+					*/
 					if(idobject == EObject::MARIO)
 					{
 						_State = dead;
@@ -129,7 +144,6 @@ void Item::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 						}// player transform or + heart khi nhat dc item here
 					}
 				}
-			
 			}
 			_vy += GRAVITY * time;
 			CheckTitleCollision(_vx,_vy,_nextx,_nexty,800,600,_curSprite->_texture->Width,_curSprite->_texture->Height);
@@ -295,6 +309,7 @@ void Item::CheckCollision(MyObject* obj)
 {
 	if((_State == dead) || (_State == beforedead))
 		return;
+	
 	if(obj->_ID == EObject::MARIO)
 	{
 		if(this->GetCollisionDirection(this->GetRect(), obj->GetRect()) != None)
@@ -308,6 +323,17 @@ void Item::CheckCollision(MyObject* obj)
 					obj->_y -= 50;
 				
 			}// player transform or + heart khi nhat dc item here
+		}
+	}
+	if(obj->_ID == BRICKBREAK)
+	{
+		if((this->GetCollisionDirection(this->GetRect(), obj->GetRect()) != Top) && (this->GetCollisionDirection(this->GetRect(), obj->GetRect()) != None))
+		{
+			if(obj->_State == Move)
+			{
+				
+				_y = obj->_y - _curSprite->_texture->Height;
+			}
 		}
 	}
 }

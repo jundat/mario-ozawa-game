@@ -11,7 +11,8 @@ enum EObject
 	TURTLE,
 	COIN,
 	PIPE,
-	ITEM
+	ITEM,
+	TREEMONSTER
 };
 enum EDirect
 {
@@ -20,6 +21,23 @@ enum EDirect
 	Top,
 	Bottom,
 	None
+};
+enum State{
+	stand,
+	Move,
+	alive,
+	jumping,
+	beforedead,
+	beforedead2,
+	dead,
+	transform,
+	attack,
+	hasCoin,
+	noCoin,
+	hasItem,
+	moveDown,
+	moveUp,
+	breaking
 };
 class CollisionData
 {

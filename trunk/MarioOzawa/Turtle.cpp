@@ -139,18 +139,18 @@ void turtle::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 				//this->RealTimeCollision1(this->GetReSizeRect2(),listcollision->at(k),k,time);
 				this->RealTimeCollision1(this->GetReSizeRect1(),listcollision->at(k),k,time);
 			}
-			if(listcollision->at(k)->_ID == EObject::TURTLE)
+			if((listcollision->at(k)->_ID == EObject::TURTLE) || (listcollision->at(k)->_ID == EObject::FUNGI) || (listcollision->at(k)->_ID == EObject::BRICKBREAK))
 			{
 				if(_State != attack)
 					this->RealTimeCollision1(this->GetReSizeRect3(),listcollision->at(k),k,time);
-				else this->RealTimeCollision1(this->GetReSizeRect1(),listcollision->at(k),k,time);
+				else this->RealTimeCollision1(this->GetRect(),listcollision->at(k),k,time);
 			}
-			if(listcollision->at(k)->_ID == EObject::FUNGI)
+			/*if(listcollision->at(k)->_ID == EObject::FUNGI)
 			{
 				if(_State != attack)
 					this->RealTimeCollision1(this->GetReSizeRect3(),listcollision->at(k),k,time);
-				else this->RealTimeCollision1(this->GetReSizeRect1(),listcollision->at(k),k,time);
-			}
+				else this->RealTimeCollision1(this->GetRect(),listcollision->at(k),k,time);
+			}*/
 		}
 	}
 	bool check = _listCollisionData.check();
@@ -218,6 +218,14 @@ void turtle::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 					}
 				}
 			}
+			if(idobject == BRICKBREAK)
+			{
+				if(stateObject == breaking)
+				{
+					_State = beforedead2;
+					_vy = -0.85f;
+				}
+			}
 			if((idobject == EObject::FUNGI) || (idobject == EObject::TURTLE))
 			{
 				if(dir == Left)
@@ -255,7 +263,6 @@ void turtle::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 				}
 
 			}
-
 		}
 	}
 
@@ -475,7 +482,7 @@ void turtle::CheckCollision(MyObject* obj)
 // va cham voi mario : mario xu ly
 CRECT turtle::GetRect()
 {
-	return CRECT(_x - 7, _y + 15, _x + _curSprite->_texture->Width + 14, _y + _curSprite->_texture->Height - 25);
+	return CRECT(_x - 7, _y + 15, _x + _curSprite->_texture->Width + 14, _y + _curSprite->_texture->Height - 15);
 	//return CRECT(_x, _y + 15 , _x + _curSprite->_texture->Width , _y + _curSprite->_texture->Height - 15);
 }
 

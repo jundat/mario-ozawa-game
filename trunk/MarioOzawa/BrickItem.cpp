@@ -15,7 +15,7 @@ brickItem::brickItem(float x, float y,EBrickItemKind kindOfItem) : MyObject(x, y
 	_kindofitem = kindOfItem;
 	_x = x;
 	_y = y;
-	_item = new Item(_x,_y,_kindofitem);
+	_item = new Item(_x + 5,_y,_kindofitem);
 }
 
 
@@ -54,7 +54,7 @@ void brickItem::CheckCollision(MyObject* obj)
 {
 	if(_State != hasItem)
 	{
-		if(obj->_ID == EObject::MARIO)
+		if(obj->_ID == EObject::BRICKBREAK)
 			_item->CheckCollision(obj);
 	}
 }
