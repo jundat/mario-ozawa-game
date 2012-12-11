@@ -28,9 +28,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\mario-ozawa\MarioOzawa\MarioOzawa.vcxproj" />
     <None Include="..\..\..\mario-ozawa\MarioOzawa\MarioOzawa.vcxproj.filters" />
-    <None Include="..\..\..\mario-ozawa\MarioOzawa\MarioOzawa.vcxproj.user" />
     <None Include="brick.png">
       <Filter>Resource Files</Filter>
     </None>
@@ -132,6 +130,8 @@
     <None Include="image\TreeMonster.png">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="..\..\..\mario-ozawa-game22 - Copy - Copy\MarioOzawa\MarioOzawa.vcxproj" />
+    <None Include="..\..\..\mario-ozawa-game22 - Copy - Copy\MarioOzawa\MarioOzawa.vcxproj.user" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -256,9 +256,6 @@
       <Filter>mario</Filter>
     </ClCompile>
     <ClCompile Include="TreeMonster.cpp">
-      <Filter>object</Filter>
-    </ClCompile>
-    <ClCompile Include="Boss.cpp">
       <Filter>object</Filter>
     </ClCompile>
   </ItemGroup>
@@ -403,9 +400,6 @@
       <Filter>mario</Filter>
     </ClInclude>
     <ClInclude Include="TreeMonster.h">
-      <Filter>object</Filter>
-    </ClInclude>
-    <ClInclude Include="Boss.h">
       <Filter>object</Filter>
     </ClInclude>
   </ItemGroup>
