@@ -488,7 +488,7 @@ void Mario::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 					this->RealTimeCollisionWithItem(this->GetRect1(),(brickItem*)listcollision->at(k),k,_time);
 					this->RealTimeCollision1(this->GetRect1(),listcollision->at(k),k,_time);
 				}
-				else this->RealTimeCollision1(this->GetRect1(),listcollision->at(k),k,_time);
+				else this->RealTimeCollision1(this->GetRect(),listcollision->at(k),k,_time);
 		}
 	}
 	bool check = _listCollisionData.check();
@@ -540,7 +540,6 @@ void Mario::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 			}
 			if(idobject == EObject::BRICKQUESTION)
 			{
-
 				if(dir == Top)
 				{
 					_vy = 0.0f;
@@ -553,6 +552,13 @@ void Mario::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 						continue;
 					}
 				}
+				if(dir == Bottom)
+				{
+					_vy = 0.0f;
+					if(_State != transform)
+						_State = stand;
+					continue;
+				}
 			}
 			if(idobject == EObject::BRICKITEM)
 			{
@@ -560,7 +566,7 @@ void Mario::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 				{
 					_vy = 0.0f;
 					if(stateObject != hasItem)
-						break;
+						continue;
 					listcollision->at(index)->_State = stand;
 					((brickItem*)listcollision->at(index))->_curSprite->SelectIndex(0);
 					//sound

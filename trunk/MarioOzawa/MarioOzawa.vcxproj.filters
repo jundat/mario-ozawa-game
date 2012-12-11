@@ -258,6 +258,9 @@
     <ClCompile Include="TreeMonster.cpp">
       <Filter>object</Filter>
     </ClCompile>
+    <ClCompile Include="Boss.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dsutil.h">
@@ -400,6 +403,9 @@
       <Filter>mario</Filter>
     </ClInclude>
     <ClInclude Include="TreeMonster.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss.h">
       <Filter>object</Filter>
     </ClInclude>
   </ItemGroup>
