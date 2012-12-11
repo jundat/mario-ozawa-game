@@ -31,6 +31,7 @@ void brickQuestion::Update(int time)
 	{
 		if(_drawCoin == false)
 		{
+			_curSprite->SelectIndex(0);
 			_coin->Update(time);
 			_yCoint-= 0.45 * time;
 			if(_yCoint <= (_y - 100))
@@ -55,6 +56,7 @@ void brickQuestion::Render()
 
 void brickQuestion::CheckCollision(MyObject* obj)
 {
+	/*
 	if(_State == noCoin)
 		return;
 	if(obj->_ID == EObject::MARIO)
@@ -77,5 +79,5 @@ void brickQuestion::CheckCollision(MyObject* obj)
 			}
 			break;
 		}
-	}
+	}*/
 }

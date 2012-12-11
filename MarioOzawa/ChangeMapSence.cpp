@@ -108,7 +108,7 @@ void ChangeMapSence::_UpdateRender(int time)
 
 	//mario
 	float scale = 0.5f;
-	mario->Update(time);
+	//mario->Update(time);
 	mario->RenderTransform(StationX[i-1] - scale*mario->_texture->Width + 10, 
 		StationY[i-1] - scale*mario->_texture->Height, 
 		D3DXVECTOR2(scale, scale), 

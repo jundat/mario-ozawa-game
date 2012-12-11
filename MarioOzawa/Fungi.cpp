@@ -11,12 +11,7 @@ fungi::fungi(float x, float y)	: MyObject(x, y)
 	_y = y;
 	_vx = 0;
 	_vy = 0;
-
-	//position when init
-	_startx = _x;
-	_starty = _y;
-
-	_turnLeft = true;
+	_turnLeft = false;
 	_timeTransform = 0;
 	_ID = EObject::FUNGI;
 	_State = Move;
@@ -43,15 +38,12 @@ void fungi::Update(int time)
 	{
 		_NextX = _x + _vx * time;
 		_NextY = _y + _vy * time;
-
-
 	}
 	else
 	{
 		_NextX = _x;
 		_NextY = _y;
 	}
-
 	if(_State == beforedead)
 	{
 		_curSprite->SelectIndex(2);
@@ -76,7 +68,6 @@ void fungi::Update(int time)
 		_y = BOTTOM - _curSprite->_texture->Height - 1;
 	}
 	*/
-	
 	_curSprite->Update(time);
 }
 
@@ -84,11 +75,9 @@ void fungi::Render()
 {
 	if(_State == dead)
 		return;
-
 	//if(_turnLeft == false)
 	if(_State != beforedead2)
 		_curSprite->Render((int)_x, (int)_y);
-
 	if(_State == beforedead2)
 		_curSprite->RenderScaleY((int)_x, (int)_y);
 	//else _curSprite->RenderScale((int)_x, (int)_y);
@@ -98,7 +87,7 @@ void fungi::CheckCollision(MyObject* obj)
 {	
 	if((_State == beforedead) || (_State == dead) || (_State == beforedead2))
 		return;
-	if((obj->_ID == EObject::BRICKITEM) || (obj->_ID == EObject::BRICKQUESTION) || (obj->_ID == EObject::BRICKBREAK) )
+	/*if((obj->_ID == EObject::BRICKITEM) || (obj->_ID == EObject::BRICKQUESTION) || (obj->_ID == EObject::BRICKBREAK) )
 	{
 		switch(this->GetCollisionDirection(this->GetRect(), obj->GetRect()))
 		{
@@ -106,67 +95,12 @@ void fungi::CheckCollision(MyObject* obj)
 			_vy = 0;
 			_y = obj->_y + TILE + 1;
 			break;
-
-		case Bottom:
-			{
-				int lasty = _y;
-				static int iscolide = 0;
-
-				_vy = 0;
-				_y = obj->_y - _curSprite->_texture->Height ;
-
-				//tan long new
-				//check die if a brickbreak lift it up
-
-				if(lasty - _y >= 5)
-				{
-					if(iscolide == 0)
-					{
-						iscolide = 1;
-					}
-					else
-					{
-						iscolide++;
-
-						if(iscolide >= 2)
-						if(_State != dead && _State != beforedead && _State != beforedead2)
-						{
-							_State = beforedead2;
-							_vy = - 1.1f;
-							iscolide = 0;
-						}
-					}
-				}					
-			}
-			
-			break;
-
-		case Left:
-			_x = obj->_x + TILE ;
-			_turnLeft = false;
-			break;
-
-		case Right:
-			_x = obj->_x - this->_curSprite->_texture->Width ;
-			_turnLeft = true;
-			break;
-		}
-	}
-	/*
-	if(obj->_ID == EObject::PIPE)
-	{
-		switch(this->GetCollisionDirection(this->GetRect(), obj->GetRect()))
-		{
-		case Top:
-			_vy = 0;
-			_y = obj->_y + 100 + 1;
-			break;
 		case Bottom:
 			_vy = 0;
 			_y = obj->_y - _curSprite->_texture->Height ;
 			break;
 		case Left:
-			_x = obj->_x + 100 ;
+			_x = obj->_x + TILE ;
 			_turnLeft = false;
 			break;
 		case Right:
@@ -174,13 +108,11 @@ void fungi::CheckCollision(MyObject* obj)
 			_turnLeft = true;
 			break;
 		}
-	}
-	*/
-	if(obj->_ID == EObject::MARIO)
+	}*/
+	/*if(obj->_ID == EObject::MARIO)
 	{
-		if((obj->_State == transform) || (obj->_State == dead) || (obj->_State == beforedead || (obj->_State == reborn)))
+		if((obj->_State == transform) || (obj->_State == dead) || (obj->_State == beforedead))
 			return;
-
 		switch(this->GetCollisionDirection(this->GetReSizeRect(), obj->GetRect()))
 		{
 		case Top:
@@ -188,12 +120,11 @@ void fungi::CheckCollision(MyObject* obj)
 			break;
 		}
 	}
-	
+	*/
 	if(obj->_ID == EObject::MARIO)
 	{
-		if((obj->_State == transform) || (obj->_State == dead) || (obj->_State == beforedead || (obj->_State == reborn)))
+		if((obj->_State == transform) || (obj->_State == dead) || (obj->_State == beforedead))
 			return;
-
 		switch(this->GetCollisionDirection(this->GetRect(), obj->GetRect()))
 		{
 		case Left:
@@ -202,7 +133,7 @@ void fungi::CheckCollision(MyObject* obj)
 				GL_NextForm = GL_CurForm - 1;
 			if(GL_CurForm == 0)
 			{
-				obj->_vy = -2.0f;
+				obj->_vy = -2.0;
 				obj->_State = beforedead;
 				return;
 			}
@@ -215,7 +146,7 @@ void fungi::CheckCollision(MyObject* obj)
 				GL_NextForm = GL_CurForm - 1;
 			if(GL_CurForm == 0)
 			{
-				obj->_vy = -2.0f;
+				obj->_vy = -2.0;
 				obj->_State = beforedead;
 				return;
 			}
@@ -228,7 +159,7 @@ void fungi::CheckCollision(MyObject* obj)
 				GL_NextForm = GL_CurForm - 1;
 			if(GL_CurForm == 0)
 			{
-				obj->_vy = -2.0f;
+				obj->_vy = -2.0;
 				obj->_State = beforedead;
 				return;
 			}
@@ -238,21 +169,19 @@ void fungi::CheckCollision(MyObject* obj)
 		}
 	}
 
-
 	if((obj->_ID == EObject::FUNGI) || (obj->_ID == EObject::TURTLE))
 	{
 		switch(this->GetCollisionDirection(this->GetRect(), obj->GetRect()))
 		{
 		case Left:
-				_x = obj->_x + TILE + 1;
+			_x = obj->_x + TILE + 1;
 				_turnLeft = false;
 				obj->_turnLeft = true;
 			break;
-
 		case Right:
-				_x = obj->_x - this->_curSprite->_texture->Width - 1;
-				_turnLeft = true;
-				obj->_turnLeft = false;
+			_x = obj->_x - this->_curSprite->_texture->Width - 1;
+			_turnLeft = true;
+			obj->_turnLeft = false;
 			break;
 		}
 	}
@@ -268,16 +197,130 @@ CRECT fungi::GetReSizeRect()
 	return CRECT(_x - 3, _y, _x + _curSprite->_texture->Width + 6, _y + _curSprite->_texture->Height);
 }
 
-void fungi::CheckTitleCollision(
-	float &_vx, float &_vy, 
-	float _nextX, float _nextY, 
-	float _maxWidth, float _maxHeight, 
-	int _width,int _height)
+void fungi::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
+{
+	if(_State == dead)
+		return;
+	_listCollisionData.clear();
+	// neu roi wa khoi map
+	if(_y >= 800)
+		_State = dead;
+	if(_State != beforedead)
+	{
+		_nextx = _x + _vx * time;
+		_nexty = _y + _vy * time;
+	}
+	else
+	{
+		_nextx = _x;
+		_nexty = _y;
+	}
+
+	
+	int size1 = listcollision->size();
+
+	if((_State != beforedead2) && (_State != beforedead) && (_State != dead))
+	{
+		for(int k = 0 ; k < size1; ++k)
+		{
+			if(listcollision->at(k) == this)
+				continue;
+			if((listcollision->at(k)->_ID == EObject::FUNGI) || (listcollision->at(k)->_ID == EObject::MARIO) || (listcollision->at(k)->_ID == EObject::TURTLE))
+				this->RealTimeCollision1(this->GetRect(),listcollision->at(k),k,time);
+		}
+	}
+	bool check = _listCollisionData.check();
+	if(check == true) // co va cham
+	{
+		bool backPosition = false;
+		int a = _listCollisionData._listNewData.size();
+		for(int m = 0;m < _listCollisionData._listNewData.size();m++)
+		{
+			int index = _listCollisionData._listNewData.at(m)->_indexObject;
+			int idobject = _listCollisionData._listNewData.at(m)->_ID;
+			EDirect dir = _listCollisionData._listNewData.at(m)->_dirCollision;
+			State stateObject = listcollision->at(index)->_State;
+
+			if(backPosition == false)
+			{
+				if(((idobject == EObject::FUNGI) || (idobject == EObject::TURTLE)) && ((dir == Left) || (dir == Right)))
+				{
+					_nextx -= _listCollisionData._listNewData.at(m)->_deltaX;
+					_nexty -= _listCollisionData._listNewData.at(m)->_deltaY;
+					backPosition = true;
+				}
+			}
+			if(idobject == EObject::MARIO)
+			{
+				if((stateObject == transform) || (stateObject == dead) || (stateObject == beforedead))
+					break;
+				if((dir == Left) || (dir == Right) || (dir == Bottom))
+				{
+					listcollision->at(index)->_State = transform;
+					if(GL_CurForm != 0)
+						GL_NextForm = GL_CurForm - 1;
+					if(GL_CurForm == 0)
+					{
+						listcollision->at(index)->_vy = -2.0;
+						listcollision->at(index)->_State = beforedead;
+						//break;
+					}
+				}
+				//set next form
+				//player mat mau
+			}
+			if((idobject == EObject::FUNGI) || (idobject == EObject::TURTLE))
+			{
+				if(dir == Left)
+				{
+					//_x = listcollision->at(index)->_x + TILE + 1;
+					_turnLeft = false;
+					listcollision->at(index)->_turnLeft = true;
+				}
+				if(dir == Right)
+				{
+					//_x = listcollision->at(index)->_x - this->_curSprite->_texture->Width - 1;
+					_turnLeft = true;
+					listcollision->at(index)->_turnLeft = false;
+				}
+			}
+		}
+	} 
+
+
+	_vy += GRAVITY * time;
+	CheckTitleCollision(_vx,_vy,_nextx,_nexty,GL_Width,GL_Height,_curSprite->_texture->Width,_curSprite->_texture->Height);
+	_x = _nextx;
+	_y = _nexty;
+
+	if(_State == beforedead)
+	{
+		_curSprite->SelectIndex(2);
+		_timeTransform += time;
+		if(_timeTransform >= 150)
+			_State = dead;
+		return;
+	}
+	if(_State != beforedead2)
+	{
+		if(_turnLeft == true)
+			_vx = -0.1;
+		else _vx = 0.1;
+	}
+
+	_curSprite->Update(time);
+}
+
+
+
+void fungi::CheckTitleCollision(float &_vx,float &_vy,float &_nextX,float &_nextY,float _maxWidth,float _maxHeight,int _width,int _height)
 {
 	if((_State == beforedead2) || (_State == beforedead) || (_State == dead))
 	{
-		_x = _nextX;
-		_y = _nextY;
+		_nextY = _nextY;
+		_nextX = _nextX;
+		//_x = _nextX;
+		//_y = _nextY;
 		return;
 	}
 
@@ -291,7 +334,7 @@ void fungi::CheckTitleCollision(
 				if (i >= 0 && i < GL_MapTileW && j >= 0 && j < GL_MapTileH && TileMap::GetInst()->_board[j][i] != 0)
 				{
 					iColTerX1 = true;
-					_x = TILE * (i) - _width;
+					_nextX = TILE * (i) - _width;
 					_turnLeft = true;
 					break;
 				}
@@ -303,7 +346,7 @@ void fungi::CheckTitleCollision(
 		}
 
 		if (iColTerX1 == false){
-			_x = _nextX;
+			_nextX = _nextX;
 		}
 
 	}
@@ -323,7 +366,7 @@ void fungi::CheckTitleCollision(
 					if (i >= 0 && i < GL_MapTileW && j >= 0 && j < GL_MapTileH && TileMap::GetInst()->_board[j][i] != 0)
 					{
 						iColTerX2 = true;
-						_x = TILE * (i+1);
+						_nextX = TILE * (i+1);
 						_turnLeft = false;
 						break;
 					}
@@ -336,7 +379,7 @@ void fungi::CheckTitleCollision(
 
 			if (iColTerX2 == false)
 			{
-				_x = _nextX;
+				_nextX = _nextX;
 			}
 		}	
 	}
@@ -351,7 +394,7 @@ void fungi::CheckTitleCollision(
 					//if(checkY == false)
 					{
 						iColTer = true;
-						_y = TILE * (j) - _height;
+						_nextY = TILE * (j) - _height;
 						_State = stand;
 						_vy = 0;
 						break;
@@ -364,7 +407,7 @@ void fungi::CheckTitleCollision(
 
 		}
 		if (iColTer == false){
-			_y = _nextY;
+			_nextY = _nextY;
 		}
 
 	}else{
@@ -381,7 +424,7 @@ void fungi::CheckTitleCollision(
 						//if(checkY == true)
 						{
 							iColTerY = true;
-							_y = TILE * (j+1);
+							_nextY = TILE * (j+1);
 							_vy = 0;//fabs(_vy);
 							break;
 						}
@@ -393,11 +436,11 @@ void fungi::CheckTitleCollision(
 			}
 
 			if (iColTerY == false){
-				_y = _nextY;
+				_nextY = _nextY;
 			}
 
 		}else{
-			_y = _nextY;
+			_nextY = _nextY;
 		}
 
 	}

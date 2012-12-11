@@ -47,28 +47,47 @@ void QuadTree::UpdateRender(CRECT camera, Mario* mario, int time)
 		cameraCollision.Bottom = GL_MapH;
 #pragma endregion
 
-	vector<MyObject*>* listCollision = this->_rootNode->GetObj(cameraCollision);
+	vector<MyObject*>* listCollision = this->_rootNode->GetObj(camera);
+	vector<MyObject*>* listUpdate1 = this->_rootNode->GetObj(camera);
 	vector<MyObject*>* listUpdate = this->_rootNode->QueryObj(camera);
-	
+	mario->UpdateRealTimeCollision(time,listUpdate);
+	if(mario->_State != dead)
+		listUpdate1->push_back(mario);
 	for (std::vector<MyObject*>::iterator i = listUpdate->begin(); 
 		i != listUpdate->end(); ++i)
 	{
 		//update
-		(*i)->Update(time);
-
+		//if((*i)->_ID != FUNGI) && ((*i)->_ID != f)
+		//(*i)->Update(time);
+		//else 
+		{
+			//vector<MyObject*>* listUpdate1 = new vector<MyObject*>;
+			//listUpdate1 = listUpdate;
+			//listUpdate1->push_back(mario);
+			//(*i)->Update(time);
+			//listCollision->erase(i);
+			//mario->CheckCollision(*i);
+			if(((*i)->_ID == EObject::FUNGI) || ((*i)->_ID == EObject::TURTLE) || ((*i)->_ID == EObject::BRICKITEM) || ((*i)->_ID == EObject::BRICKBREAK))
+				(*i)->UpdateRealTimeCollision(time, listUpdate1);
+			else (*i)->Update(time);
+			//listCollision->push_back(*i);
+		}
 		//check collision
+
 		if((*i)->CanCollide())
 		{
 			//check collision with mario
-			(*i)->CheckCollision(mario);
-			mario->CheckCollision((*i));
-
+			//(*i)->CheckCollision(mario);
+			//mario->CheckCollision((*i));
+			//if((*i)->_ID == TURTLE)
+			//(*i)->CheckCollision(mario);
 			for (std::vector<MyObject*>::iterator j = listCollision->begin(); 
 				j != listCollision->end(); ++j)
 			{
 				if(*i != *j)
 				{
-					(*i)->CheckCollision(*j);
+					if((*i)->_ID == EObject::BRICKITEM)
+						(*i)->CheckCollision(*j);
 				}
 			}
 		}
@@ -76,11 +95,11 @@ void QuadTree::UpdateRender(CRECT camera, Mario* mario, int time)
 		// fix lan 1
 		// render
 		(*i)->Render();
-		
+
 		// insert again
 		if((*i)->IsAlive())
 		{
 			this->Insert(*i);
 		}
-	}	
+	}
 }

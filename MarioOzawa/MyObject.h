@@ -1,10 +1,11 @@
 #pragma once
 
 #include "Rect.h"
-
+#include "ListCollisionData.h"
+//#include <vector>
+using namespace std;
 // tieu nun
 enum State{
-	reborn,
 	stand,
 	Move,
 	alive,
@@ -19,7 +20,7 @@ enum State{
 	hasItem,
 	breaking
 };
-
+/*
 // tieu nun
 enum EObject
 {
@@ -42,7 +43,7 @@ enum EDirect
 	Bottom,
 	None
 };
-
+*/
 class MyObject
 {
 public:
@@ -64,6 +65,8 @@ public:
 	bool _turnLeft;
 	//end tieu nun
 
+	ListCollisionData _listCollisionData;
+
 	MyObject(float x, float y);
 	//MyObject(const MyObject* obj);
 	virtual ~MyObject(void);
@@ -82,8 +85,14 @@ public:
 	virtual void CheckCollision(MyObject* obj);
 
 	// tieu nun
-	virtual void CheckTitleCollision(float &_vx,float &_vy,float _nextX,float _nextY,float _maxWidth,float _maxHeight,int _width,int _height);
+	virtual void CheckTitleCollision(float &_vx,float &_vy,float &_nextX,float &_nextY,float _maxWidth,float _maxHeight,int _width,int _height);
 
 	EDirect GetCollisionDirection(CRECT r1, CRECT r2);
+
+	void RealTimeCollision(CRECT r1, CRECT r2);
+	virtual void RealTimeCollision1(CRECT r1, MyObject *obj,int indexObject,int time);
+	virtual float KhoangCach(float x0,float y0,float x1,float y1);
+
+	virtual void UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision);
 };
 

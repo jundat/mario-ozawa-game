@@ -4,7 +4,6 @@
 #include "Global.h"
 #include "SoundManager.h"
 #include "TileMap.h"
-
 brickBreak::brickBreak(float x, float y)	: MyObject(x, y)
 {
 	_curSprite = new Sprite(ResourceMng::GetInst()->GetTexture("image/Brick_Break.png"), 500);
@@ -43,11 +42,8 @@ brickBreak::brickBreak(float x, float y)	: MyObject(x, y)
 	_xBreak4 = _x + TILE/2;
 	_yBreak4 = _y + TILE/2;
 
-	//start position when init
-	_startx = _x;
-	_starty = _y;
-	_vx = _vy = 0;
 }
+
 
 brickBreak::~brickBreak(void)
 {
@@ -57,17 +53,6 @@ brickBreak::~brickBreak(void)
 
 void brickBreak::Update(int time)
 {
-	//update position
-	_y += time * _vy;
-
-	//gravity
-	_vy += 0.01f * time;
-
-	if(_y >= _starty)
-	{
-		_y = _starty;
-	}
-
 	if(_State == breaking)
 	{
 		if((_x - _xBreak1) < 50)
@@ -95,10 +80,11 @@ void brickBreak::Update(int time)
 			_yBreak3 += 1.0*time;
 			_yBreak4 += 1.0*time;
 		}
-
 		if((_x - _xBreak1) > 100)
+		{
 			_State = dead;
-
+			TileMap::GetInst()->RemoveTileAt(_x,_y);
+		}
 	}
 	//_curSprite->Update(time);
 }
@@ -107,7 +93,6 @@ void brickBreak::Render()
 {
 	if(_State == stand)
 		_curSprite->Render((int)_x, (int)_y);
-
 	if(_State == breaking)
 	{
 		_curSprite->RenderRect((int)_xBreak1,(int)_yBreak1,_rectBreak1);
@@ -117,9 +102,14 @@ void brickBreak::Render()
 
 	}
 }
-
+CRECT brickBreak::GetRect()
+{
+	return CRECT(_x , _y, _x + _curSprite->_texture->Width , _y + _curSprite->_texture->Height );
+	//return CRECT(_x + 13, _y, _x + _curSprite->_texture->Width - 26, _y + _curSprite->_texture->Height );
+}
 void brickBreak::CheckCollision(MyObject* obj)
 {
+	/*
 	if(_State != stand)
 		return;
 
@@ -128,32 +118,18 @@ void brickBreak::CheckCollision(MyObject* obj)
 		if((obj->_State == beforedead) || (obj->_State == dead))
 			return;
 
-		//if(GL_CurForm == 0)
-		//	return;
-		
+		if(GL_CurForm == 0)
+			return;
 		EDirect dir = this->GetCollisionDirection(this->GetRect(), obj->GetRect());
 
 		switch(dir)
 		{
 		case Bottom:
-			//large and fire
-			//break brick
-			if(GL_CurForm != 0)
+			if(_State == stand)
 			{
-				if(_State == stand)
-				{
-					_State = breaking;
-					TileMap::RemoveTileAt(_x + 5, _y + 5);
-					SoundManager::GetInst()->PlayEffSound(SOUND_E_BROKEN);
-				}
-			}//small
-			//just lift it up
-			//else
-			//{
-				//tan long new
-			_vy = -0.5f;
-			//}
-			
+				_State = breaking;
+				SoundManager::GetInst()->PlayEffSound(SOUND_E_BROKEN);
+			}
 			break;
 		case Top:
 			break;
@@ -167,5 +143,5 @@ void brickBreak::CheckCollision(MyObject* obj)
 		case None:
 			break;
 		}
-	}
+	} */
 }

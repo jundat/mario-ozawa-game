@@ -199,7 +199,7 @@ void SelectWorldSence::_UpdateRender(int time)
 	}
 	else
 	{
-		_mario->Update(time);
+		//_mario->Update(time);
 
 		{//do not run out of the map
 			//right

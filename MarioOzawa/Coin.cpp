@@ -32,6 +32,7 @@ void coin::Render()
 
 void coin::CheckCollision(MyObject* obj)
 {
+	/*
 	if(_State == dead)
 		return;
 	if(obj->_ID == EObject::MARIO)
@@ -45,10 +46,12 @@ void coin::CheckCollision(MyObject* obj)
 			//sound
 			SoundManager::GetInst()->PlayEffSound(SOUND_E_COIN);
 		}
-	}
+	} */
 }
 
 CRECT coin::GetRect()
 {
-	return CRECT(_x + 12, _y, _x + _curSprite->_texture->Width - 24, _y + _curSprite->_texture->Height);
+	//return CRECT(_x + 12, _y, _x + _curSprite->_texture->Width - 24, _y + _curSprite->_texture->Height);
+	return CRECT(_x , _y, _x + _curSprite->_texture->Width, _y + _curSprite->_texture->Height);
+
 }
