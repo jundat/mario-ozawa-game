@@ -5,8 +5,7 @@
 #include "Sprite.h"
 #include "MyObject.h"
 //#include "Mario.h"
-#define GRAVITY		0.01
-
+#include "Item.h"
 
 #pragma once
 
@@ -15,26 +14,15 @@
 // + collision
 // + have item in it
 
-enum EBrickItemKind
-{
-	FLOWER, //thêm mạng
-	LARGER, //lớn lên
-	SHOOTER //có súng
-};
+
 
 class brickItem : public MyObject
 {
-protected:
-	Sprite* _curSprite;
-	Sprite* _itemSprite;
-	float _xItem,
-		_yItem;
-	// 0 : hoa, 1 : nam do, 2 : nam xanh
-	float _vxItem;
-	float _vyItem;
-
 public:
-	EBrickItemKind _item;
+	Sprite* _curSprite;
+	Item* _item;
+public:
+	EBrickItemKind _kindofitem;
 
 	//kindOfItem = 0:hoa | 1:nam do | 2:namxanh 
 	brickItem(float x, float y, EBrickItemKind kindOfItem);
@@ -42,11 +30,7 @@ public:
 	virtual void Update(int time);
 	virtual void Render();
 	virtual void CheckCollision(MyObject* obj);
-	CRECT GetItemRect();
-	CRECT GetResizeItemRect();
-
-	//tan long
-	virtual void CheckTitleCollision(float &_vx,float &_vy,float _nextX,float _nextY,float _maxWidth,float _maxHeight,int _width,int _height);
+	virtual void UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision);
 };
 
 #endif

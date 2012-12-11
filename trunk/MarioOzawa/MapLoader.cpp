@@ -327,7 +327,7 @@ void MapLoader::TranslateMap (QuadTree* quadtree, BackgroundManager* background,
 		GL_NextForm = _nextForm;
 		mario->gold = _gold;
 		mario->life = _life;
-		mario->exp = _exp;
+		//mario->exp = _exp;
 		mario->_State = (State)_marioState;
 	}	
 
@@ -441,7 +441,7 @@ void MapLoader::SaveGameToFile(QuadTree* quadtree, Mario* mario, int timeInGame,
 		fout<< mario->life << endl;
 
 		//exp
-		fout<< mario->exp << endl;
+		//fout<< mario->exp << endl;
 
 		//curForm
 		fout<< GL_CurForm << endl;
@@ -488,15 +488,15 @@ void MapLoader::SaveGameToFile(QuadTree* quadtree, Mario* mario, int timeInGame,
 			case EObject::BRICKITEM:
 				{
 					brickItem* item = (brickItem*)obj;
-					if (item->_item == EBrickItemKind::FLOWER) //153
+					if (item->_kindofitem == EBrickItemKind::FLOWER) //153
 					{
 
 					} 
-					else if (item->_item == EBrickItemKind::LARGER) //157
+					else if (item->_kindofitem == EBrickItemKind::LARGER) //157
 					{
 
 					} 
-					else if (item->_item == EBrickItemKind::SHOOTER) //156
+					else if (item->_kindofitem == EBrickItemKind::SHOOTER) //156
 					{
 
 					}
