@@ -225,7 +225,7 @@ void fungi::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 		{
 			if(listcollision->at(k) == this)
 				continue;
-			if((listcollision->at(k)->_ID == EObject::FUNGI) || (listcollision->at(k)->_ID == EObject::MARIO) || (listcollision->at(k)->_ID == EObject::TURTLE))
+			if((listcollision->at(k)->_ID == EObject::FUNGI) || (listcollision->at(k)->_ID == EObject::MARIO) || (listcollision->at(k)->_ID == EObject::TURTLE) || (listcollision->at(k)->_ID == EObject::BRICKBREAK))
 				this->RealTimeCollision1(this->GetRect(),listcollision->at(k),k,time);
 		}
 	}
@@ -282,6 +282,14 @@ void fungi::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 					//_x = listcollision->at(index)->_x - this->_curSprite->_texture->Width - 1;
 					_turnLeft = true;
 					listcollision->at(index)->_turnLeft = false;
+				}
+			}
+			if(idobject == BRICKBREAK)
+			{
+				if(stateObject == breaking)
+				{
+					_State = beforedead2;
+					_vy = -0.85f;
 				}
 			}
 		}

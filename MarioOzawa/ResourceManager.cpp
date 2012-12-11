@@ -52,6 +52,10 @@ ResourceMng::ResourceMng()
 
 	//object in game
 	//TEXTURE
+	_listTexture.push_back(new TEXTURE("image/Boss.png", 4, 1, 4));
+	_listTexture.push_back(new TEXTURE("image/FireBoss.png", 3, 1, 3));
+	_listTexture.push_back(new TEXTURE("image/TreeMonster.png", 4, 1, 4));
+
 	_listTexture.push_back(new TEXTURE("image/MarioSmaller.png", 6, 1, 6));
 	_listTexture.push_back(new TEXTURE("image/MarioLarger.png", 6, 1, 6));
 	_listTexture.push_back(new TEXTURE("image/MarioFire.png", 6, 1, 6));

@@ -263,7 +263,13 @@ void Mario::Transform()
 				_curSprite = _sprMarioLarger;
 				_curSprite->SelectIndex(_tempIndex);
 				if(GL_CurForm == 0)
+				{
 					_y -= 50;
+					if((_State == transform) && (_turnLeft == false))
+					{
+						//_x -= 100;
+					}
+				}
 			}
 			if(GL_NextForm == 2)
 			{
@@ -283,7 +289,13 @@ void Mario::Transform()
 					_curSprite->SelectIndex(_tempIndex);
 					//_y += 50;
 					if(GL_NextForm == 1)
+					{
 						_y +=50;
+						if((_State == Move) && (_turnLeft == false))
+						{
+							//_x += 100;
+						}
+					}
 				}
 				if(GL_CurForm == 1)
 				{
@@ -466,7 +478,7 @@ void Mario::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 
 			if((listcollision->at(k)->_State == dead) || (listcollision->at(k)->_State == beforedead) || (listcollision->at(k)->_State == beforedead2))
 				continue;
-			if((listcollision->at(k)->_ID == EObject::TURTLE) || (listcollision->at(k)->_ID == EObject::BRICKBREAK))
+			if((listcollision->at(k)->_ID == EObject::TURTLE) || (listcollision->at(k)->_ID == EObject::BRICKBREAK) || (listcollision->at(k)->_ID == EObject::TREEMONSTER))
 			{
 				this->RealTimeCollision1(this->GetRect(),listcollision->at(k),k,_time);
 			}
@@ -509,7 +521,11 @@ void Mario::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 				{
 					_vy = 0.0f;
 					if(GL_CurForm == 0)
+					{
+						//break;
+						listcollision->at(index)->_State = Move;
 						break;
+					}
 					listcollision->at(index)->_State = breaking;
 					SoundManager::GetInst()->PlayEffSound(SOUND_E_BROKEN);
 					continue;
@@ -559,7 +575,6 @@ void Mario::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 				listcollision->at(index)->_State = dead;
 				// tien tang
 				this->gold++;
-
 				//sound
 				SoundManager::GetInst()->PlayEffSound(SOUND_E_COIN);
 				continue;
@@ -574,7 +589,18 @@ void Mario::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 					if((GL_CurForm == 0) && (GL_NextForm == 1))
 						_y -= 50;
 				}// player transform or + heart khi nhat dc item here
-				continue;
+			}
+			if(idobject == EObject::TREEMONSTER)
+			{
+				_State = transform;
+				if(GL_CurForm != 0)
+					GL_NextForm = GL_CurForm - 1;
+				if(GL_CurForm == 0)
+				{
+					_vy = -2.0;
+					_State = beforedead;
+				}
+				break;
 			}
 			if(idobject == EObject::FUNGI)
 			{
@@ -849,11 +875,11 @@ void Mario::CheckTitleCollision(float &_vx,float &_vy,float &_nextX,float &_next
 			_nextY = _nextY;
 		}
 	}
-	/*if((_State != transform) && (_State != dead) && (_State != beforedead) && (_State != beforedead2))
+	if((_State != transform) && (_State != dead) && (_State != beforedead) && (_State != beforedead2))
 	{
 		if(jump == true)
 			_State = jumping;
-	}*/
+	}
 
 	if (_vx > 0)
 	{

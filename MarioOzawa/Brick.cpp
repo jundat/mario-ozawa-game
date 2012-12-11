@@ -2,7 +2,7 @@
 #include "Brick.h"
 #include "ResourceManager.h"
 
-brick::brick(float x, float y)	: MyObject(x, y)
+brick::brick(float x, float y) : MyObject(x, y)
 {
 	_curSprite = new Sprite(ResourceMng::GetInst()->GetTexture("image/brick.png"), 0);
 	_ID = EObject::BRICK;

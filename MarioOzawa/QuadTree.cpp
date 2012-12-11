@@ -84,11 +84,11 @@ void QuadTree::UpdateRender(CRECT camera, Mario* mario, int time)
 			for (std::vector<MyObject*>::iterator j = listCollision->begin(); 
 				j != listCollision->end(); ++j)
 			{
-				if(*i != *j)
-				{
-					if((*i)->_ID == EObject::BRICKITEM)
+				if((*i)->_ID == BRICKITEM)
+					if(*i != *j)
+					{
 						(*i)->CheckCollision(*j);
-				}
+					}
 			}
 		}
 
