@@ -20,10 +20,12 @@ enum EBrickItemKind
 class Item : public MyObject
 {
 protected:
-	EBrickItemKind _item;
-	Sprite* _curSprite;
+
+
 	float oriY;
 public:
+	EBrickItemKind _item;
+	Sprite* _curSprite;
 	Item(float x, float y, EBrickItemKind kindOfItem);
 	virtual ~Item(void);
 	virtual void Update(int time);

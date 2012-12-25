@@ -8,6 +8,7 @@
 #include "Writer.h"
 #include "Turtle.h"
 #include "BrickItem.h"
+#include "Boss.h"
 Mario::Mario(float x, float y)	: MyObject(x, y)
 {
 	_sprMarioSmaller = new Sprite(ResourceMng::GetInst()->GetTexture("image/MarioSmaller.png"), 50);
@@ -640,6 +641,34 @@ void Mario::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 					{
 						_vy = -2.0;
 						_State = beforedead;
+					}
+					continue;
+				}
+			}
+			if(idobject == EObject::BOSS)
+			{
+				if(dir == Bottom)
+				{
+					_vy = -2.0f;
+					if(_turnLeft == true)
+						_vx = -8.0f;
+					else _vx = 8.0f;
+
+					if(listcollision->at(index)->_State != hurt)
+						((Boss*)listcollision->at(index))->Hp-=1;
+					listcollision->at(index)->_State = hurt;
+					((Boss*)listcollision->at(index))->_curSprite->SelectIndex(0);
+				}
+				else
+				{
+					_State = transform;
+					if(GL_CurForm != 0)
+						GL_NextForm = GL_CurForm - 1;
+					if(GL_CurForm == 0)
+					{
+						_vy = -2.0;
+						_State = beforedead;
+						break;
 					}
 					continue;
 				}

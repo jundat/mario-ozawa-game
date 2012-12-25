@@ -89,7 +89,7 @@ void QuadTree::UpdateRender(CRECT camera, Mario* mario, int time)
 				if((*i)->_ID == BRICKITEM)
 					if(*i != *j)
 					{
-						(*i)->CheckCollision(*j);
+						//(*i)->CheckCollision(*j);
 					}
 			}
 		}

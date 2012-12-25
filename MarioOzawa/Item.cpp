@@ -302,7 +302,8 @@ void Item::CheckTitleCollision(
 
 CRECT Item::GetRect()
 {
-	return CRECT(_x + 10, _y, _x + _curSprite->_texture->Width - 20, _y + _curSprite->_texture->Height);
+	//return CRECT(_x + 10, _y, _x + _curSprite->_texture->Width - 20, _y + _curSprite->_texture->Height);
+	return CRECT(_x, _y, _x + _curSprite->_texture->Width, _y + _curSprite->_texture->Height);
 }
 
 void Item::CheckCollision(MyObject* obj)

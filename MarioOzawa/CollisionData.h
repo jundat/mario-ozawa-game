@@ -12,7 +12,9 @@ enum EObject
 	COIN,
 	PIPE,
 	ITEM,
-	TREEMONSTER
+	TREEMONSTER,
+	BOSS,
+	BOSSFIRE
 };
 enum EDirect
 {
@@ -37,7 +39,8 @@ enum State{
 	hasItem,
 	moveDown,
 	moveUp,
-	breaking
+	breaking,
+	hurt
 };
 class CollisionData
 {
