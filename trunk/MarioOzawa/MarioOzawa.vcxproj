@@ -118,6 +118,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BackgroundManager.cpp" />
+    <ClCompile Include="Boss.cpp" />
+    <ClCompile Include="BossFire.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="BrickBreak.cpp" />
     <ClCompile Include="BrickItem.cpp" />
@@ -162,6 +164,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BackgroundManager.h" />
+    <ClInclude Include="Boss.h" />
+    <ClInclude Include="BossFire.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="BrickBreak.h" />
     <ClInclude Include="BrickItem.h" />

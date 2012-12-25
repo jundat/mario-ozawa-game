@@ -60,7 +60,7 @@ void bullet::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 		{
 			if(listcollision->at(k) == this)
 				continue;
-			if((listcollision->at(k)->_ID == EObject::FUNGI) || (listcollision->at(k)->_ID == EObject::TURTLE))
+			if((listcollision->at(k)->_ID == EObject::FUNGI) || (listcollision->at(k)->_ID == EObject::TURTLE) || (listcollision->at(k)->_ID == EObject::BOSS))
 				this->RealTimeCollision1(this->GetRect(),listcollision->at(k),k,time);
 		}
 	}
@@ -98,6 +98,18 @@ void bullet::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 						listcollision->at(index)->_vx = 0.2;
 					else listcollision->at(index)->_vx = -0.2;
 					listcollision->at(index)->_vy = -1.1;
+					_State = beforedead;
+					_curSprite->_start = 7;
+					_curSprite->_end = 9;
+					_curSprite->_timeAni = 15;
+				}
+			}
+			if(idobject == EObject::BOSS)
+			{
+				if((listcollision->at(index)->_State == dead) || (listcollision->at(index)->_State == beforedead) || (listcollision->at(index)->_State == beforedead2)) 
+					break;
+				else
+				{
 					_State = beforedead;
 					_curSprite->_start = 7;
 					_curSprite->_end = 9;

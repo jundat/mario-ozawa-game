@@ -5,7 +5,7 @@
 #include "Sprite.h"
 #include "MyObject.h"
 //#include "Mario.h"
-
+#include "BrickItem.h"
 
 #pragma once
 
@@ -29,6 +29,7 @@ public:
 	virtual void Render();
 	virtual CRECT GetRect();
 	virtual void UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision);
+	void RealTimeCollisionWithItem(CRECT r1, brickItem *obj,int indexObject,int time);
 	void CheckCollision(MyObject* obj);
 };
 

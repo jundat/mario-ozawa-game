@@ -24,7 +24,7 @@ Boss::Boss(float x, float y,int _MinX,int _MaxX) : MyObject(x, y)
 
 	Hp = 5;
 
-	this->_ID = EObject::BOSS;
+	_ID = EObject::BOSS;
 }
 
 Boss::~Boss(void)

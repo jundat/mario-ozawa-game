@@ -13,7 +13,7 @@ using namespace std;
 class Boss : public MyObject
 {
 protected:
-	Sprite* _curSprite;
+
 
 	//0: Left | 1: Right
 	bool _turnLeft;
@@ -21,10 +21,12 @@ protected:
 	int MinX,MaxX;
 	int timehurt;
 
-	int Hp;
+
 
 	
 public:
+	Sprite* _curSprite;
+	int Hp;
 	vector <BossFire*> _listFire;
 	Boss(float x, float y,int _MinX,int _MaxX);
 	virtual ~Boss(void);
