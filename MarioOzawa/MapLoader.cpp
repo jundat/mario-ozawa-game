@@ -441,7 +441,7 @@ void MapLoader::SaveGameToFile(QuadTree* quadtree, Mario* mario, int timeInGame,
 		fout<< mario->life << endl;
 
 		//exp
-		//fout<< mario->exp << endl;
+		fout<< mario->exp << endl;
 
 		//curForm
 		fout<< GL_CurForm << endl;
