@@ -12,7 +12,6 @@ bullet::bullet(float x, float y,bool turnLeft) : MyObject(x, y)
 	_State = Move;
 }
 
-
 bullet::~bullet(void)
 {
 	delete _curSprite;

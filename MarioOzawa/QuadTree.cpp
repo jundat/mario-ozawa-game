@@ -1,6 +1,12 @@
 #include "QuadTree.h"
 #include "Global.h"
 
+//init static member
+
+QuadTreeNode* QuadTree::_rootNode = NULL;
+CRECT QuadTree::_bound = CRECT(0, 0, 0, 0);
+
+
 QuadTree::QuadTree(CRECT bound)
 {
 	_bound = bound;

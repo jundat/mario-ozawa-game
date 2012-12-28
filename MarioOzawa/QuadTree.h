@@ -12,12 +12,12 @@
 class QuadTree
 {
 public:
-	QuadTreeNode* _rootNode;
-	CRECT _bound;
+	static QuadTreeNode* _rootNode;
+	static CRECT _bound;
 
 	QuadTree(CRECT bound);
 	~QuadTree(void);
-	void Insert (MyObject* obj);
+	static void Insert (MyObject* obj);
 
 	//update all obj in quad tree
 	void UpdateRender(CRECT camera, Mario* mario, int time);
