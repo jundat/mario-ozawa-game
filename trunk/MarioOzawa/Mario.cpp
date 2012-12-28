@@ -17,7 +17,16 @@ Mario::Mario(float x, float y)	: MyObject(x, y)
 	_sprMarioLarger = new Sprite(ResourceMng::GetInst()->GetTexture("image/MarioLarger.png"), 50);
 	_sprMarioFire = new Sprite(ResourceMng::GetInst()->GetTexture("image/MarioFire.png"), 50);
 	_turnLeft = false;
-	_curSprite = _sprMarioSmaller;
+	if((GL_CurForm == 0) && (GL_NextForm == 0))
+		_curSprite = _sprMarioSmaller;
+	else
+	{
+		if(GL_CurForm == 1)
+			_curSprite = _sprMarioLarger;
+		else if(GL_CurForm == 2)
+			_curSprite = _sprMarioFire;
+		else _curSprite = _sprMarioSmaller;
+	}
 	_curSprite->_start = 0;
 	_curSprite->_end = 2;
 	GL_CurForm = 0;
