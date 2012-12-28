@@ -257,6 +257,10 @@ void Mario::Transform()
 				_curSprite = _sprMarioSmaller;
 				_curSprite->SelectIndex(_tempIndex);
 				//_y += 50;
+				if(GL_CurForm == 1)
+				{
+					_y += 40;
+				}
 			}
 			if(GL_NextForm == 1)
 			{
@@ -265,7 +269,7 @@ void Mario::Transform()
 				_curSprite->SelectIndex(_tempIndex);
 				if(GL_CurForm == 0)
 				{
-					_y -= 50;
+					_y -= 40;
 					if((_State == transform) && (_turnLeft == false))
 					{
 						//_x -= 100;
@@ -291,7 +295,7 @@ void Mario::Transform()
 					//_y += 50;
 					if(GL_NextForm == 1)
 					{
-						_y +=50;
+						_y +=40;
 						if((_State == Move) && (_turnLeft == false))
 						{
 							//_x += 100;
@@ -303,6 +307,10 @@ void Mario::Transform()
 					int _tempIndex = _curSprite->_index;
 					_curSprite =_sprMarioLarger;
 					_curSprite->SelectIndex(_tempIndex);
+					if(GL_NextForm == 0)
+					{
+						_y -= 40;
+					}
 					//_y -= 50;
 				}
 				if(GL_CurForm == 2)
@@ -330,8 +338,8 @@ void Mario::TransformMario(int x, int y)
 	_State = transform;
 	GL_CurForm = x;
 	GL_NextForm = y;
-	if((GL_CurForm == 0) && (GL_NextForm == 1))
-		_y -= 50;
+	//if((GL_CurForm == 0) && (GL_NextForm == 1))
+	//	_y -= 40;
 
 	//SOUND
 	SoundManager::GetInst()->PlayEffSound(SOUND_E_GROW);
@@ -339,58 +347,14 @@ void Mario::TransformMario(int x, int y)
 
 void Mario::CheckCollision(MyObject* obj)
 {	
-	
-	int size = _listBullet.size();
-	bullet* sf;
-	for(int i = 0 ; i < size; ++i)
-	{
-		sf = _listBullet[i];
-		//sf->CheckCollision(obj);
-	}
-
 	if((_State == beforedead) || (_State == dead))
 		return;
-	/*
-	if((obj->_ID == EObject::BRICKITEM) || (obj->_ID == EObject::BRICKQUESTION) || (obj->_ID == EObject::BRICKBREAK) )
-	{
-		//if(_State == transform)
-		//	return;
-		if(obj->_State == dead)
-			return;
-
-		switch(this->GetCollisionDirection(this->GetRect(), obj->GetRect()))
-		{
-		case Top:
-			_vy = 0;
-			_y = obj->_y + TILE + 1 ;
-			break;
-
-		case Bottom:
-			_vy = 0;
-			_y = obj->_y - _curSprite->_texture->Height ;
-			if(_State != transform)
-				_State = stand;
-			break;
-
-		case Left:
-			//_vx = 0;
-			_x = obj->_x + TILE ;
-			break;
-
-		case Right:
-			//_vx = 0;
-			_x = obj->_x - this->_curSprite->_texture->Width ;
-			break;
-		}
-	}
-	*/
-
-	/*
+	
+	
 	if((obj->_ID == EObject::FUNGI) || (obj->_ID == EObject::TURTLE))
 	{
 		if(_State == transform)
 			return;
-
 		if(obj->_State == dead)
 			return;
 
@@ -400,13 +364,12 @@ void Mario::CheckCollision(MyObject* obj)
 				{
 					_vy = -1.5;
 					_State = jumping;
-
 				//sound
 					SoundManager::GetInst()->PlayEffSound(SOUND_E_TOUCH_TIRTLE);
 				}				
 				break;
 		}
-	}*/
+	}
 }
 
 CRECT Mario::GetRect()
@@ -979,357 +942,4 @@ void Mario::CheckTitleCollision(float &_vx,float &_vy,float &_nextX,float &_next
 
 		}		
 	}
-}
-
-
-
-
-void Mario::RealTimeCollisionWithItem(CRECT r1, brickItem *obj,int indexObject,int time)
-{
-	if(obj->_State == hasItem)
-		return;
-	if(obj->_item->_State == dead)
-		return;
-	float x0, y0, x1, y1, X, Y;
-	bool _left2right = true;
-	bool _up2down = true;
-	
-	bool _collision = false;
-	bool _rightleft = false;
-	// khoang cach lui ve theo truc x, va truc y
-	float deltaX = 0.0f;
-	float deltaY = 0.0f;
-
-	// khoang cach tu diem xuat phat den giao diem
-	float delta = 0.0f; // xet chon object va cham
-	EDirect _dirCollision = EDirect::None;
-
-	if(_vx > 0) // left -> right
-	{
-		_left2right = true;
-		x0 = r1.Right;
-		X = obj->_item->GetRect().Left;
-	}
-	else // right -> left
-	{
-		_left2right = false;
-		x0 = r1.Left;
-		X = obj->_item->GetRect().Right;
-	}
-
-	if(_vy > 0) // top -> down
-	{
-		_up2down = true;
-		y0 = r1.Bottom;
-		Y = obj->_item->GetRect().Top;
-	}
-	else // down -> top
-	{
-		_up2down = false;
-		y0 = r1.Top;
-		Y = obj->_item->GetRect().Bottom;
-	}
-	//x1 = _x + _vx; // next position after moving
-	//y1 = _y + _vy; // next position after moving
-	//if(_vx > 0 )
-		x1 = x0 + (_nextx - _x);
-	//else x1 = x0 - (_nextx - _x);
-	//if(_vy > 0 )
-		y1 = y0 + (_nexty - _y);
-	//else y1 = y0 - (_nexty - _y);
-
-	// xet ngang
-
-	float giaodiemX, giaodiemX2, giaodiemY, giaodiemY2;
-	giaodiemY = (_vy / _vx) * (X - x0) + y0;
-	giaodiemX = X;
-	if(_vy > 0)
-		giaodiemY2 = giaodiemY - (r1.Bottom - r1.Top);
-	else giaodiemY2 = giaodiemY + (r1.Bottom - r1.Top);
-
-	if ((obj->_item->GetRect().Top <= giaodiemY) && (giaodiemY <= obj->_item->GetRect().Bottom))
-	{
-		if (_left2right == true)
-		{
-			//x1 = _nextx + (r1.Right - r1.Left);
-			if ((x0 <= giaodiemX) && (giaodiemX <= x1))
-				// diem o tren cua ball
-			{
-				// va cham right
-				_collision = true;
-				_dirCollision = EDirect::Right;
-				delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
-			}
-			//x1 = _nextx;
-		}
-		else
-		{
-			if ((x0 >= giaodiemX) && (giaodiemX >= x1))
-				// diem o tren cua ball
-			{
-				// va cham left
-				_collision = true;
-				_dirCollision = EDirect::Left;
-				delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
-			}
-		}
-	}
-	else
-	{
-		// diem o duoi
-		//xet giao diem 2, cach giaodiemY 1 doan = chieu cao cua ball
-		//giaodiemY += 100.0f;
-		if ((obj->_item->GetRect().Top <= giaodiemY2) && (giaodiemY2 <= obj->_item->GetRect().Bottom))
-		{
-			if (_left2right == true)
-			{
-				//x1 = _nextx + (r1.Right - r1.Left);
-				if ((x0 <= giaodiemX) && (giaodiemX <= x1))
-					// diem o tren cua ball
-				{
-					// va cham right
-					_collision = true;
-					_dirCollision = EDirect::Right;
-					delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
-				}
-				//x1 = _nextx;
-			}
-			else
-			{
-				if ((x0 >= giaodiemX) && (giaodiemX >= x1))
-					// diem o tren cua ball
-				{
-					// va cham left
-					_collision = true;
-					_dirCollision = EDirect::Left;
-					delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
-				}
-			}
-		}
-	}
-
-	if (_left2right == true)
-	{
-		//x1 = _nextx + (r1.Right - r1.Left);
-		if ((x0 <= giaodiemX) && (giaodiemX <= x1))
-			// diem o tren cua ball
-		{
-			if ((giaodiemY < obj->_item->GetRect().Top) && (giaodiemY2 > obj->_item->GetRect().Bottom))
-			{
-				// va cham right
-				_collision = true;
-				_dirCollision = EDirect::Right;
-				delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
-			}
-		}
-		//x1 = _nextx;
-	}
-	else
-	{
-		if ((x0 >= giaodiemX) && (giaodiemX >= x1))
-			// diem o tren cua ball
-		{
-			if ((giaodiemY < obj->_item->GetRect().Top) && (giaodiemY2 > obj->_item->GetRect().Bottom))
-			{
-				// va cham left
-				_collision = true;
-				_dirCollision = EDirect::Left;
-				delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
-			}
-		}
-	}
-
-	/*
-	{
-		if (_vx > 0)
-			deltaX = (x1 - giaodiemX); //+ (r1.Right - r1.Left);
-		if (_vx < 0)
-			deltaX = (x1 - giaodiemX) - (r1.Right - r1.Left);
-		if(_vx == 0)
-			deltaX = 0.0f;
-
-	}
-	*/
-	if(_collision == true)
-	{
-		deltaX = (x1 - giaodiemX);
-		_rightleft = true;
-	}
-	
-	// xet doc
-
-	giaodiemX = x0 + (_vx / _vy) * (Y - y0);
-	giaodiemY = Y;
-	if(_vx > 0)
-		giaodiemX2 = giaodiemX - (r1.Right - r1.Left);
-	else
-		giaodiemX2 = giaodiemX + (r1.Right - r1.Left);
-	if ((obj->_item->GetRect().Left <= giaodiemX) && (giaodiemX <= obj->_item->GetRect().Right))
-	{
-		if (_up2down == true)
-		{
-			//y1 = _nexty + (r1.Bottom - r1.Top);
-			if ((giaodiemY >= y0) && (giaodiemY <= y1))
-			{
-				// va cham down
-				_collision = true;
-				_dirCollision = EDirect::Bottom;
-				delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
-
-			}
-			//y1 = _nexty;
-		}
-		else
-		{
-			if ((giaodiemY <= y0) && (giaodiemY >= y1))
-			{
-				// va cham top
-				_collision = true;
-				_dirCollision = EDirect::Top;
-				delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
-			}
-		}
-	}
-	else
-	{
-		if ((obj->_item->GetRect().Left <= giaodiemX2) && (giaodiemX2 <= obj->_item->GetRect().Right))
-		{
-			if (_up2down == true)
-			{
-				//y1 = _nexty + (r1.Bottom - r1.Top);
-				if ((giaodiemY >= y0) && (giaodiemY <= y1))
-				{
-					// va cham down
-					_collision = true;
-					_dirCollision = EDirect::Bottom;
-					delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
-				}
-				//y1 = _nexty;
-			}
-			else
-			{
-				if ((giaodiemY <= y0) && (giaodiemY >= y1))
-				{
-					// va cham top
-					_collision = true;
-					_dirCollision = EDirect::Top;
-					delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
-				}
-			}
-		}
-	}
-
-	if (_up2down == true)
-	{
-		//y1 = _nexty + (r1.Bottom - r1.Top);
-		if ((giaodiemY >= y0) && (giaodiemY <= y1))
-		{
-			if ((giaodiemX < obj->_item->GetRect().Left) && (giaodiemX2 > obj->_item->GetRect().Right))
-			{
-				// va cham down
-				_collision = true;
-				_dirCollision = EDirect::Bottom;
-				delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
-			}
-		}
-		//y1 = _nexty;
-	}
-	else
-	{
-		if ((giaodiemY <= y0) && (giaodiemY >= y1))
-		{
-			if ((giaodiemX < obj->_item->GetRect().Left) && (giaodiemX2 > obj->_item->GetRect().Right))
-			{
-				// va cham top
-				_collision = true;
-				_dirCollision = EDirect::Top;
-				delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
-			}
-		}
-	}
-
-	//if (_collision == true)
-// 	{
-// 
-// 		if (_vy > 0)
-// 			deltaY = (y1 - giaodiemY); //+ (r1.Bottom - r1.Top);
-// 		if (_vy < 0)
-// 			deltaY = (y1 - giaodiemY);
-// 		if(_vy == 0)
-// 			deltaY = 0.0f;
-// 	}
-	//if((_vy > 0.0f ) && (_vx == 0.0f))
-		if((_vy != 0.0f ) && (_vx == 0))
-			deltaY = (y1 - giaodiemY);
-	//if((_vy < 0.0f ) && (_vx == 0.0f))
-		//deltaY = (y1 - giaodiemY);
-		//if(_vy != 0.0f)
-			//deltaX = (x1 - giaodiemX);
-		//if(_vy == 0.0f)
-		//	deltaY = 0.0f;
-//		if(_vx == 0.0f)
-	//		deltaX = 0.0f;
-		if(_collision == true)
-		{
-			if((_vx != 0.0f) && (_vy != 0.0f))
-			{
-				deltaY = (y1 - giaodiemY);
-
-				if(_rightleft == false)
-				{
-					if((_vy >= (0.01*(time - 1))) && (_vy <= (0.01*(time + 1))))
-					{
-
-					}
-					else
-					{
-						if(_vx > 0.0f)
-							deltaX = x1 - giaodiemX;
-						if(_vx < 0.0f)
-							deltaX = -(x1 - giaodiemX);
-					}
-				}
-			}
-			if(_vy == 0.0f)
-				deltaY = 0.0f;
-			/*if(_vx > 0)
-				deltaX +=1;
-			if(_vx < 0)
-				deltaX -=1;
-			if(_vy > 0)
-				deltaY +=1;
-			if(_vx < 0)
-				deltaY -=1;*/
-			if(_dirCollision == Right)
-				deltaY = 0.0f;
-			if(_dirCollision == Left)
-				deltaY = 0.0f;
-			if(_vx == 0.0f)
-				deltaX = 0.0f;
-			//deltaX = (x1 - giaodiemX2);
-			//deltaX = (x1 - X);
-		}
-
-
-	if (_collision == true)
-	{
-		//CollisionData
-		if(_dirCollision == Right)
-			int v =0;
-		if(_dirCollision == Left)
-			int d=0;
-		_listCollisionData.add(new CollisionData(EObject::ITEM,_dirCollision,deltaX,deltaY,delta,indexObject));
-		//_nextx -= (deltaX );
-		//_nexty -= (deltaY );
-		//_nexty += 1;
-		//_vy = 0;
-	}
-
-	// luu IDobject : de xu li logic,state neu co va cham
-	// luu deltaX,deltaY : de xu li cap nhat position
-	// _dirCollision : luu huong va cham : uu tien top,bottom -> xu li logic,state neu co va cham theo huong
-	// luu delta : de chon object nao va cham
-	// index cua object trong ListObject
-	// toan bo luu vo 1 list
-	// cuoi cung lay list nay ra xet lai. chon nhung object thuc su va cham roi xu li
 }

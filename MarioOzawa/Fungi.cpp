@@ -87,29 +87,8 @@ void fungi::CheckCollision(MyObject* obj)
 {	
 	if((_State == beforedead) || (_State == dead) || (_State == beforedead2))
 		return;
-	/*if((obj->_ID == EObject::BRICKITEM) || (obj->_ID == EObject::BRICKQUESTION) || (obj->_ID == EObject::BRICKBREAK) )
-	{
-		switch(this->GetCollisionDirection(this->GetRect(), obj->GetRect()))
-		{
-		case Top:
-			_vy = 0;
-			_y = obj->_y + TILE + 1;
-			break;
-		case Bottom:
-			_vy = 0;
-			_y = obj->_y - _curSprite->_texture->Height ;
-			break;
-		case Left:
-			_x = obj->_x + TILE ;
-			_turnLeft = false;
-			break;
-		case Right:
-			_x = obj->_x - this->_curSprite->_texture->Width ;
-			_turnLeft = true;
-			break;
-		}
-	}*/
-	/*if(obj->_ID == EObject::MARIO)
+	
+	if(obj->_ID == EObject::MARIO)
 	{
 		if((obj->_State == transform) || (obj->_State == dead) || (obj->_State == beforedead))
 			return;
@@ -120,7 +99,7 @@ void fungi::CheckCollision(MyObject* obj)
 			break;
 		}
 	}
-	*/
+	
 	if(obj->_ID == EObject::MARIO)
 	{
 		if((obj->_State == transform) || (obj->_State == dead) || (obj->_State == beforedead))
@@ -165,23 +144,6 @@ void fungi::CheckCollision(MyObject* obj)
 			}
 			// set next form
 			//player mat mau
-			break;
-		}
-	}
-
-	if((obj->_ID == EObject::FUNGI) || (obj->_ID == EObject::TURTLE))
-	{
-		switch(this->GetCollisionDirection(this->GetRect(), obj->GetRect()))
-		{
-		case Left:
-			_x = obj->_x + TILE + 1;
-				_turnLeft = false;
-				obj->_turnLeft = true;
-			break;
-		case Right:
-			_x = obj->_x - this->_curSprite->_texture->Width - 1;
-			_turnLeft = true;
-			obj->_turnLeft = false;
 			break;
 		}
 	}
