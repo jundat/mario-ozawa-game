@@ -486,12 +486,12 @@ void Mario::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 				this->RealTimeCollision1(this->GetRect(),listcollision->at(k),k,_time);
 			}
 			else 
-				if((listcollision->at(k)->_ID == EObject::BRICKITEM) && (listcollision->at(k)->_State != hasItem))
+				/*if((listcollision->at(k)->_ID == EObject::BRICKITEM) && (listcollision->at(k)->_State != hasItem))
 				{
 					this->RealTimeCollisionWithItem(this->GetRect1(),(brickItem*)listcollision->at(k),k,_time);
 					this->RealTimeCollision1(this->GetRect1(),listcollision->at(k),k,_time);
 				}
-				else this->RealTimeCollision1(this->GetRect(),listcollision->at(k),k,_time);
+				else*/ this->RealTimeCollision1(this->GetRect(),listcollision->at(k),k,_time);
 		}
 	}
 	bool check = _listCollisionData.check();
@@ -572,6 +572,9 @@ void Mario::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 						continue;
 					listcollision->at(index)->_State = stand;
 					((brickItem*)listcollision->at(index))->_curSprite->SelectIndex(0);
+					//Item *_xx = new Item(listcollision->at(index)->_x,listcollision->at(index)->_y,EBrickItemKind::FLOWER);
+					QuadTree::Insert(((brickItem*)listcollision->at(index))->_item);
+					//QuadTree::Insert(_xx);
 					//sound
 					SoundManager::GetInst()->PlayEffSound(SOUND_E_UP);
 					continue;
@@ -590,14 +593,15 @@ void Mario::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 			}
 			if(idobject == ITEM)
 			{
-				((brickItem*)listcollision->at(index))->_item->_State = dead;
+
+				listcollision->at(index)->_State = dead;
 				if(GL_CurForm != 2)
 				{
 					_State = transform;
 					GL_NextForm = GL_CurForm + 1;
 					if((GL_CurForm == 0) && (GL_NextForm == 1))
 						_y -= 50;
-				}// player transform or + heart khi nhat dc item here
+				}// player transform or + heart khi nhat dc item here*/
 			}
 			if(idobject == EObject::TREEMONSTER)
 			{
