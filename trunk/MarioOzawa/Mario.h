@@ -67,7 +67,7 @@ public:
 	virtual void CheckCollision(MyObject* obj);
 	virtual void CheckTitleCollision(float &_vx,float &_vy,float &_nextX,float &_nextY,float _maxWidth,float _maxHeight,int _width,int _height);
 	virtual void UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision);
-	void RealTimeCollisionWithItem(CRECT r1, brickItem *obj,int indexObject,int time);
+	
 	//void RealTimeCollisionWithFire(CRECT r1, Boss *obj,int indexObject,int time);
 };
 

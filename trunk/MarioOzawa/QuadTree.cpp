@@ -76,6 +76,10 @@ void QuadTree::UpdateRender(CRECT camera, Mario* mario, int time)
 			if(  ((*i)->_ID == EObject::ITEM) || ((*i)->_ID == EObject::FUNGI) || ((*i)->_ID == EObject::TURTLE) || ((*i)->_ID == EObject::BRICKITEM) || ((*i)->_ID == EObject::BRICKBREAK))
 				(*i)->UpdateRealTimeCollision(time, listUpdate1);
 			else (*i)->Update(time);
+			if(((*i)->_ID == EObject::FUNGI) || ((*i)->_ID == EObject::TURTLE))
+			{
+				mario->CheckCollision(*i);
+			}
 			//listCollision->push_back(*i);
 		}
 		//check collision
@@ -87,7 +91,7 @@ void QuadTree::UpdateRender(CRECT camera, Mario* mario, int time)
 			//mario->CheckCollision((*i));
 			//if((*i)->_ID == TURTLE)
 			//(*i)->CheckCollision(mario);
-			if((*i)->_ID == BRICKITEM)
+			if(((*i)->_ID == EObject::FUNGI) || ((*i)->_ID == EObject::TURTLE))
 				(*i)->CheckCollision(mario);
 			for (std::vector<MyObject*>::iterator j = listCollision->begin(); 
 				j != listCollision->end(); ++j)
