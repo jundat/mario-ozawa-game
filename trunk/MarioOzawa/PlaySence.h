@@ -9,11 +9,10 @@
 #include "TileMap.h"
 #include "ChangeMapSence.h"
 
-#define MARIO_VX_COMPLETE_MAP 7.0f
+#define MARIO_VX_COMPLETE_MAP 0.50f
 #define MARIO_DELTA_X_COMPLETE_MAP 400
 
 #define TIME_FOR_LEVEL (150000) //5 minute to complete level (5 * 60 * 500), ~500ms = 1s, không hiểu vì sao thời gian trong game này chậm = 1/2 bình thường
-
 
 class PlaySence :
 	public GameSence

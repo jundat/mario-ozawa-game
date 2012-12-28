@@ -25,6 +25,7 @@ enum EDirect
 	None
 };
 enum State{
+	reborn,
 	stand,
 	Move,
 	alive,

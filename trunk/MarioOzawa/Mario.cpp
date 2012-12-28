@@ -9,6 +9,8 @@
 #include "Turtle.h"
 #include "BrickItem.h"
 #include "Boss.h"
+
+
 Mario::Mario(float x, float y)	: MyObject(x, y)
 {
 	_sprMarioSmaller = new Sprite(ResourceMng::GetInst()->GetTexture("image/MarioSmaller.png"), 50);
@@ -21,8 +23,8 @@ Mario::Mario(float x, float y)	: MyObject(x, y)
 	GL_CurForm = 0;
 	GL_NextForm = 1;
 	_State = stand;
-	_lastx = _x = x;
-	_lasty = _y = y;
+	_startx = _x = x;
+	_starty = _y = y;
 	_vx = 0;
 	_vy = 0;
 	_TimeTransform = 0;
@@ -30,6 +32,7 @@ Mario::Mario(float x, float y)	: MyObject(x, y)
 
 	life = 3;
 	gold = 0;
+	exp = 0;
 }
 
 Mario::~Mario(void)
@@ -45,7 +48,8 @@ Mario::~Mario(void)
 
 void Mario::Update(int time)
 {
-	/*int size = _listBullet.size();
+	/*
+	int size = _listBullet.size();
 	bullet* sf;
 
 	for(int i = 0 ; i < size; ++i)
@@ -82,8 +86,8 @@ void Mario::Update(int time)
 				this->_vx = 0;
 				this->_vy = 0;
 
-				this->_y = _lasty; //MapLoader::_mariox * TILE;
-				this->_x = _lastx; //MapLoader::_mariox * TILE;
+				this->_y = _starty; //MapLoader::_mariox * TILE;
+				this->_x = _startx; //MapLoader::_mariox * TILE;
 			}
 		}
 
@@ -115,7 +119,6 @@ void Mario::Update(int time)
 		_curSprite->SelectIndex(3);
 	}
 
-	/*
 	{//do not run out of the map
 		//right
 		if(_x + this->_curSprite->_texture->Width >= GL_MapW)
@@ -129,7 +132,6 @@ void Mario::Update(int time)
 			_x = 0;
 		}
 	}
-	*/
 
 	//save last position
 // 	if(_State == stand || _State == Move)
@@ -140,10 +142,18 @@ void Mario::Update(int time)
 // 			_lasty = _y;
 // 		}
 // 	}
+	*/
 }
 
 void Mario::Render()
 {
+	//tan long
+	//reborn: draw a blur sprite
+	if(_State == State::reborn)
+		_curSprite->_color = D3DCOLOR_ARGB(100, 255, 255, 255);
+	else
+		_curSprite->_color = D3DCOLOR_ARGB(255, 255, 255, 255);
+
 	if(_turnLeft == false)
 		_curSprite->Render((int)_x, (int)_y);
 	else 
@@ -163,6 +173,7 @@ void Mario::TurnRight()
 {
 	if(_State == beforedead)
 		return;
+
 	// if press Right, Update _vx
 	_vx += FRICTION_X * _time;
 	if(_vx >= MAX_MARIO_VX)
@@ -180,6 +191,7 @@ void Mario::TurnLeft()
 {
 	if(_State == beforedead)
 		return;
+
 	// if press Left, Update _vx
 	_vx -= FRICTION_X * _time;
 	if(_vx <= - MAX_MARIO_VX)
@@ -240,6 +252,11 @@ void Mario::ShitDown()
 	}
 }
 
+void Mario::RunBeforeDie()
+{
+	_State = beforedead;
+	this->_vy = -2.5f;
+}
 
 void Mario::Transform()
 {
@@ -346,28 +363,83 @@ void Mario::TransformMario(int x, int y)
 }
 
 void Mario::CheckCollision(MyObject* obj)
-{	
-	if((_State == beforedead) || (_State == dead))
+{
+	//check collision mario
+	if(_State == beforedead || _State == dead || _State == reborn)
 		return;
-	
-	
-	if((obj->_ID == EObject::FUNGI) || (obj->_ID == EObject::TURTLE))
+
+	if((obj->_ID == EObject::BRICKITEM) || (obj->_ID == EObject::BRICKQUESTION) || (obj->_ID == EObject::BRICKBREAK) )
 	{
 		if(_State == transform)
 			return;
+
 		if(obj->_State == dead)
 			return;
 
 		switch(this->GetCollisionDirection(this->GetRect(), obj->GetRect()))
 		{
-			case Bottom:
+		case Top:
+			_vy = GRAVITY * _time;
+			_y = obj->_y + TILE;
+
+			//add exp
+			exp += EXP_FOR_BRICK;
+
+			//gold
+			if(obj->_ID == BRICKQUESTION)
+			{
+				this->gold++;
+			}
+			break;
+
+		case Bottom:
+			_vy = 0;
+			_y = obj->_y - _curSprite->_texture->Height ;
+			if(_State != transform)
+				_State = stand;
+			break;
+
+		case Left:
+			//_vx = 0;
+			_x = obj->_x + TILE;
+			break;
+
+		case Right:
+			//_vx = 0;
+			_x = obj->_x - this->_curSprite->_texture->Width ;
+			break;
+		}
+	}
+
+	if((obj->_ID == EObject::FUNGI) || (obj->_ID == EObject::TURTLE))
+	{
+		if(_State == transform)
+			return;
+
+		if(obj->_State == dead)
+			return;
+
+		switch(this->GetCollisionDirection(this->GetRect(), obj->GetRect()))
+		{
+		case Bottom:
+			{
+				if(obj->_ID == EObject::FUNGI && obj->_State == beforedead2)
+				{
+				}
+				else
 				{
 					_vy = -1.5;
 					_State = jumping;
-				//sound
+
+					//tan long
+					//add exp
+					exp += EXP_FOR_OBJECT;
+
+					//sound
 					SoundManager::GetInst()->PlayEffSound(SOUND_E_TOUCH_TIRTLE);
-				}				
-				break;
+				}
+			}				
+			break;
 		}
 	}
 }
@@ -375,10 +447,10 @@ void Mario::CheckCollision(MyObject* obj)
 CRECT Mario::GetRect()
 {
 	return CRECT(
-		_x + DELTA_RECT_X, 
-		_y + DELTA_RECT_Y, 
-		_x + _curSprite->_texture->Width - 2 * DELTA_RECT_X, 
-		_y + _curSprite->_texture->Height - 2 * DELTA_RECT_Y);
+		_x, //+ DELTA_RECT_X, 
+		_y, //+ DELTA_RECT_Y, 
+		_x + _curSprite->_texture->Width,// - 2 * DELTA_RECT_X, 
+		_y + _curSprite->_texture->Height);// - 2 * DELTA_RECT_Y);
 }
 
 CRECT Mario::GetRect1()
@@ -394,7 +466,8 @@ void Mario::Fire()
 {
 	if(GL_CurForm != 2)
 		return;
-	if((_State == stand) || (_State == jumping))
+
+	if((_State == stand) || (_State == jumping) || (_State == Move))
 	{
 		bullet* sf;
 		if(_turnLeft == true)
@@ -404,11 +477,13 @@ void Mario::Fire()
 	}
 }
 
-void Mario::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
+void Mario::UpdateRealTimeCollision(int time, vector<MyObject*>* listcollision)
 {
-
+	//////////////////////////////////////////////////////////////////////////
+	//bullet update + collision
 	_listCollisionData.clear();
 	int size = _listBullet.size();
+
 	bullet* sf;
 	bool _deadListBullet = true;
 	for(int i = 0 ; i < size; ++i)
@@ -417,17 +492,23 @@ void Mario::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 		if(sf->_State != dead)
 			_deadListBullet = false;
 		//sf->Update(time);
-		sf->UpdateRealTimeCollision(time,listcollision);
+		sf->UpdateRealTimeCollision(time, listcollision);
 	}
 
 	if(_deadListBullet == true)
 		_listBullet.clear();
+	//////////////////////////////////////////////////////////////////////////
 
 	Transform();
-			
+
+	//mer
+	static int timeReborn = TIME_REBORN + 1;
+	
 	if(_State != beforedead)
 		_nextx = _x + _vx * _time;
-	else _nextx = _x;
+	else 
+		_nextx = _x;
+
 	_nexty = _y + _vy * _time;
 	
 	int size1 = listcollision->size();
@@ -457,6 +538,7 @@ void Mario::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 				else*/ this->RealTimeCollision1(this->GetRect(),listcollision->at(k),k,_time);
 		}
 	}
+
 	bool check = _listCollisionData.check();
 	if(check == true) // co va cham
 	{
@@ -556,7 +638,6 @@ void Mario::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 			}
 			if(idobject == ITEM)
 			{
-
 				listcollision->at(index)->_State = dead;
 				if(GL_CurForm != 2)
 				{
@@ -614,6 +695,7 @@ void Mario::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 					continue;
 				}
 			}
+
 			if(idobject == EObject::BOSS)
 			{
 				if(dir == Bottom)
@@ -739,14 +821,20 @@ void Mario::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 			//reborn
 			if(this->life > 0)
 			{
+				timeReborn = 0;
+
 				this->life--;
 				this->_State = stand;
 
 				this->_vx = 0;
-				this->_vy = 0;
+				this->_vy = -2.0f;
 
-				this->_y = _lasty; //MapLoader::_mariox * TILE;
-				this->_x = _lastx; //MapLoader::_mariox * TILE;
+				this->_y = _starty; //MapLoader::_mariox * TILE;
+				this->_x = _startx; //MapLoader::_mariox * TILE;
+
+				this->Jump();
+
+				_State = reborn;
 			}
 		}
 
@@ -756,21 +844,42 @@ void Mario::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 	{
 		if(_y > GL_MapH && _State != dead && _State != beforedead && _State != beforedead2)
 		{
-			_State = beforedead;
-			this->_vy = -2.5f;
+			RunBeforeDie();
+			//_State = beforedead;
+			//this->_vy = -2.5f;
 		}
 	}
 
+	//new tan long
+	if(abs(_vy) >= 0.5f && _State != reborn && _State != beforedead && _State != beforedead2 && _State != dead && _State != transform)
+	{
+		_State = jumping;
+	}
+
+	//mer
+	//reborn state
+	timeReborn += _time;
+	if(timeReborn < TIME_REBORN)
+	{
+		_State = reborn;
+	}else
+	{
+		timeReborn = TIME_REBORN + 1;
+	}
+
+	//update sprite
 	if(_vx != 0)
 	{
 		_curSprite->Update(time);
 	}
+
 	if(_State == transform)
 		return;
 
 	// do when change dir suddenly
 	if((_turnLeft == true) && (_vx > 0.0f))
 		_curSprite->SelectIndex(4);
+
 	if((_turnLeft == false) && (_vx < 0.0f))
 		_curSprite->SelectIndex(4);
 
@@ -778,7 +887,7 @@ void Mario::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 		_curSprite->SelectIndex(3);
 	}
 
-	
+	/*
 	{//do not run out of the map
 		//right
 		if(_x + this->_curSprite->_texture->Width >= GL_MapW)
@@ -792,19 +901,18 @@ void Mario::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 			_x = 0;
 		}
 	}
-	
+	*/
 
 	//save last position
-	if(_State == stand || _State == Move)
+	if(_State == State::stand || _State == State::Move || _State == State::alive)
 	{
-		if(abs(_x - _lastx) >= DISTANCE_WITH_LAST_POSITION_X)
+		if(abs(_x - _startx) >= DISTANCE_WITH_LAST_POSITION_X)
 		{
-			_lastx = _x;
-			_lasty = _y;
+			_startx = _x;
+			_starty = _y;
 		}
 	}
 }
-
 
 void Mario::CheckTitleCollision(float &_vx,float &_vy,float &_nextX,float &_nextY,float _maxWidth,float _maxHeight,int _width,int _height)
 {
@@ -813,7 +921,7 @@ void Mario::CheckTitleCollision(float &_vx,float &_vy,float &_nextX,float &_next
 		//_x = _nextX;
 		_nextY = _nextY;
 		return;
-	}	
+	}
 	bool jump = true;
 	if (_vy >= 0.0f){
 		// DOWN

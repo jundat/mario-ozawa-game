@@ -140,7 +140,7 @@ void PlaySence::_OnKeyDown(int keyCode)
 		break;
 
 	case DIK_X:
-		//_mario->exp++;
+		_mario->exp++;
 		break;
 
 	case DIK_1:
@@ -226,7 +226,7 @@ void PlaySence::_UpdateRender(int time)
 		if(_timeForLevel < 0)
 		{
 			_timeForLevel = 0;
-			//_mario->RunBeforeDie();
+			_mario->RunBeforeDie();
 			_timeForLevel = TIME_FOR_LEVEL + 3 * 500;
 		}
 	}
@@ -245,6 +245,7 @@ void PlaySence::_UpdateRender(int time)
 	//_mario->Update(time);
 
 	_QuadTree->UpdateRender(_Camera->GetCameraExpand(), _mario, time);
+	
 	_mario->Render();
 	
 	//check fail game
@@ -284,8 +285,8 @@ void PlaySence::_UpdateRender(int time)
 	Writer::RenderFont2(text, 0, 5, 0.75f);
 
 	//exp
-	//sprintf(text, "exp x %d", _mario->exp);
-	//Writer::RenderFont2(text, 6, 35, 0.75f);
+	sprintf(text, "exp x %d", _mario->exp);
+	Writer::RenderFont2(text, 6, 35, 0.75f);
 
 	//gold
 	Sprite* sprCoin = new Sprite(ResourceMng::GetInst()->GetTexture("image/Coin.png"), -1);
@@ -304,13 +305,14 @@ void PlaySence::_UpdateRender(int time)
 	GLSpriteHandler->End();
 #pragma endregion
 
+	//mario complete map, go ahead
 	if(_mario->_x >= GL_MapW - MARIO_DELTA_X_COMPLETE_MAP)
 	{
 		_mario->TurnRight();
 		_mario->_vx = MARIO_VX_COMPLETE_MAP;
 	}
 
-	//check complete mappppppppppppppppppppppppppppppppppppppppppppppppppppppp
+	//check complete map pppppppppppppppppppppppppppppppppppppppppppppppppppppp
 	if(_mario->GetRect().Right >= GL_MapW)
 	{
 		//stop mario
