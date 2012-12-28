@@ -527,7 +527,7 @@ void Mario::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 					{
 						//break;
 						listcollision->at(index)->_State = Move;
-						break;
+						continue;
 					}
 					listcollision->at(index)->_State = breaking;
 					SoundManager::GetInst()->PlayEffSound(SOUND_E_BROKEN);
@@ -583,7 +583,7 @@ void Mario::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 			if(idobject == EObject::COIN)
 			{
 				if(stateObject == dead)
-					break;
+					continue;
 				listcollision->at(index)->_State = dead;
 				// tien tang
 				this->gold++;
@@ -613,14 +613,14 @@ void Mario::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 					_vy = -2.0;
 					_State = beforedead;
 				}
-				break;
+				continue;
 			}
 			if(idobject == EObject::FUNGI)
 			{
 				if(_State == transform)
-					break;
+					continue;
 				if((stateObject == dead) || (stateObject == beforedead) || (stateObject == beforedead2))
-					break;
+					continue;
 				if(dir == Bottom)
 				{
 					_vy = -1.5;
@@ -674,7 +674,6 @@ void Mario::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 					{
 						_vy = -2.0;
 						_State = beforedead;
-						break;
 					}
 					continue;
 				}
@@ -682,9 +681,9 @@ void Mario::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 			if(idobject == EObject::TURTLE)
 			{
 				if(_State == transform)
-					break;
+					continue;
 				if(stateObject == dead)
-					break;
+					continue;
 				if(dir == Bottom)
 				{
 					if((stateObject == stand) || (stateObject == attack))
@@ -719,7 +718,7 @@ void Mario::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 					if((stateObject == Move) || (stateObject == attack))
 					{
 						if(((turtle*)listcollision->at(index))->_TimeAttack < 15)
-							break;
+							continue;
 						/*
 						obj->_State = transform;
 						// player bi mat mau
