@@ -45,14 +45,14 @@ void brickItem::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision
 {
 	if(_State == hasItem)
 		_curSprite->Update(time);
-	else _item->UpdateRealTimeCollision(time,listcollision);
+	//else _item->UpdateRealTimeCollision(time,listcollision);
 }
 
 void brickItem::CheckCollision(MyObject* obj)
 {
-	if(_State != hasItem)
+	/*if(_State != hasItem)
 	{
 		if((obj->_ID == EObject::BRICKBREAK) || (obj->_ID == EObject::MARIO))
 			_item->CheckCollision(obj);
-	}
+	}*/
 }
