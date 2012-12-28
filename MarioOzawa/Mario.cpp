@@ -462,7 +462,9 @@ void Mario::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 
 	Transform();
 			
-	_nextx = _x + _vx * _time;
+	if(_State != beforedead)
+		_nextx = _x + _vx * _time;
+	else _nextx = _x;
 	_nexty = _y + _vy * _time;
 	
 	int size1 = listcollision->size();
