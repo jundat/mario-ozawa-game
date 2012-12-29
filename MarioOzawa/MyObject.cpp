@@ -9,6 +9,7 @@ MyObject::MyObject(float xx, float yy)
 	_x = xx;
 	_y = yy;
 	_State = State::alive;
+	_turnLeft = true;
 }
 
 
@@ -16,11 +17,6 @@ MyObject::~MyObject(void)
 {
 
 }
-
-//MyObject::MyObject(const MyObject* obj)
-//{
-//
-//}
 
 CRECT MyObject::GetRect()
 {
@@ -46,34 +42,7 @@ void MyObject::Render()
 
 void MyObject::CheckCollision(MyObject* obj)
 {
-	/*
-	switch(this->GetCollisionDirection(obj->GetRect(), this->GetRect()))
-	{
-	case Top:
-		break;
-
-	case Bottom:
-		break;
-
-	case Left:
-		break;
-
-	case Right:
-		break;
-
-	case None:
-		break;
-	}
-	*/
-
-	//line top
-	 
-
-
-	// line bottom
-
-
-
+	
 }
 
 EDirect MyObject::GetCollisionDirection(CRECT r1, CRECT r2)

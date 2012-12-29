@@ -11,7 +11,7 @@ fungi::fungi(float x, float y)	: MyObject(x, y)
 	_y = y;
 	_vx = 0;
 	_vy = 0;
-	_turnLeft = false;
+	_turnLeft = true;
 	_timeTransform = 0;
 	_ID = EObject::FUNGI;
 	_State = Move;
@@ -90,8 +90,9 @@ void fungi::CheckCollision(MyObject* obj)
 	
 	if(obj->_ID == EObject::MARIO)
 	{
-		if((obj->_State == transform) || (obj->_State == dead) || (obj->_State == beforedead))
+		if((obj->_State == transform) || (obj->_State == dead) || (obj->_State == beforedead) || (obj->_State == reborn))
 			return;
+
 		switch(this->GetCollisionDirection(this->GetReSizeRect(), obj->GetRect()))
 		{
 		case Top:
@@ -102,8 +103,9 @@ void fungi::CheckCollision(MyObject* obj)
 	
 	if(obj->_ID == EObject::MARIO)
 	{
-		if((obj->_State == transform) || (obj->_State == dead) || (obj->_State == beforedead))
+		if((obj->_State == transform) || (obj->_State == dead) || (obj->_State == beforedead) || (obj->_State == reborn))
 			return;
+
 		switch(this->GetCollisionDirection(this->GetRect(), obj->GetRect()))
 		{
 		case Left:
