@@ -166,9 +166,9 @@ void Mario::Render()
 		_curSprite->_color = D3DCOLOR_ARGB(255, 255, 255, 255);
 
 	if(_turnLeft == false)
-		_curSprite->Render((int)_x, (int)_y);
+		_curSprite->Render((int)_x, (int)_y + 2); // for beautiful
 	else 
-		_curSprite->RenderScaleX((int)_x, (int)_y);
+		_curSprite->RenderScaleX((int)_x, (int)_y + 2); // for beautiful
 
 	int size = _listBullet.size();
 	bullet* sf;
@@ -221,7 +221,15 @@ void Mario::Jump()
 	if(_State == beforedead)
 		return;
 
-	if((_State != jumping)&&(_State != transform)){
+	//if(abs(_vy) < 0.2f && (_State != transform)){
+	//	_State = jumping;
+	//	_vy = - MARIO_VY;
+
+	//	//sound
+	//	SoundManager::GetInst()->PlayEffSound(SOUND_E_JUMP);
+	//}
+
+	if((abs(_vy) < 0.2f) && (_State != jumping) && (_State != transform) && (_State != reborn)){
 		_State = jumping;
 		_vy = - MARIO_VY;
 
@@ -376,51 +384,8 @@ void Mario::TransformMario(int x, int y)
 void Mario::CheckCollision(MyObject* obj)
 {
 	//check collision mario
-	if(_State == beforedead || _State == dead || _State == reborn)
+	if(_State == beforedead || _State == dead || _State == beforedead2 || _State == reborn)
 		return;
-
-	if((obj->_ID == EObject::BRICKITEM) || (obj->_ID == EObject::BRICKQUESTION) || (obj->_ID == EObject::BRICKBREAK) )
-	{
-		if(_State == transform)
-			return;
-
-		if(obj->_State == dead)
-			return;
-
-		switch(this->GetCollisionDirection(this->GetRect(), obj->GetRect()))
-		{
-		case Top:
-			_vy = GRAVITY * _time;
-			_y = obj->_y + TILE;
-
-			//add exp
-			exp += EXP_FOR_BRICK;
-
-			//gold
-			if(obj->_ID == BRICKQUESTION)
-			{
-				this->gold++;
-			}
-			break;
-
-		case Bottom:
-			_vy = 0;
-			_y = obj->_y - _curSprite->_texture->Height ;
-			if(_State != transform)
-				_State = stand;
-			break;
-
-		case Left:
-			//_vx = 0;
-			_x = obj->_x + TILE;
-			break;
-
-		case Right:
-			//_vx = 0;
-			_x = obj->_x - this->_curSprite->_texture->Width ;
-			break;
-		}
-	}
 
 	if((obj->_ID == EObject::FUNGI) || (obj->_ID == EObject::TURTLE))
 	{
@@ -525,6 +490,8 @@ void Mario::UpdateRealTimeCollision(int time, vector<MyObject*>* listcollision)
 	int size1 = listcollision->size();
 
 	//MyObject* temp;
+	//mer
+	//new tan long
 	if((_State != beforedead) && (_State != dead))
 	{
 		for(int k = 0 ; k < size1; ++k)
@@ -572,12 +539,17 @@ void Mario::UpdateRealTimeCollision(int time, vector<MyObject*>* listcollision)
 					backPosition = true;
 				}
 			}
+
+			//////////////////////////////////////////////////////////////////////////
 			if(idobject == EObject::BRICKBREAK)
 			{
 				if((stateObject == breaking) || (stateObject == dead))
 					break;
 				if(dir == Top)
 				{
+					//add exp
+					exp += EXP_FOR_BRICK;
+
 					_vy = 0.0f;
 					if(GL_CurForm == 0)
 					{
@@ -589,6 +561,7 @@ void Mario::UpdateRealTimeCollision(int time, vector<MyObject*>* listcollision)
 					SoundManager::GetInst()->PlayEffSound(SOUND_E_BROKEN);
 					continue;
 				}
+
 				if(dir == Bottom)
 				{
 					_vy = 0.0f;
@@ -597,10 +570,15 @@ void Mario::UpdateRealTimeCollision(int time, vector<MyObject*>* listcollision)
 					continue;
 				}
 			}
+
+			//////////////////////////////////////////////////////////////////////////
 			if(idobject == EObject::BRICKQUESTION)
 			{
 				if(dir == Top)
 				{
+					//add exp
+					exp += EXP_FOR_BRICK;
+
 					_vy = 0.0f;
 					if(stateObject == hasCoin)
 					{
@@ -619,10 +597,15 @@ void Mario::UpdateRealTimeCollision(int time, vector<MyObject*>* listcollision)
 					continue;
 				}
 			}
+
+			//////////////////////////////////////////////////////////////////////////
 			if(idobject == EObject::BRICKITEM)
 			{
 				if(dir == Top)
 				{
+					//add exp
+					exp += EXP_FOR_BRICK;
+
 					_vy = 0.0f;
 					if(stateObject != hasItem)
 						continue;
@@ -636,6 +619,7 @@ void Mario::UpdateRealTimeCollision(int time, vector<MyObject*>* listcollision)
 					continue;
 				}
 			}
+
 			if(idobject == EObject::COIN)
 			{
 				if(stateObject == dead)
@@ -647,6 +631,7 @@ void Mario::UpdateRealTimeCollision(int time, vector<MyObject*>* listcollision)
 				SoundManager::GetInst()->PlayEffSound(SOUND_E_COIN);
 				continue;
 			}
+
 			if(idobject == ITEM)
 			{
 				listcollision->at(index)->_State = dead;
@@ -658,6 +643,7 @@ void Mario::UpdateRealTimeCollision(int time, vector<MyObject*>* listcollision)
 						_y -= 50;
 				}// player transform or + heart khi nhat dc item here*/
 			}
+
 			if(idobject == EObject::TREEMONSTER)
 			{
 				_State = transform;
@@ -670,10 +656,12 @@ void Mario::UpdateRealTimeCollision(int time, vector<MyObject*>* listcollision)
 				}
 				continue;
 			}
+
 			if(idobject == EObject::FUNGI)
 			{
-				if(_State == transform)
+				if(_State == transform || _State == reborn)
 					continue;
+
 				if((stateObject == dead) || (stateObject == beforedead) || (stateObject == beforedead2))
 					continue;
 				if(dir == Bottom)
@@ -734,10 +722,12 @@ void Mario::UpdateRealTimeCollision(int time, vector<MyObject*>* listcollision)
 					continue;
 				}
 			}
+
 			if(idobject == EObject::TURTLE)
 			{
-				if(_State == transform)
+				if(_State == transform || _State == reborn)
 					continue;
+
 				if(stateObject == dead)
 					continue;
 				if(dir == Bottom)
@@ -769,6 +759,7 @@ void Mario::UpdateRealTimeCollision(int time, vector<MyObject*>* listcollision)
 					}
 					continue;
 				}
+
 				if(dir != EDirect::Bottom)
 				{
 					if((stateObject == Move) || (stateObject == attack))
@@ -792,6 +783,7 @@ void Mario::UpdateRealTimeCollision(int time, vector<MyObject*>* listcollision)
 						continue;
 					}
 				}
+
 				if((dir == Right) || (dir == Left))
 				{
 					if((stateObject == stand) && (((turtle*)listcollision->at(index))->_TimeStand > 20))
@@ -861,12 +853,6 @@ void Mario::UpdateRealTimeCollision(int time, vector<MyObject*>* listcollision)
 		}
 	}
 
-	//new tan long
-	if(abs(_vy) >= 0.5f && _State != reborn && _State != beforedead && _State != beforedead2 && _State != dead && _State != transform)
-	{
-		_State = jumping;
-	}
-
 	//mer
 	//reborn state
 	timeReborn += _time;
@@ -876,6 +862,12 @@ void Mario::UpdateRealTimeCollision(int time, vector<MyObject*>* listcollision)
 	}else
 	{
 		timeReborn = TIME_REBORN + 1;
+	}
+
+	//new tan long
+	if(abs(_vy) >= 0.2f && _State != reborn && _State != beforedead && _State != beforedead2 && _State != dead && _State != transform)
+	{
+		_State = jumping;
 	}
 
 	//update sprite
@@ -897,22 +889,6 @@ void Mario::UpdateRealTimeCollision(int time, vector<MyObject*>* listcollision)
 	if(_State == jumping){
 		_curSprite->SelectIndex(3);
 	}
-
-	/*
-	{//do not run out of the map
-		//right
-		if(_x + this->_curSprite->_texture->Width >= GL_MapW)
-		{
-			_x = GL_MapW - this->_curSprite->_texture->Width;
-		}
-
-		//left
-		if(_x <= 0)
-		{
-			_x = 0;
-		}
-	}
-	*/
 
 	//save last position
 	if(_State == State::stand || _State == State::Move || _State == State::alive)
