@@ -5,7 +5,7 @@
 Boss::Boss(float x, float y,int _MinX,int _MaxX) : MyObject(x, y)
 {
 	_curSprite = new Sprite(ResourceMng::GetInst()->GetTexture("image/Boss.png"), 100);
-	_turnLeft = false;
+	_turnLeft = true;
 
 	_x = x;
 	//_y = y;

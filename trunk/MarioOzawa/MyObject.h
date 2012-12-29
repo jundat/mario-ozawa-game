@@ -4,48 +4,7 @@
 #include "ListCollisionData.h"
 //#include <vector>
 using namespace std;
-// tieu nun
-// enum State{
-// 	stand,
-// 	Move,
-// 	alive,
-// 	jumping,
-// 	beforedead,
-// 	beforedead2,
-// 	dead,
-// 	transform,
-// 	attack,
-// 	hasCoin,
-// 	noCoin,
-// 	hasItem,
-// 	moveDown,
-// 	moveUp,
-// 	breaking
-// };
-/*
-// tieu nun
-enum EObject
-{
-	MARIO, // = 0
-	BRICK,
-	BRICKQUESTION,
-	BRICKITEM,
-	BRICKBREAK,
-	FUNGI,
-	TURTLE,
-	COIN,
-	PIPE
-};
 
-enum EDirect
-{
-	Left,
-	Right,
-	Top,
-	Bottom,
-	None
-};
-*/
 class MyObject
 {
 public:

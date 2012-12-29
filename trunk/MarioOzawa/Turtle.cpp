@@ -13,7 +13,7 @@ turtle::turtle(float x, float y)	: MyObject(x, y)
 	_y = y;
 	_vx = 0;
 	_vy = 0;
-	_turnLeft = false;
+	_turnLeft = true;
 	_ID = EObject::TURTLE;
 	_State = Move;
 	_TimeStand = 0;
@@ -177,6 +177,7 @@ void turtle::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 					}
 				}
 			}
+
 			if(idobject == EObject::MARIO)
 			{
 				if((dir == Left) || (dir == Right) || (dir == Bottom))
@@ -303,8 +304,9 @@ void turtle::CheckCollision(MyObject* obj)
 {
 	if(obj->_ID == EObject::MARIO)
 	{
-		if((obj->_State == transform) || (obj->_State == dead) || (obj->_State == beforedead))
+		if((obj->_State == transform) || (obj->_State == dead) || (obj->_State == beforedead) || (obj->_State == reborn))
 			return;
+
 		switch(this->GetCollisionDirection(this->GetReSizeRect1(), obj->GetRect()))
 		{
 		case Top:
@@ -384,7 +386,7 @@ void turtle::CheckCollision(MyObject* obj)
 
 	if(obj->_ID == EObject::MARIO)
 	{
-		if((obj->_State == transform) || (obj->_State == dead) || (obj->_State == beforedead))
+		if((obj->_State == transform) || (obj->_State == dead) || (obj->_State == beforedead) || (obj->_State == reborn))
 			return;
 		switch(this->GetCollisionDirection(this->GetReSizeRect2(), obj->GetRect()))
 		{

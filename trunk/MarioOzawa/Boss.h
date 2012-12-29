@@ -13,16 +13,11 @@ using namespace std;
 class Boss : public MyObject
 {
 protected:
-
-
 	//0: Left | 1: Right
 	bool _turnLeft;
 
 	int MinX,MaxX;
 	int timehurt;
-
-
-
 	
 public:
 	Sprite* _curSprite;
