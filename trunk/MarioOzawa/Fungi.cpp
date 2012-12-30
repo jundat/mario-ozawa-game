@@ -161,11 +161,13 @@ CRECT fungi::GetReSizeRect()
 	return CRECT(_x - 3, _y, _x + _curSprite->_texture->Width + 6, _y + _curSprite->_texture->Height);
 }
 
-void fungi::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
+void fungi::UpdateRealTimeCollision(int time,vector<MyObject*>* listcollision)
 {
 	if(_State == dead)
 		return;
+
 	_listCollisionData.clear();
+
 	// neu roi wa khoi map
 	if(_y >= 800)
 		_State = dead;
@@ -214,10 +216,12 @@ void fungi::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 					backPosition = true;
 				}
 			}
+
 			if(idobject == EObject::MARIO)
 			{
-				if((stateObject == transform) || (stateObject == dead) || (stateObject == beforedead))
+				if((stateObject == transform) || (stateObject == dead) || (stateObject == beforedead) || (stateObject == reborn))
 					break;
+
 				if((dir == Left) || (dir == Right) || (dir == Bottom))
 				{
 					listcollision->at(index)->_State = transform;
@@ -233,16 +237,19 @@ void fungi::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 				//set next form
 				//player mat mau
 			}
+
 			if((idobject == EObject::FUNGI) || (idobject == EObject::TURTLE))
 			{
 				if(listcollision->at(index)->_State == State::attack)
 					break;
+
 				if(dir == Left)
 				{
 					//_x = listcollision->at(index)->_x + TILE + 1;
 					_turnLeft = false;
 					listcollision->at(index)->_turnLeft = true;
 				}
+
 				if(dir == Right)
 				{
 					//_x = listcollision->at(index)->_x - this->_curSprite->_texture->Width - 1;
@@ -250,6 +257,7 @@ void fungi::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 					listcollision->at(index)->_turnLeft = false;
 				}
 			}
+
 			if(idobject == BRICKBREAK)
 			{
 				if(stateObject == breaking)

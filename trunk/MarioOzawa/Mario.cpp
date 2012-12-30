@@ -518,6 +518,8 @@ void Mario::UpdateRealTimeCollision(int time, vector<MyObject*>* listcollision)
 	}
 
 	bool check = _listCollisionData.check();
+
+	if(_State != reborn)
 	if(check == true) // co va cham
 	{
 		bool backPosition = false;
@@ -545,6 +547,7 @@ void Mario::UpdateRealTimeCollision(int time, vector<MyObject*>* listcollision)
 			{
 				if((stateObject == breaking) || (stateObject == dead))
 					break;
+
 				if(dir == Top)
 				{
 					//add exp
@@ -730,6 +733,7 @@ void Mario::UpdateRealTimeCollision(int time, vector<MyObject*>* listcollision)
 
 				if(stateObject == dead)
 					continue;
+
 				if(dir == Bottom)
 				{
 					if((stateObject == stand) || (stateObject == attack))

@@ -24,7 +24,7 @@
 
 #define EXP_FOR_BRICK 5 //point for exp
 #define EXP_FOR_OBJECT 10
-#define TIME_REBORN 1500 //thoi gian sau khi mario reborn hien thi o che do blur, truoc khi reborn hoan chinh
+#define TIME_REBORN 15000 //thoi gian sau khi mario reborn hien thi o che do blur, truoc khi reborn hoan chinh
 
 #define MARIO_VX_COMPLETE_MAP 0.50f
 #define MARIO_DELTA_X_COMPLETE_MAP 400
