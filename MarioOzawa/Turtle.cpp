@@ -31,6 +31,7 @@ void turtle::Render()
 {
 	if(_State == dead)
 		return;
+
 	if(_State == beforedead2)
 	{
 		_curSprite->RenderScaleY((int)_x, (int)_y);
@@ -111,6 +112,7 @@ void turtle::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 	_listCollisionData.clear();
 	if(_y >= 800)
 		_State = dead;
+
 	if(_State == stand)
 	{
 		_curSprite->SelectIndex(2);
@@ -134,11 +136,14 @@ void turtle::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 		{
 			if(listcollision->at(k) == this)
 				continue;
+
 			if(listcollision->at(k)->_ID == EObject::MARIO)
 			{
 				//this->RealTimeCollision1(this->GetReSizeRect2(),listcollision->at(k),k,time);
-				this->RealTimeCollision1(this->GetReSizeRect1(),listcollision->at(k),k,time);
+				if(listcollision->at(k)->_State != reborn)
+					this->RealTimeCollision1(this->GetReSizeRect1(),listcollision->at(k),k,time);
 			}
+
 			if((listcollision->at(k)->_ID == EObject::TURTLE) || (listcollision->at(k)->_ID == EObject::FUNGI) || (listcollision->at(k)->_ID == EObject::BRICKBREAK))
 			{
 				if(_State != attack)
@@ -153,6 +158,7 @@ void turtle::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 			}*/
 		}
 	}
+
 	bool check = _listCollisionData.check();
 	if(check == true) // co va cham
 	{
@@ -194,6 +200,7 @@ void turtle::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 						listcollision->at(index)->_State = transform;
 						if(GL_CurForm != 0)
 							GL_NextForm = GL_CurForm - 1;
+
 						if(GL_CurForm == 0)
 						{
 							listcollision->at(index)->_vy = -2.0;
@@ -219,6 +226,7 @@ void turtle::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 					}
 				}
 			}
+
 			if(idobject == BRICKBREAK)
 			{
 				if(stateObject == breaking)
@@ -227,6 +235,7 @@ void turtle::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 					_vy = -0.85f;
 				}
 			}
+
 			if((idobject == EObject::FUNGI) || (idobject == EObject::TURTLE))
 			{
 				if(dir == Left)
@@ -318,6 +327,7 @@ void turtle::CheckCollision(MyObject* obj)
 				_TimeAttack = 0;
 			}
 			break;
+
 		case  Left:
 			if((_State == Move) || (_State == attack))
 			{
@@ -339,6 +349,7 @@ void turtle::CheckCollision(MyObject* obj)
 				}
 			}
 			break;
+
 		case Right:
 			if((_State == Move) || (_State == attack))
 			{
@@ -360,6 +371,7 @@ void turtle::CheckCollision(MyObject* obj)
 				}
 			}
 			break;
+
 		case Bottom:
 			if((_State == Move) || (_State == attack))
 			{
@@ -388,6 +400,7 @@ void turtle::CheckCollision(MyObject* obj)
 	{
 		if((obj->_State == transform) || (obj->_State == dead) || (obj->_State == beforedead) || (obj->_State == reborn))
 			return;
+
 		switch(this->GetCollisionDirection(this->GetReSizeRect2(), obj->GetRect()))
 		{
 		case  Left:
@@ -401,6 +414,7 @@ void turtle::CheckCollision(MyObject* obj)
 			}
 
 			break;
+
 		case  Right:
 			if((_State == stand) && (_TimeStand > 20))
 			{

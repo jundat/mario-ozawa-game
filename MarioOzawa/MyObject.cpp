@@ -396,6 +396,7 @@ void MyObject::RealTimeCollision1(CRECT r1, MyObject *obj,int indexObject,int ti
 		x0 = r1.Right;
 		X = obj->GetRect().Left;
 	}
+
 	else // right -> left
 	{
 		_left2right = false;
