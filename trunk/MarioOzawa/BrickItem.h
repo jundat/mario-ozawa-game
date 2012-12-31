@@ -25,7 +25,7 @@ public:
 	EBrickItemKind _kindofitem;
 
 	//kindOfItem = 0:hoa | 1:nam do | 2:namxanh 
-	brickItem(float x, float y, EBrickItemKind kindOfItem);
+	brickItem(float x, float y, EBrickItemKind kindOfItem,State state);
 	virtual ~brickItem(void);
 	virtual void Update(int time);
 	virtual void Render();

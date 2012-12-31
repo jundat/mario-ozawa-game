@@ -4,14 +4,16 @@
 #include "ResourceManager.h"
 #include "TileMap.h"
 
-brickItem::brickItem(float x, float y,EBrickItemKind kindOfItem) : MyObject(x, y)
+brickItem::brickItem(float x, float y,EBrickItemKind kindOfItem,State state) : MyObject(x, y)
 {
 	_curSprite = new Sprite(ResourceMng::GetInst()->GetTexture("image/Question.png"), 500);
 	_ID = EObject::BRICKITEM;
 	_curSprite->SelectIndex(1);
 	_curSprite->_start = 1;
 	_curSprite->_end = 2;
-	_State = hasItem;
+	if(state == State::start)
+		_State = hasItem;
+	else _State = state;
 	_kindofitem = kindOfItem;
 	_x = x;
 	_y = y;

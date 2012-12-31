@@ -381,43 +381,43 @@ void MapLoader::TranslateMap (QuadTree* quadtree, BackgroundManager* background,
 				case 151: //brick break
 					//also in tile map
 					TileMap::GetInst()->_board[i][j] = 1;
-					quadtree->Insert(new brickBreak(j * TILE, i * TILE));
+					quadtree->Insert(new brickBreak(j * TILE, i * TILE,State::start));
 					break;
 
 				case 152: //coin
-					quadtree->Insert(new coin(j * TILE, i * TILE));
+					quadtree->Insert(new coin(j * TILE, i * TILE,State::start));
 					break;
 
 				case 153: //flower
 					//also in tile map
 					TileMap::GetInst()->_board[i][j] = 1;
-					quadtree->Insert(new brickItem(j * TILE, i * TILE, EBrickItemKind::FLOWER));
+					quadtree->Insert(new brickItem(j * TILE, i * TILE, EBrickItemKind::FLOWER,State::start));
 					break;
 
 				case 154: //fungi
-					quadtree->Insert(new fungi(j * TILE, i * TILE));
+					quadtree->Insert(new fungi(j * TILE, i * TILE,State::start));
 					break;
 
 				case 155: //brick question
 					//also in tile map
 					TileMap::GetInst()->_board[i][j] = 1;
-					quadtree->Insert(new brickQuestion(j * TILE, i * TILE));
+					quadtree->Insert(new brickQuestion(j * TILE, i * TILE,State::start));
 					break;
 
 				case 156: //larger blue
 					//also in tile map
 					TileMap::GetInst()->_board[i][j] = 1;
-					quadtree->Insert(new brickItem(j * TILE, i * TILE, EBrickItemKind::SHOOTER));
+					quadtree->Insert(new brickItem(j * TILE, i * TILE, EBrickItemKind::SHOOTER,State::start));
 					break;
 
 				case 157: //larger red
 					//also in tile map
 					TileMap::GetInst()->_board[i][j] = 1;
-					quadtree->Insert(new brickItem(j * TILE, i * TILE, EBrickItemKind::LARGER));
+					quadtree->Insert(new brickItem(j * TILE, i * TILE, EBrickItemKind::LARGER,State::start));
 					break;
 
 				case 158: //turtle
-					quadtree->Insert(new turtle(j * TILE, i * TILE));
+					quadtree->Insert(new turtle(j * TILE, i * TILE,State::start));
 					break;
 				}
 			}

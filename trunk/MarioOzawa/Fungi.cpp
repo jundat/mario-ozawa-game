@@ -2,7 +2,7 @@
 #include "ResourceManager.h"
 #include "TileMap.h"
 
-fungi::fungi(float x, float y)	: MyObject(x, y)
+fungi::fungi(float x, float y,State state)	: MyObject(x, y)
 {
 	_curSprite = new Sprite(ResourceMng::GetInst()->GetTexture("image/Fungi.png"), 50);
 	_curSprite->_start = 0;
@@ -14,7 +14,9 @@ fungi::fungi(float x, float y)	: MyObject(x, y)
 	_turnLeft = true;
 	_timeTransform = 0;
 	_ID = EObject::FUNGI;
-	_State = Move;
+	if(state == State::start)
+		_State = Move;
+	else _State = state;
 }
 
 

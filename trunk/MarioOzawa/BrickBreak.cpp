@@ -5,11 +5,13 @@
 #include "SoundManager.h"
 #include "TileMap.h"
 
-brickBreak::brickBreak(float x, float y)	: MyObject(x, y)
+brickBreak::brickBreak(float x, float y,State state)	: MyObject(x, y)
 {
 	_curSprite = new Sprite(ResourceMng::GetInst()->GetTexture("image/Brick_Break.png"), 500);
 	_ID = EObject::BRICKBREAK;
-	_State = stand;
+	if(state == State::start)
+		_State = stand;
+	else _State = state;
 	up = true;
 	_yOri = y;
 	_nextx = 0.0f;

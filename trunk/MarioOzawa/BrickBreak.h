@@ -23,7 +23,7 @@ protected:
 	bool up;
 	float _yOri;
 public:
-	brickBreak(float x, float y);
+	brickBreak(float x, float y,State state);
 	virtual ~brickBreak(void);
 	virtual void Update(int time);
 	virtual void Render();

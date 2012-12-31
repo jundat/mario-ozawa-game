@@ -21,7 +21,7 @@ public:
 	int _TimeStand;
 	int _TimeAttack;
 public:
-	turtle(float x, float y);
+	turtle(float x, float y,State state);
 	virtual ~turtle(void);
 	virtual void Update(int time);
 	virtual void Render();

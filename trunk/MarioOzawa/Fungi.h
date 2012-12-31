@@ -19,7 +19,7 @@ protected:
 	//float _vy;
 	int _timeTransform;
 public:
-	fungi(float x, float y);
+	fungi(float x, float y,State state);
 	virtual ~fungi(void);
 	virtual void Update(int time);
 	virtual void Render();

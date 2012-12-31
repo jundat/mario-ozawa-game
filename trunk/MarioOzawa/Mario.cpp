@@ -191,7 +191,7 @@ void Mario::TurnRight()
 		_vx = MAX_MARIO_VX;
 	_curSprite->_start = 0;
 	_curSprite->_end = 2;
-	if((_State != transform) && (_State != Move) && (_State != jumping))
+	if((_State != transform) && (_State != Move) && (_State != jumping) && (_State != reborn))
 	{
 		_State = Move;
 	}
@@ -209,7 +209,7 @@ void Mario::TurnLeft()
 		_vx = - MAX_MARIO_VX;
 	_curSprite->_start = 0;
 	_curSprite->_end = 2;
-	if((_State != transform) && (_State != Move) && (_State != jumping))
+	if((_State != transform) && (_State != Move) && (_State != jumping) && (_State != reborn))
 	{
 		_State = Move;
 	}
@@ -229,7 +229,7 @@ void Mario::Jump()
 	//	SoundManager::GetInst()->PlayEffSound(SOUND_E_JUMP);
 	//}
 
-	if((abs(_vy) < 0.2f) && (_State != jumping) && (_State != transform) && (_State != reborn)){
+	if((abs(_vy) < 0.2f) && (_State != jumping) && (_State != transform)){
 		_State = jumping;
 		_vy = - MARIO_VY;
 
@@ -519,7 +519,7 @@ void Mario::UpdateRealTimeCollision(int time, vector<MyObject*>* listcollision)
 
 	bool check = _listCollisionData.check();
 
-	if(_State != reborn)
+	//if(_State != reborn)
 	if(check == true) // co va cham
 	{
 		bool backPosition = false;
@@ -662,6 +662,8 @@ void Mario::UpdateRealTimeCollision(int time, vector<MyObject*>* listcollision)
 
 			if(idobject == EObject::FUNGI)
 			{
+				if(_State == reborn)
+					int x = 5;
 				if(_State == transform || _State == reborn)
 					continue;
 

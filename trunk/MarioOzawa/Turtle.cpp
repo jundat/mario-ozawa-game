@@ -4,7 +4,7 @@
 #include "ResourceManager.h"
 #include "TileMap.h"
 
-turtle::turtle(float x, float y)	: MyObject(x, y)
+turtle::turtle(float x, float y,State state)	: MyObject(x, y)
 {
 	_curSprite = new Sprite(ResourceMng::GetInst()->GetTexture("image/turtle.png"), 90);
 	_curSprite->_start = 0;
@@ -15,7 +15,9 @@ turtle::turtle(float x, float y)	: MyObject(x, y)
 	_vy = 0;
 	_turnLeft = true;
 	_ID = EObject::TURTLE;
-	_State = Move;
+	if(state == State::start)
+		_State = Move;
+	else _State = state;
 	_TimeStand = 0;
 	_TimeAttack = 0;
 }
@@ -186,6 +188,8 @@ void turtle::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 
 			if(idobject == EObject::MARIO)
 			{
+				if((stateObject == transform) || (stateObject == dead) || (stateObject == beforedead) || (stateObject == reborn))
+					break;
 				if((dir == Left) || (dir == Right) || (dir == Bottom))
 				{
 					if((_State == Move) || (_State == attack))
@@ -311,6 +315,8 @@ void turtle::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 }
 void turtle::CheckCollision(MyObject* obj)
 {
+	if((_State == beforedead) || (_State == dead) || (_State == beforedead2))
+		return;
 	if(obj->_ID == EObject::MARIO)
 	{
 		if((obj->_State == transform) || (obj->_State == dead) || (obj->_State == beforedead) || (obj->_State == reborn))
