@@ -250,7 +250,7 @@ void Mario::Stand()
 		_vx = 0.0f;
 
 	//then set Stand frame
-	if((_State != jumping) && (_State != transform) && (_vx == 0.0f)){
+	if((_State != jumping) && (_State != transform) && (_vx == 0.0f) && (_State != reborn)){
 		_State = stand;
 		//_vx = 0;
 		_curSprite->SelectIndex(0);
@@ -391,7 +391,8 @@ void Mario::CheckCollision(MyObject* obj)
 	{
 		if(_State == transform)
 			return;
-
+		if(_State == reborn)
+			return;
 		if(obj->_State == dead)
 			return;
 
@@ -538,6 +539,10 @@ void Mario::UpdateRealTimeCollision(int time, vector<MyObject*>* listcollision)
 					// newwwwwwwwwwwwwwww
 					_nextx -= _listCollisionData._listNewData.at(m)->_deltaX;
 					_nexty -= _listCollisionData._listNewData.at(m)->_deltaY;
+					if(dir == Top)
+						_vy = 0.0f;
+					if(dir == Bottom)
+						_vy = 0.0f;
 					backPosition = true;
 				}
 			}
@@ -547,7 +552,8 @@ void Mario::UpdateRealTimeCollision(int time, vector<MyObject*>* listcollision)
 			{
 				if((stateObject == breaking) || (stateObject == dead))
 					break;
-
+				if(_State == reborn)
+					continue;
 				if(dir == Top)
 				{
 					//add exp
@@ -568,7 +574,7 @@ void Mario::UpdateRealTimeCollision(int time, vector<MyObject*>* listcollision)
 				if(dir == Bottom)
 				{
 					_vy = 0.0f;
-					if(_State != transform)
+					if((_State != transform) && (_State != reborn))
 						_State = stand;
 					continue;
 				}
@@ -577,6 +583,8 @@ void Mario::UpdateRealTimeCollision(int time, vector<MyObject*>* listcollision)
 			//////////////////////////////////////////////////////////////////////////
 			if(idobject == EObject::BRICKQUESTION)
 			{
+				if(_State == reborn)
+					continue;
 				if(dir == Top)
 				{
 					//add exp
@@ -595,7 +603,7 @@ void Mario::UpdateRealTimeCollision(int time, vector<MyObject*>* listcollision)
 				if(dir == Bottom)
 				{
 					_vy = 0.0f;
-					if(_State != transform)
+					if((_State != transform) && (_State != reborn))
 						_State = stand;
 					continue;
 				}
@@ -604,6 +612,8 @@ void Mario::UpdateRealTimeCollision(int time, vector<MyObject*>* listcollision)
 			//////////////////////////////////////////////////////////////////////////
 			if(idobject == EObject::BRICKITEM)
 			{
+				if(_State == reborn)
+					continue;
 				if(dir == Top)
 				{
 					//add exp
@@ -627,6 +637,8 @@ void Mario::UpdateRealTimeCollision(int time, vector<MyObject*>* listcollision)
 			{
 				if(stateObject == dead)
 					continue;
+				if(_State == reborn)
+					continue;
 				listcollision->at(index)->_State = dead;
 				// tien tang
 				this->gold++;
@@ -637,6 +649,8 @@ void Mario::UpdateRealTimeCollision(int time, vector<MyObject*>* listcollision)
 
 			if(idobject == ITEM)
 			{
+				if(_State == reborn)
+					continue;
 				listcollision->at(index)->_State = dead;
 				if(GL_CurForm != 2)
 				{
@@ -662,8 +676,6 @@ void Mario::UpdateRealTimeCollision(int time, vector<MyObject*>* listcollision)
 
 			if(idobject == EObject::FUNGI)
 			{
-				if(_State == reborn)
-					int x = 5;
 				if(_State == transform || _State == reborn)
 					continue;
 
@@ -895,6 +907,10 @@ void Mario::UpdateRealTimeCollision(int time, vector<MyObject*>* listcollision)
 	if(_State == jumping){
 		_curSprite->SelectIndex(3);
 	}
+	if((_State == reborn)&&(_vx == 0.0f)&&(_vy == 0.0f))
+	{
+		_curSprite->SelectIndex(0);
+	}
 
 	//save last position
 	if(_State == State::stand || _State == State::Move || _State == State::alive)
@@ -930,7 +946,7 @@ void Mario::CheckTitleCollision(float &_vx,float &_vy,float &_nextX,float &_next
 						this->_vy = 0;
 						iColTer = true;
 						_nextY = TILE * (j) - _height - 1 ;
-						if(_State != transform)
+						if((_State != transform) && (_State != reborn))
 							_State = stand;
 						break;
 					}
