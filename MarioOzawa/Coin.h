@@ -14,7 +14,7 @@ class coin : public MyObject
 protected:
 	Sprite* _curSprite;
 public:
-	coin(float x, float y);
+	coin(float x, float y,State state);
 	virtual ~coin(void);
 	virtual void Update(int time);
 	virtual void Render();

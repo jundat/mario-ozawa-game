@@ -18,7 +18,7 @@ protected:
 	int _xCoint,
 		_yCoint;
 public:
-	brickQuestion(float x, float y);
+	brickQuestion(float x, float y,State state);
 	virtual ~brickQuestion(void);
 	virtual void Update(int time);
 	virtual void Render();

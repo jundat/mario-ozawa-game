@@ -4,7 +4,7 @@
 #include "ResourceManager.h"
 #include "Mario.h"
 
-brickQuestion::brickQuestion(float x, float y)	: MyObject(x, y)
+brickQuestion::brickQuestion(float x, float y,State state)	: MyObject(x, y)
 {
 	_curSprite = new Sprite(ResourceMng::GetInst()->GetTexture("image/Question.png"), 500);
 	_coin = new Sprite(ResourceMng::GetInst()->GetTexture("image/Coin.png"), 1);
@@ -12,7 +12,9 @@ brickQuestion::brickQuestion(float x, float y)	: MyObject(x, y)
 	_curSprite->SelectIndex(1);
 	_curSprite->_start = 1;
 	_curSprite->_end = 2;
-	_State = hasCoin;
+	if(state == State::start)
+		_State = hasCoin;
+	else _State = state;
 	_drawCoin = false;
 	_xCoint = x ;
 	_yCoint = y - 40;

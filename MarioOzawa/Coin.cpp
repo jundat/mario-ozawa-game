@@ -4,10 +4,13 @@
 #include "ResourceManager.h"
 #include "Mario.h"
 
-coin::coin(float x, float y)	: MyObject(x, y)
+coin::coin(float x, float y,State state)	: MyObject(x, y)
 {
 	_curSprite = new Sprite(ResourceMng::GetInst()->GetTexture("image/Coin.png"), 100);
 	_ID = EObject::COIN;
+	if(state == State::start)
+		_State = stand;
+	else _State = state;
 }
 
 coin::~coin(void)
