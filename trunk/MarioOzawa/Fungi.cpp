@@ -221,14 +221,8 @@ void fungi::UpdateRealTimeCollision(int time,vector<MyObject*>* listcollision)
 
 			if(idobject == EObject::MARIO)
 			{
-<<<<<<< .mine
-				if((stateObject == transform) || (stateObject == dead) || (stateObject == beforedead) || (stateObject == reborn))
-					continue;
-=======
 				if((stateObject == transform) || (stateObject == dead) || (stateObject == beforedead) || (stateObject == reborn))
 					break;
->>>>>>> .r56
-
 				if((dir == Left) || (dir == Right) || (dir == Bottom))
 				{
 					listcollision->at(index)->_State = transform;
