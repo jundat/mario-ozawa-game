@@ -19,8 +19,9 @@ Mario::Mario(float x, float y)	: MyObject(x, y)
 	_turnLeft = false;
 	if((GL_CurForm == 0) && (GL_NextForm == 0))
 	{
-		_curSprite = _sprMarioSmaller;
-		GL_CurForm = 0;
+ 		_curSprite = _sprMarioSmaller;
+ 
+  		GL_CurForm = 0;
 		GL_NextForm = 1;
 	}
 	else
@@ -39,6 +40,7 @@ Mario::Mario(float x, float y)	: MyObject(x, y)
 	_vx = 0;
 	_vy = 0;
 	_TimeTransform = 0;
+	_TimeFire = MARIO_FIRE_TIME;
 	_ID = EObject::MARIO;
 
 	life = 3;
@@ -443,7 +445,8 @@ void Mario::Fire()
 {
 	if(GL_CurForm != 2)
 		return;
-
+	if(_TimeFire <= MARIO_FIRE_TIME)
+		return;
 	if((_State == stand) || (_State == jumping) || (_State == Move))
 	{
 		bullet* sf;
@@ -451,6 +454,7 @@ void Mario::Fire()
 			sf = new bullet(_x - 30,_y + 35,_turnLeft);
 		else sf = new bullet(_x + 50,_y + 35,_turnLeft);
 		_listBullet.push_back(sf);
+		_TimeFire = 0;
 	}
 }
 
@@ -475,9 +479,21 @@ void Mario::UpdateRealTimeCollision(int time, vector<MyObject*>* listcollision)
 	if(_deadListBullet == true)
 		_listBullet.clear();
 	//////////////////////////////////////////////////////////////////////////
-
+	_TimeFire += time;
 	Transform();
 
+	//xet hinh dang mario so voi trang thai
+	if(_State != transform)
+	{
+		if(GL_CurForm == 0)
+			_curSprite = _sprMarioSmaller;
+		if(GL_CurForm == 1)
+			_curSprite = _sprMarioLarger;
+		if(GL_CurForm == 2)
+			_curSprite = _sprMarioFire;
+	}
+	//
+	
 	//mer
 	static int timeReborn = TIME_REBORN + 1;
 	
