@@ -340,7 +340,7 @@ void Item::CheckCollision(MyObject* obj)
 			else
 			{
 				//((Mario*)listcollision->at(index))->life++;
-				((Mario)obj)->life++;
+				((Mario*)obj)->life++;
 			}
 		}
 	}
