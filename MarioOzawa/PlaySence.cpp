@@ -235,6 +235,8 @@ void PlaySence::_UpdateRender(int time)
 	RECT r = GL_WndSize;
 	r.top = GL_Height - _alpha * GL_Height;
 
+
+	//khi lose game, thì _mapNumber đc reset lại = 0, do đó sẽ vẽ sai
 	if(MapLoader::_mapNumber == 2)
 		ResourceMng::GetInst()->GetSurface("image/imgBgGame2.png")->Render(NULL, &r);
 	else
@@ -252,13 +254,16 @@ void PlaySence::_UpdateRender(int time)
 	if(_mario->life <= 0 && _mario->_State == dead && 
 		!_isExitting)
 	{
+		GL_CurForm = 0;
+		GL_NextForm = 0;
+
 		MapLoader::DeleteSavedGame(GL_FILE_SAVE_GAME);
 
 		_isExitting = true;
 
 		SoundManager::GetInst()->StopBgSound(SOUND_B_GAME1);
 
-		LoseGameSence* screen = new LoseGameSence(_game, 1000);
+		LoseGameSence* screen = new LoseGameSence(_game, 1000, this);
 
 		_game->AddSence(screen);
 

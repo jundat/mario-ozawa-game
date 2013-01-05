@@ -48,6 +48,8 @@ void IntroSence::_UpdateRender(int t)
 
 		MenuSence* mn = new MenuSence(_game, 100);
 		_game->AddSence(mn);
+
+		this->_state = Off;
 	}
 
 	//render

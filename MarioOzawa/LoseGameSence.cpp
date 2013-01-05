@@ -4,9 +4,10 @@
 #include "Writer.h"
 #include "ZoomSence.h"
 
-LoseGameSence::LoseGameSence(Game* game, int timeAni)
+LoseGameSence::LoseGameSence(Game* game, int timeAni, PlaySence* playSence)
 	:GameSence(game, timeAni)
 {
+	this->_playSence = playSence;
 }
 
 LoseGameSence::~LoseGameSence(void)
@@ -20,17 +21,17 @@ void LoseGameSence::_Load()
 
 // nhan 1 lan
 void LoseGameSence::_OnKeyDown(int keyCode){
-	switch(keyCode){
-	case DIK_UP:
-		{
-			//got to menu
-			MenuSence* mn = new MenuSence(_game, 0);
-			ZoomSence* zs = new ZoomSence(_game, 500, this, mn);
-			_game->AddSence(zs);
+	if(keyCode == DIK_RETURN)
+	{
+		//got to menu
+		MenuSence* mn = new MenuSence(_game, 0);
+		ZoomSence* zs = new ZoomSence(_game, 500, this->_playSence, mn);
+		_game->AddSence(zs);
 
-			SoundManager::GetInst()->PlayBgSound(SOUND_B_MENU, true, true);
-		}
-		break;
+		SoundManager::GetInst()->PlayBgSound(SOUND_B_MENU, true, true);
+
+		this->_state = TransOff;
+		//this->_playSence->_state = TransOff;
 	}
 }
 

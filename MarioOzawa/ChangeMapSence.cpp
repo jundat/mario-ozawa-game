@@ -7,7 +7,9 @@ ChangeMapSence::ChangeMapSence(Game* game, bool* isVisible, int curlevel, int ti
 {
 	this->IsVisiable = isVisible;
 	*this->IsVisiable = false;
+	
 	CurrentLevel = curlevel;
+	count = 0;
 
 	StationX[0] = 3;
 	StationX[1] = 183;
@@ -38,28 +40,11 @@ void ChangeMapSence::_Load()
 // nhan 1 lan
 void ChangeMapSence::_OnKeyDown(int keyCode)
 {
-	switch(keyCode){
-	case DIK_RETURN:
-		break;
-
-	case DIK_UP:
-		{
-			SoundManager::GetInst()->PlayEffSound(SOUND_E_SLIDE);
-			_state = TransOff;
-			*this->IsVisiable = true;
-		}
-		break;
-
-	case DIK_SPACE:
-		{
-			SoundManager::GetInst()->PlayEffSound(SOUND_E_SLIDE);
-			_state = TransOff;
-			*this->IsVisiable = true;
-		}
-		break;
-
-	case DIK_DOWN:
-		break;
+	if(keyCode == DIK_RETURN)
+	{
+		SoundManager::GetInst()->PlayEffSound(SOUND_E_SLIDE);
+		_state = TransOff;
+		*this->IsVisiable = true;
 	}
 }
 
@@ -74,7 +59,6 @@ void ChangeMapSence::_ProcessInput()
 
 void ChangeMapSence::_UpdateRender(int time)
 {
-	static int count = 0;
 	count++;
 
 	//render
@@ -108,6 +92,7 @@ void ChangeMapSence::_UpdateRender(int time)
 
 	//mario
 	float scale = 0.5f;
+
 	//mario->Update(time);
 	mario->RenderTransform(StationX[i-1] - scale*mario->_texture->Width + 10, 
 		StationY[i-1] - scale*mario->_texture->Height, 
