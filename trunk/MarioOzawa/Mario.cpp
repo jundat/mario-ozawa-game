@@ -295,7 +295,7 @@ void Mario::Transform()
 				//_y += 50;
 				if(GL_CurForm == 1)
 				{
-					_y += 40;
+					_y += 28;
 				}
 			}
 			if(GL_NextForm == 1)
@@ -305,7 +305,7 @@ void Mario::Transform()
 				_curSprite->SelectIndex(_tempIndex);
 				if(GL_CurForm == 0)
 				{
-					_y -= 40;
+					_y -= 28;
 					if((_State == transform) && (_turnLeft == false))
 					{
 						//_x -= 100;
@@ -331,7 +331,7 @@ void Mario::Transform()
 					//_y += 50;
 					if(GL_NextForm == 1)
 					{
-						_y +=40;
+						_y +=28;
 						if((_State == Move) && (_turnLeft == false))
 						{
 							//_x += 100;
@@ -345,7 +345,7 @@ void Mario::Transform()
 					_curSprite->SelectIndex(_tempIndex);
 					if(GL_NextForm == 0)
 					{
-						_y -= 40;
+						_y -= 28;
 					}
 					//_y -= 50;
 				}
