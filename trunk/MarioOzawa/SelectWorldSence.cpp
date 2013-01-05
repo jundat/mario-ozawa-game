@@ -54,7 +54,7 @@ SelectWorldSence::~SelectWorldSence(void)
 
 void SelectWorldSence::_Load()
 {
-	_mario = new Mario(50, 50);
+	_mario = new Mario(50, -50);
 
 	_effectMoveDown = NULL;
 	_isExitting = false;
@@ -91,37 +91,36 @@ void SelectWorldSence::_OnKeyDown(int keyCode){
 		break;
 
 	case DIK_SPACE:
-		_mario->Jump();
+		{
+			if(_effectMoveDown == NULL)
+				_mario->Jump();
+		}
 		break;
 
 	case DIK_UP:
-		_mario->Jump();
+		{
+			if(_effectMoveDown == NULL)
+				_mario->Jump();
+		}
 		break;
 
 	case DIK_DOWN:
 		{
-			int col = (int)(_mario->_x / TILE);
-			int row = (int)(_mario->_y / TILE);
-
-			if(_mario->_State == stand || _mario->_State == Move)
-			if((col == 9 || col == 10 || col == 13 || col == 14 || col == 17|| col == 18 )&&
-				(row == 3 || row == 4 || row == 5))
+			if(_effectMoveDown == NULL)
 			{
-				_effectMoveDown = new MarioMoveDown(_mario->_turnLeft, _mario->_curSprite, _mario->_x, _mario->_y);
-				//e_boss_hurt
-				SoundManager::GetInst()->PlayEffSound(SOUND_E_BOSS_BEFORE_DIE);//e_boss_before_die
-			}
-		}
-		break;
+				int col = (int)(_mario->_x / TILE);
+				int row = (int)(_mario->_y / TILE);
 
-	case DIK_Q:
-		_mario->TransformMario(0,1);
-		break;
-	case DIK_W:
-		_mario->TransformMario(1,2);
-		break;
-	case DIK_E:
-		_mario->TransformMario(2,0);
+				if(_mario->_State == stand || _mario->_State == Move)
+					if((col == 9 || col == 10 || col == 13 || col == 14 || col == 17|| col == 18 )&&
+						(row == 3 || row == 4 || row == 5))
+					{
+						_effectMoveDown = new MarioMoveDown(_mario->_turnLeft, _mario->_curSprite, _mario->_x, _mario->_y);
+						//e_boss_hurt
+						SoundManager::GetInst()->PlayEffSound(SOUND_E_BOSS_BEFORE_DIE);//e_boss_before_die
+					}
+			}			
+		}
 		break;
 	}
 }
@@ -137,15 +136,13 @@ void SelectWorldSence::_ProcessInput()
 {
 	if (_game->IsKeyDown(DIK_RIGHT))
 	{
-		_mario->TurnRight();
+		if(_effectMoveDown == NULL)
+			_mario->TurnRight();
 	}	
 	else if (_game->IsKeyDown(DIK_LEFT))
 	{
-		_mario->TurnLeft();
-	}
-	else if(_game->IsKeyDown(DIK_DOWN))
-	{ 
-		_mario->ShitDown();
+		if(_effectMoveDown == NULL)
+			_mario->TurnLeft();
 	}
 	else
 	{

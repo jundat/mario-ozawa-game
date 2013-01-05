@@ -1,12 +1,15 @@
 #pragma once
 
 #include "gamesence.h"
+#include "PlaySence.h"
 
 class LoseGameSence :
 	public GameSence
 {
 public:
-	LoseGameSence(Game* game, int timeAni);
+	PlaySence* _playSence;
+
+	LoseGameSence(Game* game, int timeAni, PlaySence* playSence);
 	~LoseGameSence(void);
 
 	virtual void _UpdateRender(int t);

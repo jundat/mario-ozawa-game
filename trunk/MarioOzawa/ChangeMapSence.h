@@ -11,6 +11,8 @@ public:
 	Sprite* mario;
 	bool* IsVisiable;
 
+	int count;
+
 	int CurrentLevel;
 	int StationX[MAX_LEVEL];
 	int StationY[MAX_LEVEL];

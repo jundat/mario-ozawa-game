@@ -456,7 +456,8 @@ void Game::Run()
 		{
 			float fps = 1000 / _DeltaTime;
 			char text[100];
-			sprintf(text, "FPS: %f", fps);
+			sprintf(text, "FPS: %f | Sences: %d", fps, _listSence.size());
+
 			GLTitle(text);
 
 			frame_start = now;
