@@ -14,7 +14,7 @@
 #define MAX_MARIO_VX 0.75f
 #define MAX_MARIO_VY 2.0f
 #define GRAVITY		0.01f
-#define FRICTION_X		0.0000006f
+#define FRICTION_X	0.0000006f
 #define ACCEL_X		1.5f
 #define BOTTOM		600
 #define DISTANCE_WITH_LAST_POSITION_X 400 //distance between the current position and last position to update last position
@@ -24,7 +24,7 @@
 
 #define EXP_FOR_BRICK 5 //point for exp
 #define EXP_FOR_OBJECT 10
-#define TIME_REBORN 15000 //thoi gian sau khi mario reborn hien thi o che do blur, truoc khi reborn hoan chinh
+#define TIME_REBORN 1500 //thoi gian sau khi mario reborn hien thi o che do blur, truoc khi reborn hoan chinh
 
 #define MARIO_VX_COMPLETE_MAP 0.50f
 #define MARIO_DELTA_X_COMPLETE_MAP 400

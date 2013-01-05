@@ -58,7 +58,6 @@ LRESULT CALLBACK Game::_WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 	switch (message) 
 	{
 	case WM_ACTIVATE:
-		if(GL_IsInitedDX)
 		{
 			if(GLKeyBoard != NULL){
 				GLKeyBoard->Acquire();
@@ -173,8 +172,7 @@ void Game::_InitDirectX()
 
 void Game::_InitKeyboard()
 {
-	HRESULT 
-		hr = DirectInput8Create
+	HRESULT hr = DirectInput8Create
 		( 
 			GL_HINSTANCE, 
 			DIRECTINPUT_VERSION, 
