@@ -29,6 +29,7 @@
 #define MARIO_VX_COMPLETE_MAP 0.50f
 #define MARIO_DELTA_X_COMPLETE_MAP 400
 
+#define MARIO_FIRE_TIME 250 //thoi gian giua 2 lan ban
 using namespace std;
 #pragma once
 class Mario : public MyObject
@@ -37,7 +38,7 @@ protected:
 	
 	int _TimeTransform;
 	int _time;
-
+	int _TimeFire;
 	int _startx; //the last position at that mario is (move or stand) and alive
 	int _starty;
 
