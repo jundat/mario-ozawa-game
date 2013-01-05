@@ -4,7 +4,7 @@
 #include "ResourceManager.h"
 #include "TileMap.h"
 
-turtle::turtle(float x, float y)	: MyObject(x, y)
+turtle::turtle(float x, float y,State state)	: MyObject(x, y)
 {
 	_curSprite = new Sprite(ResourceMng::GetInst()->GetTexture("image/turtle.png"), 90);
 	_curSprite->_start = 0;
@@ -13,9 +13,11 @@ turtle::turtle(float x, float y)	: MyObject(x, y)
 	_y = y;
 	_vx = 0;
 	_vy = 0;
-	_turnLeft = false;
+	_turnLeft = true;
 	_ID = EObject::TURTLE;
-	_State = Move;
+	if(state == State::start)
+		_State = Move;
+	else _State = state;
 	_TimeStand = 0;
 	_TimeAttack = 0;
 }
