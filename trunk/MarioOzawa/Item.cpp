@@ -323,17 +323,25 @@ void Item::CheckCollision(MyObject* obj)
 	
 	if(obj->_ID == EObject::MARIO)
 	{
+		
 		if(this->GetCollisionDirection(this->GetRect(), obj->GetRect()) != None)
 		{
 			_State = dead;
-			if(GL_CurForm != 2)
+			if(this->_item != SHOOTER)
 			{
-				obj->_State = transform;
-				GL_NextForm = GL_CurForm + 1;
-				if((GL_CurForm == 0) && (GL_NextForm == 1))
-					obj->_y -= 50;
-				
+				if(GL_CurForm != 2)
+				{
+					obj->_State = transform;
+					GL_NextForm = GL_CurForm + 1;
+					if((GL_CurForm == 0) && (GL_NextForm == 1))
+						obj->_y -= 50;
+				}	
 			}// player transform or + heart khi nhat dc item here
+			else
+			{
+				//((Mario*)listcollision->at(index))->life++;
+				((Mario)obj)->life++;
+			}
 		}
 	}
 	if(obj->_ID == BRICKBREAK)
