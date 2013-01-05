@@ -2,6 +2,7 @@
 #include "ResourceManager.h"
 #include "TileMap.h"
 #include "SoundManager.h"
+#include "Mario.h"
 Item::Item(float x, float y, EBrickItemKind kindOfItem): MyObject(x, y)
 {
 	_curSprite = new Sprite(ResourceMng::GetInst()->GetTexture("image/brick.png"), 0);
@@ -134,14 +135,23 @@ void Item::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 					*/
 					if(idobject == EObject::MARIO)
 					{
+						if((stateObject == transform) || (stateObject == dead) || (stateObject == beforedead) || (stateObject == reborn))
+							continue;
 						_State = dead;
-						if(GL_CurForm != 2)
+						if(this->_item != SHOOTER)
 						{
-							listcollision->at(index)->_State = transform;
-							GL_NextForm = GL_CurForm + 1;
-							if((GL_CurForm == 0) && (GL_NextForm == 1))
-								listcollision->at(index)->_y -= 50;
+							if(GL_CurForm != 2)
+							{
+								listcollision->at(index)->_State = transform;
+								GL_NextForm = GL_CurForm + 1;
+								if((GL_CurForm == 0) && (GL_NextForm == 1))
+									listcollision->at(index)->_y -= 50;
+							}
 						}// player transform or + heart khi nhat dc item here
+						else
+						{
+							((Mario*)listcollision->at(index))->life++;
+						}
 					}
 				}
 			}

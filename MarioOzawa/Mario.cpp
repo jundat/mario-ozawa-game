@@ -652,13 +652,17 @@ void Mario::UpdateRealTimeCollision(int time, vector<MyObject*>* listcollision)
 				if(_State == reborn)
 					continue;
 				listcollision->at(index)->_State = dead;
-				if(GL_CurForm != 2)
+				if( ((Item*)listcollision->at(index))->_item != SHOOTER )
 				{
-					_State = transform;
-					GL_NextForm = GL_CurForm + 1;
-					if((GL_CurForm == 0) && (GL_NextForm == 1))
-						_y -= 50;
-				}// player transform or + heart khi nhat dc item here*/
+					if(GL_CurForm != 2)
+					{
+						_State = transform;
+						GL_NextForm = GL_CurForm + 1;
+						if((GL_CurForm == 0) && (GL_NextForm == 1))
+							_y -= 50;
+					}// player transform or + heart khi nhat dc item here*/
+				}
+				else this->life++;
 			}
 
 			if(idobject == EObject::TREEMONSTER)
