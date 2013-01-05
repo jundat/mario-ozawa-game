@@ -882,7 +882,7 @@ void Mario::UpdateRealTimeCollision(int time, vector<MyObject*>* listcollision)
 		timeReborn = TIME_REBORN + 1;
 	}
 
-	//new tan long
+	//new tan long//
 	if(abs(_vy) >= 0.2f && _State != reborn && _State != beforedead && _State != beforedead2 && _State != dead && _State != transform)
 	{
 		_State = jumping;

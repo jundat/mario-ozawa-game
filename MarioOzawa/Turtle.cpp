@@ -4,7 +4,7 @@
 #include "ResourceManager.h"
 #include "TileMap.h"
 
-turtle::turtle(float x, float y,State state)	: MyObject(x, y)
+turtle::turtle(float x, float y)	: MyObject(x, y)
 {
 	_curSprite = new Sprite(ResourceMng::GetInst()->GetTexture("image/turtle.png"), 90);
 	_curSprite->_start = 0;
@@ -13,11 +13,9 @@ turtle::turtle(float x, float y,State state)	: MyObject(x, y)
 	_y = y;
 	_vx = 0;
 	_vy = 0;
-	_turnLeft = true;
+	_turnLeft = false;
 	_ID = EObject::TURTLE;
-	if(state == State::start)
-		_State = Move;
-	else _State = state;
+	_State = Move;
 	_TimeStand = 0;
 	_TimeAttack = 0;
 }
@@ -33,7 +31,6 @@ void turtle::Render()
 {
 	if(_State == dead)
 		return;
-
 	if(_State == beforedead2)
 	{
 		_curSprite->RenderScaleY((int)_x, (int)_y);
@@ -114,7 +111,6 @@ void turtle::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 	_listCollisionData.clear();
 	if(_y >= 800)
 		_State = dead;
-
 	if(_State == stand)
 	{
 		_curSprite->SelectIndex(2);
@@ -138,14 +134,11 @@ void turtle::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 		{
 			if(listcollision->at(k) == this)
 				continue;
-
 			if(listcollision->at(k)->_ID == EObject::MARIO)
 			{
 				//this->RealTimeCollision1(this->GetReSizeRect2(),listcollision->at(k),k,time);
-				if(listcollision->at(k)->_State != reborn)
-					this->RealTimeCollision1(this->GetReSizeRect1(),listcollision->at(k),k,time);
+				this->RealTimeCollision1(this->GetReSizeRect1(),listcollision->at(k),k,time);
 			}
-
 			if((listcollision->at(k)->_ID == EObject::TURTLE) || (listcollision->at(k)->_ID == EObject::FUNGI) || (listcollision->at(k)->_ID == EObject::BRICKBREAK))
 			{
 				if(_State != attack)
@@ -160,7 +153,6 @@ void turtle::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 			}*/
 		}
 	}
-
 	bool check = _listCollisionData.check();
 	if(check == true) // co va cham
 	{
@@ -185,17 +177,16 @@ void turtle::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 					}
 				}
 			}
-
 			if(idobject == EObject::MARIO)
 			{
-				if((stateObject == transform) || (stateObject == dead) || (stateObject == beforedead) || (stateObject == reborn))
-					break;
+				if(stateObject == reborn)
+					continue;
 				if((dir == Left) || (dir == Right) || (dir == Bottom))
 				{
 					if((_State == Move) || (_State == attack))
 					{
 						if(_TimeAttack < 15)
-							break;
+							continue;
 						/*
 						obj->_State = transform;
 						// player bi mat mau
@@ -204,20 +195,19 @@ void turtle::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 						listcollision->at(index)->_State = transform;
 						if(GL_CurForm != 0)
 							GL_NextForm = GL_CurForm - 1;
-
 						if(GL_CurForm == 0)
 						{
 							listcollision->at(index)->_vy = -2.0;
 							listcollision->at(index)->_State = beforedead;
-							break;
+							continue;
 						}
-						break;
+						continue;
 					}
 					
 					if((_State == stand) && (_TimeStand > 20))
 					{
 						if(dir == Bottom)
-							break;
+							continue;
 						_curSprite->_start = 2;
 						_curSprite->_start = 4;
 						_State = attack;
@@ -226,11 +216,10 @@ void turtle::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 						_turnLeft = false;
 						if(dir == Right)
 						_turnLeft = true;
-						break;
+						continue;
 					}
 				}
 			}
-
 			if(idobject == BRICKBREAK)
 			{
 				if(stateObject == breaking)
@@ -239,7 +228,6 @@ void turtle::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 					_vy = -0.85f;
 				}
 			}
-
 			if((idobject == EObject::FUNGI) || (idobject == EObject::TURTLE))
 			{
 				if(dir == Left)
@@ -248,16 +236,16 @@ void turtle::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 						listcollision->at(index)->_State = beforedead2;
 						listcollision->at(index)->_vx = 0.2;
 						listcollision->at(index)->_vy = -1.1;
-						break;
+						continue;
 					}
 					//_x = listcollision->at(index)->_x + TILE + 1;
 					else
 					{
 						if(listcollision->at(index)->_State == State::attack)
-							break;
+							continue;
 						_turnLeft = false;
 						listcollision->at(index)->_turnLeft = true;
-						break;
+						continue;
 					}
 				}
 				if(dir == Right)
@@ -267,16 +255,16 @@ void turtle::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 						listcollision->at(index)->_State = beforedead2;
 						listcollision->at(index)->_vx = -0.2;
 						listcollision->at(index)->_vy = -1.1;
-						break;
+						continue;
 					}
 					//_x = listcollision->at(index)->_x - this->_curSprite->_texture->Width - 1;
 					else
 					{
 						if(listcollision->at(index)->_State == State::attack)
-							break;
+							continue;
 						_turnLeft = true;
 						listcollision->at(index)->_turnLeft = false;
-						break;
+						continue;
 					}
 				}
 
@@ -315,13 +303,10 @@ void turtle::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 }
 void turtle::CheckCollision(MyObject* obj)
 {
-	if((_State == beforedead) || (_State == dead) || (_State == beforedead2))
-		return;
 	if(obj->_ID == EObject::MARIO)
 	{
 		if((obj->_State == transform) || (obj->_State == dead) || (obj->_State == beforedead) || (obj->_State == reborn))
 			return;
-
 		switch(this->GetCollisionDirection(this->GetReSizeRect1(), obj->GetRect()))
 		{
 		case Top:
@@ -333,7 +318,6 @@ void turtle::CheckCollision(MyObject* obj)
 				_TimeAttack = 0;
 			}
 			break;
-
 		case  Left:
 			if((_State == Move) || (_State == attack))
 			{
@@ -355,7 +339,6 @@ void turtle::CheckCollision(MyObject* obj)
 				}
 			}
 			break;
-
 		case Right:
 			if((_State == Move) || (_State == attack))
 			{
@@ -377,7 +360,6 @@ void turtle::CheckCollision(MyObject* obj)
 				}
 			}
 			break;
-
 		case Bottom:
 			if((_State == Move) || (_State == attack))
 			{
@@ -406,7 +388,6 @@ void turtle::CheckCollision(MyObject* obj)
 	{
 		if((obj->_State == transform) || (obj->_State == dead) || (obj->_State == beforedead) || (obj->_State == reborn))
 			return;
-
 		switch(this->GetCollisionDirection(this->GetReSizeRect2(), obj->GetRect()))
 		{
 		case  Left:
@@ -420,7 +401,6 @@ void turtle::CheckCollision(MyObject* obj)
 			}
 
 			break;
-
 		case  Right:
 			if((_State == stand) && (_TimeStand > 20))
 			{
