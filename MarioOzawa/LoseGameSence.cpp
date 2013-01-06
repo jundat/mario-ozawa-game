@@ -16,7 +16,8 @@ LoseGameSence::~LoseGameSence(void)
 
 void LoseGameSence::_Load()
 {
-	SoundManager::GetInst()->PlayEffSound(SOUND_E_WIN, false);
+	//SoundManager::GetInst()->PlayEffSound(SOUND_E_WIN, false);
+	SoundManager::GetInst()->PlayBgSound(SOUND_B_OPTION_STATE, false);
 }
 
 // nhan 1 lan
@@ -28,6 +29,7 @@ void LoseGameSence::_OnKeyDown(int keyCode){
 		ZoomSence* zs = new ZoomSence(_game, 500, this->_playSence, mn);
 		_game->AddSence(zs);
 
+		SoundManager::GetInst()->StopAllBgSound();
 		SoundManager::GetInst()->PlayBgSound(SOUND_B_MENU, true, true);
 
 		this->_state = TransOff;
