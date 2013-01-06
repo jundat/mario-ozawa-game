@@ -17,8 +17,11 @@ public:
 
 	
 protected:
+	bool isShowInfor;
+
 
 	virtual void RenderFrame(int Delta);
+	virtual void RenderFrameAfter(int Delta);
 	virtual void ProcessInput(int Delta);
 	virtual void LoadResources();
 

@@ -34,6 +34,7 @@ void OptionSence::_OnKeyDown(int keyCode){
 				//Exit
 				switch(_curSelect)
 				{
+					//background sound
 				case 0:
 					GL_HasBGSound = !GL_HasBGSound;
 					if(GL_HasBGSound == false)
@@ -46,6 +47,7 @@ void OptionSence::_OnKeyDown(int keyCode){
 					SoundManager::GetInst()->PlayEffSound(SOUND_E_SLIDE);
 					break;
 
+					//effect sound
 				case 1:
 					GL_HasEffectSound = !GL_HasEffectSound;
 					if(GL_HasEffectSound == false)
@@ -64,6 +66,7 @@ void OptionSence::_OnKeyDown(int keyCode){
 					}
 					break;
 
+					//exit to menu
 				case 3:
 					{
 						SoundManager::GetInst()->PlayEffSound(SOUND_E_SLIDE);
