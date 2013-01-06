@@ -240,7 +240,9 @@ void Game::_RenderFrame()
 	if (GLDevice->BeginScene()) 
 	{
 		GLDevice->ColorFill(GLBackBuffer, NULL, D3DCOLOR_XRGB(0, 0, 0));
+		
 		//mac dinh chay truoc khi cac sence duoc chay
+		//before
 		RenderFrame(_DeltaTime);
 
 		//update timer
@@ -269,6 +271,10 @@ void Game::_RenderFrame()
 			}
 			
 		}
+
+		//render after
+		RenderFrameAfter(_DeltaTime);
+
 		//
 		GLDevice->EndScene();
 	}
@@ -365,6 +371,8 @@ void Game::OnKeyDown(int KeyCode) { }
 
 void Game::RenderFrame(int Delta) { }
 
+void Game::RenderFrameAfter(int Delta) { }
+
 void Game::LoadResources() { }
 
 void Game::ProcessInput(int Delta) { }
@@ -454,11 +462,11 @@ void Game::Run()
 
 		if (_DeltaTime >= tick_per_frame)
 		{
-			float fps = 1000 / _DeltaTime;
-			char text[100];
-			sprintf(text, "FPS: %f | Sences: %d", fps, _listSence.size());
+			//float fps = 1000 / _DeltaTime;
+			//char text[100];
+			//sprintf(text, "FPS: %f | Sences: %d", fps, _listSence.size());
 
-			GLTitle(text);
+			//GLTitle(text);
 
 			frame_start = now;
 			_RenderFrame();

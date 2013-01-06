@@ -1,7 +1,7 @@
 #pragma once
 
 #include "gamesence.h"
-#define START_TIME_INTRO 50//00
+#define START_TIME_INTRO 4000
 
 class IntroSence :
 	public GameSence

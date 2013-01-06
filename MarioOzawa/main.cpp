@@ -16,6 +16,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		0,
 		60);
 	game.Init();
+	
+	GLTitle("Mario Ozawa");
+	
 	game.Run();
 
 	return 0;

@@ -14,6 +14,7 @@ void Writer::RenderFont1(char* text, int x, int y, float scale)
 	{
 		index = text[i] - ' ';
 		_sprText->SelectIndex(index);
+
 		//_sprText->Render(x + i * CHAR_W, y);
 		_sprText->RenderTransform(x + i * CHAR_W * scale, y, D3DXVECTOR2(scale, scale), 0.0f, 0.0f);
 	}

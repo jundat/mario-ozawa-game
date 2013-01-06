@@ -548,11 +548,11 @@ void MapLoader::DeleteSavedGame(LPCTSTR fileSavedGame)
 	//delete savedgame file
 	if( remove( "saved/savedgame.txt" ) != 0 )
 	{
-		//GLMessage("PlaySence.cpp->line:312: Delete savedgame.txt! successfull");
+		//GLMessage("Delete savedgame.txt! successfull");
 	}
 	else
 	{
-		//GLMessage("PlaySence.cpp->line:312: Can not delete savedgame.txt!");
+		//GLMessage("Can not delete savedgame.txt!");
 	}
 
 	//reset all static value

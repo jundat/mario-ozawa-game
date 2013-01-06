@@ -25,6 +25,8 @@ void MenuSence::_Load()
 
 // nhan 1 lan
 void MenuSence::_OnKeyDown(int keyCode){
+
+	// control game //////////////////////////////////////////////////////////////////////////////////////////////////
 	switch(keyCode){
 		case DIK_RETURN:
 			if(_curSelect == 0){ //play
@@ -69,15 +71,6 @@ void MenuSence::_OnKeyDown(int keyCode){
 				_curSelect++;
 				SoundManager::GetInst()->PlayEffSound(SOUND_E_CLICK);
 			}
-			break;
-
-		case DIK_DELETE:
-			{
-				if( remove( "saved/savedgame.txt" ) != 0 )
-					GLMessage("PlaySence.cpp->line:312: Can not delete savedgame.txt!");
-				else
-					GLMessage("PlaySence.cpp->line:312: Delete savedgame.txt! successfull");
-			}			
 			break;
 	}
 }

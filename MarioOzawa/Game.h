@@ -47,6 +47,7 @@ protected:
 	// Place holder for sub classes
 	
 	virtual void RenderFrame(int Delta);
+	virtual void RenderFrameAfter(int Delta);
 	virtual void LoadResources();
 	virtual void ProcessInput(int Delta);
 

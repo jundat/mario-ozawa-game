@@ -78,96 +78,122 @@ void PlaySence::_OnKeyDown(int keyCode)
 {
 	static int countMapToGo = 0;
 
-	switch(keyCode){
-	case DIK_ESCAPE:
+	//cheat game /////////////////////////////////////////////////////////////////////////////////////////////////
+	//control + key => increase
+	//control + shift + key => decrease 
+	if(_game->IsKeyDown(DIK_LCONTROL))
+	{
+		switch (keyCode)
 		{
-			if(! (_mario->_x >= GL_MapW - MARIO_DELTA_X_COMPLETE_MAP))
-			if(! _isExitting)
+		case DIK_Q:
+			_mario->TransformMario(1, 0);
+			break;
+
+		case DIK_W:
+			_mario->TransformMario(1, 2);
+			break;
+
+		case DIK_E:
+			_mario->TransformMario(2, 1);
+			break;
+
+		case DIK_L:
+			if(_game->IsKeyDown(DIK_LSHIFT))
+				_mario->life--;
+			else
+				_mario->life++;
+			break;
+
+		case DIK_G:
+			if(_game->IsKeyDown(DIK_LSHIFT))
+				_mario->gold--;
+			else
+				_mario->gold++;
+			break;
+
+		case DIK_T:
+			if(_game->IsKeyDown(DIK_LSHIFT))
+				_timeForLevel -= 5000;
+			else
+				_timeForLevel += 5000;
+			break;
+
+		case DIK_X:
+			if(_game->IsKeyDown(DIK_LSHIFT))
+				_mario->exp -= 50;
+			else
+				_mario->exp += 50;
+			break;
+
+		case DIK_1:
+			countMapToGo++;
+			break;
+
+		case DIK_END:
 			{
-				//save game
-				if(_mario->life >= 0 && _mario->_State != dead) // save game
+				if(countMapToGo >= 1)
 				{
-					MapLoader::SaveGameToFile(_QuadTree, _mario, _timeForLevel, GL_FILE_SAVE_GAME);
+					_mario->_vx = 0;
+					MapLoader::_mapNumber = countMapToGo - 1;
+					LoadNewMap();
+
+					//change sence
+					IsVisiable = false;
+					_game->AddSence(new ChangeMapSence(_game, &IsVisiable, MapLoader::_mapNumber, 100));
+					countMapToGo = 0;
 				}
-				else // delete file save
-				{
-					MapLoader::DeleteSavedGame(GL_FILE_SAVE_GAME);
-				}
-
-				_isExitting = true;
-
-				//got to menu
-				MenuSence* mn = new MenuSence(_game, 0);
-				ZoomSence* zs = new ZoomSence(_game, 500, this, mn);
-				_game->AddSence(zs);
-
-				SoundManager::GetInst()->StopBgSound(SOUND_B_GAME1);
-				SoundManager::GetInst()->PlayBgSound(SOUND_B_MENU, true, true);
-			}			
-		}
-		break;
-
-	case DIK_SPACE:
-		_mario->Jump();
-		break;
-
-	case DIK_UP:
-		_mario->Jump();
-		break;
-	case DIK_Q:
-		_mario->TransformMario(1,0);
-		break;
-	case DIK_W:
-		_mario->TransformMario(1,2);
-		break;
-	case DIK_E:
-		_mario->TransformMario(2,1);
-		break;
-	case DIK_Z:
-		_mario->Fire();
-		break;
-
-	case DIK_L:
-		_mario->life++;
-		break;
-
-	case DIK_G:
-		_mario->gold++;
-		break;
-
-	case DIK_T:
-		_timeForLevel += 5000;
-		break;
-
-	case DIK_X:
-		_mario->exp++;
-		break;
-
-	case DIK_1:
-		countMapToGo++;
-		break;
-		
-	case DIK_END:
-		{
-			if(countMapToGo >= 1)
-			{
-				_mario->_vx = 0;
-				MapLoader::_mapNumber = countMapToGo - 1;
-				LoadNewMap();
-
-				//change sence
-				IsVisiable = false;
-				_game->AddSence(new ChangeMapSence(_game, &IsVisiable, MapLoader::_mapNumber, 100));
-				countMapToGo = 0;
 			}
+			break;
 		}
-		break;
 	}
+	else // control game ////////////////////////////////////////////////////////////////////////////////////////////
+		switch(keyCode){
+		case DIK_ESCAPE:
+			{
+				if(! (_mario->_x >= GL_MapW - MARIO_DELTA_X_COMPLETE_MAP))
+				if(! _isExitting)
+				{
+					//save game
+					if(_mario->life >= 0 && _mario->_State != dead) // save game
+					{
+						MapLoader::SaveGameToFile(_QuadTree, _mario, _timeForLevel, GL_FILE_SAVE_GAME);
+					}
+					else // delete file save
+					{
+						MapLoader::DeleteSavedGame(GL_FILE_SAVE_GAME);
+					}
+
+					_isExitting = true;
+
+					//got to menu
+					MenuSence* mn = new MenuSence(_game, 0);
+					ZoomSence* zs = new ZoomSence(_game, 500, this, mn);
+					_game->AddSence(zs);
+
+					SoundManager::GetInst()->StopBgSound(SOUND_B_GAME1);
+					SoundManager::GetInst()->PlayBgSound(SOUND_B_MENU, true, true);
+				}			
+			}
+			break;
+
+		case DIK_SPACE:
+			_mario->Jump();
+			break;
+
+		case DIK_Z:
+			_mario->Fire();
+			break;
+
+		case DIK_UP:
+			_mario->Jump();
+			break;
+		}
 }
 
 //nhan 1 lan
 void PlaySence::_OnKeyUp(int keyCode)
 {
+	
 }
 
 // nhan va giu
@@ -179,7 +205,7 @@ void PlaySence::_ProcessInput()
 		{
 			_mario->TurnRight();
 		}
-	}	
+	}
 	else if (_game->IsKeyDown(DIK_LEFT))
 	{
 		if(! (_mario->_x >= GL_MapW - MARIO_DELTA_X_COMPLETE_MAP))
@@ -269,14 +295,6 @@ void PlaySence::_UpdateRender(int time)
 		LoseGameSence* screen = new LoseGameSence(_game, 1000, this);
 
 		_game->AddSence(screen);
-
-		////got to menu
-		//MenuSence* mn = new MenuSence(_game, 0);
-		//ZoomSence* zs = new ZoomSence(_game, 500, this, mn);
-		//_game->AddSence(zs);
-
-		//SoundManager::GetInst()->StopBgSound(SOUND_B_GAME1);
-		//SoundManager::GetInst()->PlayBgSound(SOUND_B_MENU, true, true);
 	}
 
 	//------------------------------------------------------------------------
