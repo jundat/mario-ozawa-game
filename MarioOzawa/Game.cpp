@@ -53,6 +53,53 @@ void Game::_SetScreenDimension(int Mode)
 	}
 }
 
+void ResetDevice()
+{
+	if(GLDevice)
+	{
+		GLSpriteHandler->OnLostDevice();
+
+		GLDevice->Reset(&GLPresentPara);
+
+		GLSpriteHandler->OnResetDevice();
+	}
+}
+
+bool ValidateDevice()
+{
+	HRESULT hResult = NULL;
+	hResult = GLDevice->TestCooperativeLevel();
+
+	if (FAILED(hResult))
+	{
+		if (hResult == D3DERR_DEVICELOST)
+			return false;
+
+		if (hResult == D3DERR_DEVICENOTRESET)
+		{
+			GLSpriteHandler->OnLostDevice();
+
+			//re-create GLPresentPara
+			ZeroMemory( &GLPresentPara, sizeof(GLPresentPara) );
+			GLPresentPara.Windowed = GL_IsFullScreen ? FALSE : TRUE;
+			GLPresentPara.SwapEffect = D3DSWAPEFFECT_DISCARD;
+			GLPresentPara.BackBufferFormat = GL_BackBufferFormat; 
+			GLPresentPara.BackBufferCount = 1;
+			GLPresentPara.BackBufferHeight = GL_Height;
+			GLPresentPara.BackBufferWidth = GL_Width;
+			//
+
+			if (FAILED(GLDevice->Reset(&GLPresentPara)))
+			{
+				//DestroyWindow(GL_HWND);
+				//return false;
+			}
+			GLSpriteHandler->OnResetDevice();
+		}
+	}
+	return true;
+}
+
 LRESULT CALLBACK Game::_WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message) 
@@ -62,18 +109,16 @@ LRESULT CALLBACK Game::_WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 			if(GLKeyBoard != NULL){
 				GLKeyBoard->Acquire();
 			}
-		}
-		break;
-	
+
+			//if(wParam && GLDevice != NULL)
+			//	ValidateDevice();
+		} break;
+
 	case WM_DESTROY: 
 		//GLMessage("Destroy app!");
 		PostQuitMessage(0);
 		break;
-	/*
-	case  WM_CLOSE:
-		GLMessage("I do not like if you close window!");
-		break;
-	*/
+
 	default: 
 		return DefWindowProc(hWnd, message, wParam,lParam);
 	}
@@ -135,25 +180,24 @@ void Game::_InitWindow()
 void Game::_InitDirectX()
 {
 	GLDirect = Direct3DCreate9(D3D_SDK_VERSION);
-	D3DPRESENT_PARAMETERS d3dpp; 
 
-	ZeroMemory( &d3dpp, sizeof(d3dpp) );
+	ZeroMemory( &GLPresentPara, sizeof(GLPresentPara) );
 
-	d3dpp.Windowed = GL_IsFullScreen?FALSE:TRUE;
+	GLPresentPara.Windowed = GL_IsFullScreen ? FALSE : TRUE;
 
-	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
+	GLPresentPara.SwapEffect = D3DSWAPEFFECT_DISCARD;
 
-	d3dpp.BackBufferFormat = GL_BackBufferFormat; 
-	d3dpp.BackBufferCount = 1;
-	d3dpp.BackBufferHeight = GL_Height;
-	d3dpp.BackBufferWidth = GL_Width;
+	GLPresentPara.BackBufferFormat = GL_BackBufferFormat; 
+	GLPresentPara.BackBufferCount = 1;
+	GLPresentPara.BackBufferHeight = GL_Height;
+	GLPresentPara.BackBufferWidth = GL_Width;
 
 	GLDirect->CreateDevice(
 		D3DADAPTER_DEFAULT,
 		D3DDEVTYPE_HAL,
 		GL_HWND,
 		D3DCREATE_SOFTWARE_VERTEXPROCESSING,
-		&d3dpp,
+		&GLPresentPara,
 		&GLDevice);
 
 	if (GLDevice == NULL) 
@@ -462,18 +506,10 @@ void Game::Run()
 
 		if (_DeltaTime >= tick_per_frame)
 		{
-			//float fps = 1000 / _DeltaTime;
-			//char text[100];
-			//sprintf(text, "FPS: %f | Sences: %d", fps, _listSence.size());
-
-			//GLTitle(text);
-
 			frame_start = now;
 			_RenderFrame();
 		}
 
-		//OnKeyUp
-		//OnKeyDown
 		_ProcessKeyBoard();
 
 		_ProcessInput();

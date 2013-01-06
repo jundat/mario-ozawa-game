@@ -11,11 +11,11 @@
 #include <vector>
 #define MARIO_VX	0.0001f
 #define MARIO_VY	2.2f
-#define MAX_MARIO_VX 0.5f
+#define MAX_MARIO_VX 0.6f
 #define MAX_MARIO_VY 2.0f
 #define GRAVITY		0.01f
-#define FRICTION_X	0.0000006f
-#define ACCEL_X		1.5f
+#define FRICTION_X	0.000000025f //0.0000006f
+#define ACCEL_X		1.5f //1.5
 #define BOTTOM		600
 #define DISTANCE_WITH_LAST_POSITION_X 400 //distance between the current position and last position to update last position
 #define FALL_DEAD_HIGH 4	//the high mario fall out of game before reborn

@@ -10,6 +10,7 @@
 
 // tieu nun
 int GL_CurForm;
+
 // tieu nun
 int GL_NextForm;
 
@@ -41,6 +42,7 @@ int			GL_Height;
 HINSTANCE					GL_HINSTANCE;		// Handle of the game instance
 HWND						GL_HWND;			// Handle of the Game Window
 
+D3DPRESENT_PARAMETERS		GLPresentPara;
 LPDIRECT3D9					GLDirect;
 LPDIRECT3DDEVICE9			GLDevice;
 LPDIRECT3DSURFACE9			GLBackBuffer;
