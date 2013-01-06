@@ -19,35 +19,35 @@ SoundManager::SoundManager()
 	SDev->Init(GL_HWND);
 
 	//effect sound
-	_listEffSound.push_back(SDev->LoadSound(SOUND_E_BOSS_FIRE));
-	_listEffSound.push_back(SDev->LoadSound(SOUND_E_BOSS_HURT));
+	//_listEffSound.push_back(SDev->LoadSound(SOUND_E_BOSS_FIRE));
+	//_listEffSound.push_back(SDev->LoadSound(SOUND_E_BOSS_HURT));
 	_listEffSound.push_back(SDev->LoadSound(SOUND_E_BOSS_BEFORE_DIE));
-	_listEffSound.push_back(SDev->LoadSound(SOUND_E_BOSS_DIE));	
+	//_listEffSound.push_back(SDev->LoadSound(SOUND_E_BOSS_DIE));	
 	_listEffSound.push_back(SDev->LoadSound(SOUND_E_SLIDE));
 	_listEffSound.push_back(SDev->LoadSound(SOUND_E_PIPE));
-	_listEffSound.push_back(SDev->LoadSound(SOUND_E_BRICK_UP));
+	//_listEffSound.push_back(SDev->LoadSound(SOUND_E_BRICK_UP));
 	_listEffSound.push_back(SDev->LoadSound(SOUND_E_TOUCH_TIRTLE));
-	_listEffSound.push_back(SDev->LoadSound(SOUND_E_EAT));
+	//_listEffSound.push_back(SDev->LoadSound(SOUND_E_EAT));
 	_listEffSound.push_back(SDev->LoadSound(SOUND_E_UP));
 	_listEffSound.push_back(SDev->LoadSound(SOUND_E_MUSH_DIE));
 	_listEffSound.push_back(SDev->LoadSound(SOUND_E_SHOT));
 	_listEffSound.push_back(SDev->LoadSound(SOUND_E_BROKEN));
-	_listEffSound.push_back(SDev->LoadSound(SOUND_E_WIN));
+	//_listEffSound.push_back(SDev->LoadSound(SOUND_E_WIN));
 	_listEffSound.push_back(SDev->LoadSound(SOUND_E_DEATH_SHOT));
 	_listEffSound.push_back(SDev->LoadSound(SOUND_E_JUMP));
 	_listEffSound.push_back(SDev->LoadSound(SOUND_E_DEATH));
 	_listEffSound.push_back(SDev->LoadSound(SOUND_E_GROW));
 	_listEffSound.push_back(SDev->LoadSound(SOUND_E_COIN));
-	_listEffSound.push_back(SDev->LoadSound(SOUND_E_1UP));
+	//_listEffSound.push_back(SDev->LoadSound(SOUND_E_1UP));
 	_listEffSound.push_back(SDev->LoadSound(SOUND_E_CLICK));
 	
 	//background sound (mean loop)
 	_listBgSound.push_back(SDev->LoadSound(SOUND_B_OPTION_STATE));
-	_listBgSound.push_back(SDev->LoadSound(SOUND_B_LOADING_STATE));
-	_listBgSound.push_back(SDev->LoadSound(SOUND_B_ABOUT_STATE));
-	_listBgSound.push_back(SDev->LoadSound(SOUND_B_LOSE_STATE));
-	_listBgSound.push_back(SDev->LoadSound(SOUND_B_WIN_STATE));
-	_listBgSound.push_back(SDev->LoadSound(SOUND_B_GAME2));
+	//_listBgSound.push_back(SDev->LoadSound(SOUND_B_LOADING_STATE));
+	//_listBgSound.push_back(SDev->LoadSound(SOUND_B_ABOUT_STATE));
+	//_listBgSound.push_back(SDev->LoadSound(SOUND_B_LOSE_STATE));
+	//_listBgSound.push_back(SDev->LoadSound(SOUND_B_WIN_STATE));
+	//_listBgSound.push_back(SDev->LoadSound(SOUND_B_GAME2));
 	_listBgSound.push_back(SDev->LoadSound(SOUND_B_GAME1));
 	_listBgSound.push_back(SDev->LoadSound(SOUND_B_MENU));
 

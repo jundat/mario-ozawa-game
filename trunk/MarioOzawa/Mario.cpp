@@ -445,10 +445,15 @@ void Mario::Fire()
 {
 	if(GL_CurForm != 2)
 		return;
+
 	if(_TimeFire <= MARIO_FIRE_TIME)
 		return;
+
 	if((_State == stand) || (_State == jumping) || (_State == Move))
 	{
+		//sound
+		SoundManager::GetInst()->PlayEffSound(SOUND_E_SHOT, false);
+
 		bullet* sf;
 		if(_turnLeft == true)
 			sf = new bullet(_x - 30,_y + 35,_turnLeft);
@@ -854,10 +859,13 @@ void Mario::UpdateRealTimeCollision(int time, vector<MyObject*>* listcollision)
 	{
 		_curSprite->SelectIndex(5);
 		
-		//check is dead
+		//check is die
 		if(_y > FALL_DEAD_HIGH * GL_MapH)
 		{
 			_State = dead;
+
+			//sound
+			//SoundManager::GetInst()->PlayEffSound(SOUND_E_DEATH, false);
 
 			//reborn
 			if(this->life > 0)

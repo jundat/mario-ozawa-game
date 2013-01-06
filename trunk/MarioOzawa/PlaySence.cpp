@@ -225,6 +225,9 @@ void PlaySence::_UpdateRender(int time)
 		//check time out
 		if(_timeForLevel < 0)
 		{
+			//sound
+			SoundManager::GetInst()->PlayEffSound(SOUND_E_DEATH_SHOT, false);
+
 			_timeForLevel = 0;
 			_mario->RunBeforeDie();
 			_timeForLevel = TIME_FOR_LEVEL + 3 * 500;
@@ -320,6 +323,9 @@ void PlaySence::_UpdateRender(int time)
 	//check complete map pppppppppppppppppppppppppppppppppppppppppppppppppppppp
 	if(_mario->GetRect().Right >= GL_MapW)
 	{
+		//sound win game
+		//SoundManager::GetInst()->PlayEffSound(SOUND_E_WIN, false);
+
 		//stop mario
 		_mario->_vx = 0;
 
