@@ -58,6 +58,9 @@ void SelectWorldSence::_Load()
 
 	_effectMoveDown = NULL;
 	_isExitting = false;
+	_isShowMessage = false;
+	_isKeyDowning = false;
+	_countTime = 0;
 
 	_MapLoader = new MapLoader();
 	_MapLoader->LoadMapFormFile(0, true, true, true, true);
@@ -73,6 +76,8 @@ void SelectWorldSence::_Load()
 
 	_mario->_x = 100;
 	_mario->_y = 100;
+
+	_sprNode = new Sprite(ResourceMng::GetInst()->GetTexture("image/Brick_Break.png"), -1);
 }
 
 // nhan 1 lan
@@ -83,10 +88,6 @@ void SelectWorldSence::_OnKeyDown(int keyCode){
 			_state = TransOff;
 			MenuSence* mn = new MenuSence(_game, 100);
 			_game->AddSence(mn);
-
-			/*SoundManager::GetInst()->StopBgSound(SOUND_B_MENU);
-			SoundManager::GetInst()->StopBgSound(SOUND_B_GAME1);
-			SoundManager::GetInst()->PlayBgSound(SOUND_B_MENU, true, true);*/
 		}
 		break;
 
@@ -116,6 +117,7 @@ void SelectWorldSence::_OnKeyDown(int keyCode){
 						(row == 3 || row == 4 || row == 5))
 					{
 						_effectMoveDown = new MarioMoveDown(_mario->_turnLeft, _mario->_curSprite, _mario->_x, _mario->_y);
+						
 						//e_boss_hurt
 						SoundManager::GetInst()->PlayEffSound(SOUND_E_BOSS_BEFORE_DIE);//e_boss_before_die
 					}
@@ -145,13 +147,37 @@ void SelectWorldSence::_ProcessInput()
 			_mario->TurnLeft();
 	}
 	else
-	{
 		_mario->Stand();
+	
+	if(_isShowMessage == true && _game->IsKeyDown(DIK_DELETE))
+	{
+		_isKeyDowning = true;
+	}
+	else
+	{
+		_isKeyDowning = false;
 	}
 }
 
 void SelectWorldSence::_UpdateRender(int time)
 {
+	if(_isKeyDowning)
+	{
+		_countTime += time;
+		
+		if(_countTime > TIME_TO_DELETE_SAVE_GAME)
+		{
+			_countTime = 0;
+
+			SoundManager::GetInst()->PlayEffSound(SOUND_E_BROKEN);
+			remove( "saved/savedgame.txt" );
+		}
+	}
+	else
+	{
+		_countTime = 0;
+	}
+
 #pragma region Begin Render
 	//translate camera
 	D3DXMATRIX mat;
@@ -211,6 +237,23 @@ void SelectWorldSence::_UpdateRender(int time)
 				_mario->_x = 0;
 			}
 		}
+
+		// show message delete save game
+		int col = (int)(_mario->_x / TILE);
+		int row = (int)(_mario->_y / TILE);
+
+		if(_mario->_State == stand || _mario->_State == Move)
+			if((col == 9 || col == 10 || col == 13 || col == 14 || col == 17|| col == 18 )&&
+				(row == 3 || row == 4 || row == 5))
+			{
+				_isShowMessage = true;
+			}
+			else
+			{
+				_isShowMessage = false;
+			}
+
+		//
 		_mario->Render();
 	}
 
@@ -219,11 +262,6 @@ void SelectWorldSence::_UpdateRender(int time)
 	Writer::RenderFont2("world 2", 620, 150, 0.7);
 	Writer::RenderFont2("world 3", 820, 150, 0.7);
 
-	Writer::RenderFont2("cost 1 live", 29 * 50 + 10, 5 * 50, 0.7);
-	Writer::RenderFont2("cost 2 lives", 33 * 50 + 10, 5 * 50, 0.7);
-
-	Writer::RenderFont2("you can exchange some lives for one of goodie!!!", 23 * 50 + 25, 1 * 50, 0.7);
-	Writer::RenderFont2("but be careful sometimes lives is more important than that stuff.", 22 * 50 - 20, 2 * 50, 0.7);
 
 	//------------------------------------------------------------------------
 #pragma region End Render
@@ -232,7 +270,25 @@ void SelectWorldSence::_UpdateRender(int time)
 	D3DXMatrixTransformation2D(&matDefaut, NULL, 0.0f, NULL, NULL, 0.0f, NULL); 
 	GLSpriteHandler->SetTransform(&matDefaut);
 	//
+
+	if(_isShowMessage)
+		Writer::RenderFont2("IF YOU WANT TO DELETE SAVE, PRESS \"DEL\" FOR 3 SEC", 25, 20, 0.7);
 	
+	if(_isKeyDowning)
+	{
+		int max = (int)(25.0f * (float)_countTime / (float)TIME_TO_DELETE_SAVE_GAME);
+		int i;
+		i = -1;
+		_sprNode->RenderTransform(95 + 25 * i, 70, D3DXVECTOR2(0.5f, 0.5f), 0.0f, 0.0f);
+		i = 24;
+		_sprNode->RenderTransform(95 + 25 * i, 70, D3DXVECTOR2(0.5f, 0.5f), 0.0f, 0.0f);
+
+		for (i = 0; i < max; ++i)
+		{
+			_sprNode->RenderTransform(95 + 25 * i, 70, D3DXVECTOR2(0.5f, 0.5f), 0.0f, 0.0f);
+		}
+	}	
+
 	//end Render
 	GLSpriteHandler->End();
 #pragma endregion
