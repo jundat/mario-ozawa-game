@@ -84,6 +84,7 @@ extern RECT			GL_WndSize;			//size of game screen
 extern HINSTANCE					GL_HINSTANCE;		// Handle of the game instance
 extern HWND							GL_HWND;			// Handle of the Game Window
 
+extern D3DPRESENT_PARAMETERS		GLPresentPara;
 extern LPDIRECT3D9					GLDirect;			//handle dx
 extern LPDIRECT3DDEVICE9			GLDevice;			//dx device
 extern LPDIRECT3DSURFACE9			GLBackBuffer;		//backbuffer

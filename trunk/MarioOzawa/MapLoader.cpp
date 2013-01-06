@@ -140,7 +140,7 @@ HRESULT MapLoader::LoadMapFormFile (int mapNumber, bool isLoadMario, bool isLoad
 		imageInfo.MipLevels ,				// MipLevels
 		D3DUSAGE_DYNAMIC ,					// D3DUSAGE
 		D3DFMT_A8R8G8B8 ,					// Format
-		D3DPOOL_DEFAULT ,					// Pool
+		D3DPOOL_DEFAULT  ,					// Pool
 		D3DX_DEFAULT ,						// Filter
 		D3DX_DEFAULT ,						// Mip filter
 		0 ,									// Color key

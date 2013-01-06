@@ -62,7 +62,7 @@ public:
 			info.Width,				// width
 			info.Height,			// height
 			D3DFMT_X8R8G8B8,		// format
-			D3DPOOL_DEFAULT,		
+			D3DPOOL_DEFAULT ,		
 			&Surface,
 			NULL);
 

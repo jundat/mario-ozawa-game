@@ -919,7 +919,7 @@ void Mario::UpdateRealTimeCollision(int time, vector<MyObject*>* listcollision)
 	//update sprite
 	if(_vx != 0)
 	{
-		_curSprite->Update(time);
+		_curSprite->Update((int)((float)time * (float)abs(_vx) / (float)MAX_MARIO_VX));
 	}
 
 	if(_State == transform)
