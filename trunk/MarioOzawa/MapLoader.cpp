@@ -48,9 +48,10 @@ MapLoader::~MapLoader(void)
 
 void MapLoader::LoadSavedGameFormFile(LPCTSTR _filesavegame)
 {
-	_mapNumber = 1; //default map1.png
-
+	
 	ifstream fin(_filesavegame);
+
+	//có lưu
 	if(fin != NULL)
 	{
 		//read file
@@ -106,6 +107,7 @@ void MapLoader::LoadSavedGameFormFile(LPCTSTR _filesavegame)
 	else
 	{
 		_mapNumber = 1;
+
 		//load map from file map
 		LoadMapFormFile(_mapNumber, true, true, true, true);
 	}
@@ -116,6 +118,7 @@ void MapLoader::LoadSavedGameFormFile(LPCTSTR _filesavegame)
 HRESULT MapLoader::LoadMapFormFile (int mapNumber, bool isLoadMario, bool isLoadBackground, bool isLoadObjects, bool isLoadTileMap)
 {
 	_mapNumber = mapNumber;
+
 	HRESULT	hr;
 	D3DXIMAGE_INFO imageInfo;
 	char fileName[50];
@@ -325,9 +328,10 @@ void MapLoader::TranslateMap (QuadTree* quadtree, BackgroundManager* background,
 	{
 		GL_CurForm = _curForm;
 		GL_NextForm = _nextForm;
+
 		mario->gold = _gold;
 		mario->life = _life;
-		//mario->exp = _exp;
+		mario->exp = _exp;
 		mario->_State = (State)_marioState;
 	}	
 
@@ -554,7 +558,7 @@ void MapLoader::DeleteSavedGame(LPCTSTR fileSavedGame)
 	//reset all static value
 	MapLoader::_mapW = 0;
 	MapLoader::_mapH = 0;
-	MapLoader::_mapNumber = 0; //số thứ tự của map
+	//MapLoader::_mapNumber = 0; //số thứ tự của map
 	MapLoader::_gold = -1;
 	MapLoader::_life = -1;
 	MapLoader::_exp = -1;
