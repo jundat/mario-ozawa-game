@@ -9,6 +9,7 @@
 #include "TileMap.h"
 #include "MarioMoveDown.h"
 
+#define TIME_TO_DELETE_SAVE_GAME 1500 //~3second
 
 class SelectWorldSence :
 	public GameSence
@@ -23,6 +24,10 @@ public:
 	Mario*	_mario;
 	MarioMoveDown* _effectMoveDown;
 	bool _isExitting;
+	bool _isShowMessage;
+	bool _isKeyDowning;
+	int _countTime;
+	Sprite* _sprNode;
 
 	SelectWorldSence(Game* game, int timeAni);
 	~SelectWorldSence(void);
