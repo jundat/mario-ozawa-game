@@ -11,7 +11,7 @@
 #include <vector>
 #define MARIO_VX	0.0001f
 #define MARIO_VY	2.2f
-#define MAX_MARIO_VX 0.75f
+#define MAX_MARIO_VX 0.5f
 #define MAX_MARIO_VY 2.0f
 #define GRAVITY		0.01f
 #define FRICTION_X	0.0000006f
