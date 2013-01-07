@@ -207,7 +207,7 @@ void brickBreak::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollisio
 
 				if((idobject == EObject::FUNGI) || (idobject == EObject::TURTLE))
 				{
-					if(dir == Top)
+					//if(dir == Top)
 					{
 						listcollision->at(index)->_vy = -0.85f;
 						listcollision->at(index)->_State = beforedead2;
