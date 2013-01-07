@@ -214,7 +214,14 @@ void fungi::UpdateRealTimeCollision(int time,vector<MyObject*>* listcollision)
 					backPosition = true;
 				}
 			}
-
+			if(idobject == BRICKBREAK)
+			{
+				if(stateObject == breaking || stateObject == State::Move)
+				{
+					_State = beforedead2;
+					_vy = - 0.85f;
+				}
+			}
 			if(idobject == EObject::MARIO)
 			{
 				if((stateObject == transform) || (stateObject == dead) || (stateObject == beforedead) || (stateObject == reborn))
@@ -237,6 +244,8 @@ void fungi::UpdateRealTimeCollision(int time,vector<MyObject*>* listcollision)
 
 			if((idobject == EObject::FUNGI) || (idobject == EObject::TURTLE))
 			{
+				if(_State == beforedead2)
+					continue;
 				if(listcollision->at(index)->_State == State::attack)
 					continue;
 
@@ -256,14 +265,7 @@ void fungi::UpdateRealTimeCollision(int time,vector<MyObject*>* listcollision)
 			}
 
 			//////////////////////////////////////////////////////////////////////////
-			if(idobject == BRICKBREAK)
-			{
-				if(stateObject == breaking || stateObject == State::Move)
-				{
-					_State = beforedead2;
-					_vy = - 0.85f;
-				}
-			}
+
 		}
 	} 
 
