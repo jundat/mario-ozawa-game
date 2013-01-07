@@ -16,6 +16,8 @@ brickBreak::brickBreak(float x, float y,State state)	: MyObject(x, y)
 	_yOri = y;
 	_nextx = 0.0f;
 	_nexty = 0.0f;
+	_vx = 0.0f;
+	_vy = 0.0f;
 	_rectBreak1.left = 0;
 	_rectBreak1.top = 0;
 	_rectBreak1.right = _rectBreak1.left + TILE/2;
@@ -217,7 +219,8 @@ void brickBreak::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollisio
 				{
 					if((dir != Bottom) && (_State == Move) && (((brickItem*)listcollision->at(index))->_item->_item != FLOWER))
 					{
-						((brickItem*)listcollision->at(index))->_item->_vy = -1.2f;
+						if(((brickItem*)listcollision->at(index))->_item->_vy >= 0.0f)
+							((brickItem*)listcollision->at(index))->_item->_vy = -1.2f;
 						((brickItem*)listcollision->at(index))->_item->_y = _y - ((brickItem*)listcollision->at(index))->_item->_curSprite->_texture->Height;
 						//((brickItem*)listcollision->at(index))->_item->_turnLeft = !((brickItem*)listcollision->at(index))->_item->_turnLeft;
 					}
