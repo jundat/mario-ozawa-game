@@ -60,16 +60,11 @@ void fungi::Update(int time)
 			_vx = -0.1;
 		else _vx = 0.1;
 	}
+	
 	_vy += GRAVITY * time;
+
 	CheckTitleCollision(_vx,_vy,_NextX,_NextY,GL_Width,GL_Height,_curSprite->_texture->Width,_curSprite->_texture->Height);
-	/*
-	if(_y >= BOTTOM - _curSprite->_texture->Height){
-		_vy = 0;
-		if((_State != beforedead) && (_vx == 0.0f))
-			_State = stand;
-		_y = BOTTOM - _curSprite->_texture->Height - 1;
-	}
-	*/
+
 	_curSprite->Update(time);
 }
 
@@ -197,12 +192,13 @@ void fungi::UpdateRealTimeCollision(int time,vector<MyObject*>* listcollision)
 				this->RealTimeCollision1(this->GetRect(),listcollision->at(k),k,time);
 		}
 	}
+
 	bool check = _listCollisionData.check();
 	if(check == true) // co va cham
 	{
 		bool backPosition = false;
 		int a = _listCollisionData._listNewData.size();
-		for(int m = 0;m < _listCollisionData._listNewData.size();m++)
+		for(int m = 0; m < _listCollisionData._listNewData.size(); m++)
 		{
 			int index = _listCollisionData._listNewData.at(m)->_indexObject;
 			int idobject = _listCollisionData._listNewData.at(m)->_ID;
@@ -259,12 +255,13 @@ void fungi::UpdateRealTimeCollision(int time,vector<MyObject*>* listcollision)
 				}
 			}
 
+			//////////////////////////////////////////////////////////////////////////
 			if(idobject == BRICKBREAK)
 			{
-				if(stateObject == breaking)
+				if(stateObject == breaking || stateObject == State::Move)
 				{
 					_State = beforedead2;
-					_vy = -0.85f;
+					_vy = - 0.85f;
 				}
 			}
 		}
