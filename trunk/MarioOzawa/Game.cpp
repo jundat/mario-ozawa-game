@@ -506,13 +506,17 @@ void Game::Run()
 
 		if (_DeltaTime >= tick_per_frame)
 		{
+		
+			//nhan 1 lan
+			_ProcessKeyBoard();
+
+			//nhan va giu
+			_ProcessInput();
+
 			frame_start = now;
 			_RenderFrame();
 		}
 
-		_ProcessKeyBoard();
-
-		_ProcessInput();
 	}
 
 	GLTrace("Main game loop has ended");
