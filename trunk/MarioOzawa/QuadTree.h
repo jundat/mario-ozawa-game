@@ -7,7 +7,7 @@
 //size expand camera to update and check collision
 #define COLLIDE_EXPAND 5
 #define MIN_OBJ_ID 151
-#define MAX_OBJ_ID 158
+#define MAX_OBJ_ID 159
 
 class QuadTree
 {

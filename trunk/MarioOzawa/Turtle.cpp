@@ -33,11 +33,18 @@ void turtle::Render()
 {
 	if(_State == dead)
 		return;
+
 	if(_State == beforedead2)
 	{
 		_curSprite->RenderScaleY((int)_x, (int)_y);
 		return;
 	}
+
+	if(_State == attack)
+	{
+		_curSprite->SelectIndex(2);
+	}
+
 	if(_turnLeft == false)
 	{
 		if((_State == attack) || (_State == stand))
@@ -56,60 +63,68 @@ void turtle::Render()
 
 void turtle::Update(int time)
 {
-	return;
-	if(_State == dead)
-		return;
-	_listCollisionData.clear();
-	if(_y >= 800)
-		_State = dead;
-	if(_State == stand)
-	{
-		_curSprite->SelectIndex(2);
-		_TimeStand++;
-		//return;
-	}
-	if(_State == beforedead2)
-		_curSprite->SelectIndex(2);
-	if((_State == attack) || (_State == Move))
-		_TimeAttack++;
-	
-	_nextx = _x + _vx * time;
-	_nexty = _y + _vy * time;
+	//return;
+	//
+	//if(_State == dead)
+	//	return;
 
-	_vy += GRAVITY * time;
-	CheckTitleCollision(_vx,_vy,_nextx,_nexty,800,600,_curSprite->_texture->Width,_curSprite->_texture->Height);
-	_x = _nextx;
-	_y = _nexty;
-	if(_State != beforedead2)
-	{
-		if((_State == Move) || (_State == attack))
-		{
-			if(_turnLeft == true)
-			{
-				if(_State == Move)
-					_vx = -0.1;
-				if(_State == attack)
-					_vx = -0.7;
-			}
-			else
-			{
-				if(_State == Move)
-					_vx = 0.1;
-				if(_State == attack)
-					_vx = 0.7;
-			}
-		}
-		else _vx = 0;
-	}
+	//_listCollisionData.clear();
+	//
+	//if(_y >= 800)
+	//	_State = dead;
 
-	if(_State == Move)
-		_curSprite->Update(time);
+	//if(_State == stand)
+	//{
+	//	_curSprite->SelectIndex(2);
+	//	_TimeStand++;
+	//	//return;
+	//}
+	//
+	//if(_State == beforedead2)
+	//	_curSprite->SelectIndex(2);
+	//
+	//if((_State == attack) || (_State == Move))
+	//	_TimeAttack++;
+	//
+	//_nextx = _x + _vx * time;
+	//_nexty = _y + _vy * time;
+
+	//_vy += GRAVITY * time;
+	//CheckTitleCollision(_vx,_vy,_nextx,_nexty,800,600,_curSprite->_texture->Width,_curSprite->_texture->Height);
+	//_x = _nextx;
+	//_y = _nexty;
+	//if(_State != beforedead2)
+	//{
+	//	if((_State == Move) || (_State == attack))
+	//	{
+	//		if(_turnLeft == true)
+	//		{
+	//			if(_State == Move)
+	//				_vx = -0.1;
+	//			if(_State == attack)
+	//				_vx = -0.7;
+	//		}
+	//		else
+	//		{
+	//			if(_State == Move)
+	//				_vx = 0.1;
+	//			if(_State == attack)
+	//				_vx = 0.7;
+	//		}
+	//	}
+	//	else _vx = 0;
+	//}
+
+	//if(_State == Move)
+	//	_curSprite->Update(time);
+
 }
 
 void turtle::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 {
 	if(_State == dead)
 		return;
+	
 	_listCollisionData.clear();
 	if(_y >= 800)
 		_State = dead;
@@ -276,8 +291,10 @@ void turtle::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 
 	_vy += GRAVITY * time;
 	CheckTitleCollision(_vx,_vy,_nextx,_nexty,800,600,_curSprite->_texture->Width,_curSprite->_texture->Height);
+	
 	_x = _nextx;
 	_y = _nexty;
+
 	if(_State != beforedead2)
 	{
 		if((_State == Move) || (_State == attack))
@@ -303,6 +320,8 @@ void turtle::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 	if(_State == Move)
 		_curSprite->Update(time);
 }
+
+
 void turtle::CheckCollision(MyObject* obj)
 {
 	if(obj->_ID == EObject::MARIO)

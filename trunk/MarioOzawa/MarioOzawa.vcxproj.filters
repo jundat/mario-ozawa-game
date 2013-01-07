@@ -249,9 +249,6 @@
     <ClCompile Include="Turtle.cpp">
       <Filter>object</Filter>
     </ClCompile>
-    <ClCompile Include="Brick.cpp">
-      <Filter>object</Filter>
-    </ClCompile>
     <ClCompile Include="Mario.cpp">
       <Filter>mario</Filter>
     </ClCompile>
@@ -394,9 +391,6 @@
       <Filter>object</Filter>
     </ClInclude>
     <ClInclude Include="BrickBreak.h">
-      <Filter>object</Filter>
-    </ClInclude>
-    <ClInclude Include="Brick.h">
       <Filter>object</Filter>
     </ClInclude>
     <ClInclude Include="BrickItem.h">
