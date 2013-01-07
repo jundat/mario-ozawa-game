@@ -134,6 +134,15 @@ void Item::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 						}
 					}
 					*/
+					if(idobject == EObject::BRICKBREAK)
+					{
+						if((dir != Top) && (stateObject == Move) && (this->_item != FLOWER))
+						{
+							if(_vy >= 0.0f)
+								_vy = -1.2f;
+							_y = listcollision->at(index)->_y - _curSprite->_texture->Height;//((brickItem*)listcollision->at(index))->_item->_curSprite->_texture->Height;
+						}
+					}
 					if(idobject == EObject::MARIO)
 					{
 						if((stateObject == transform) || (stateObject == dead) || (stateObject == beforedead) || (stateObject == reborn))
