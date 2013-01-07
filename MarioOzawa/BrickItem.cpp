@@ -29,17 +29,19 @@ brickItem::~brickItem(void)
 
 void brickItem::Update(int time)
 {
-	if(_State == stand)
-		return;
 	if(_State == hasItem)
+	{
 		_curSprite->Update(time);
-	else _item->Update(time);
+	}
 }
 
 void brickItem::Render()
 {
-	if(_State != hasItem)
-		_item->Render();
+	if(_State == stand)
+	{
+		_curSprite->SelectIndex(0);
+	}
+
 	_curSprite->Render((int)_x, (int)_y);
 }
 

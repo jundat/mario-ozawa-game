@@ -2,7 +2,6 @@
 
 #include "MapLoader.h"
 #include "Global.h"
-#include "Brick.h"
 #include "BrickBreak.h"
 #include "BrickItem.h"
 #include "BrickQuestion.h"
@@ -31,6 +30,7 @@ int MapLoader::_mapH = 0;
  int MapLoader::_marioy = 2;
 
  int** MapLoader::_board = NULL;
+ int** MapLoader::_boardState = NULL;
  LPDIRECT3DTEXTURE9 MapLoader::_mapTexture = NULL;
 
 MapLoader::MapLoader(void)
@@ -41,14 +41,15 @@ MapLoader::~MapLoader(void)
 {
 	delete _mapTexture;
 	delete[] _board;
+	delete[] _boardState;
 
 	_mapTexture = NULL;
 	_board = NULL;
+	_boardState = NULL;
 }
 
 void MapLoader::LoadSavedGameFormFile(LPCTSTR _filesavegame)
 {
-	
 	ifstream fin(_filesavegame);
 
 	//có lưu
@@ -86,22 +87,25 @@ void MapLoader::LoadSavedGameFormFile(LPCTSTR _filesavegame)
 		//load map from file map
 		char mapfile[50];
 		sprintf(mapfile, "map%d.png", _mapNumber);
-		LoadMapFormFile(_mapNumber, false, true, false, true);
+		LoadMapFormFile(_mapNumber, false, true, false, false);
 
 		//read game state
 		//add to quadtree
 		int id;
 		int x;
 		int y;
+		int state;
 
 		while(!fin.eof())
 		{
 			fin>> id;
 			fin>> x;
 			fin>> y;
+			fin>> state;
 
 			//add to board
 			_board[y][x] = id;
+			_boardState[y][x] = state;
 		}
 	}
 	else
@@ -211,16 +215,21 @@ HRESULT MapLoader::LoadMapFormFile (int mapNumber, bool isLoadMario, bool isLoad
 
 	//----------------------
 	_board = new int*[_mapH];
+	_boardState = new int*[_mapH];
 
 	for(int i = 0; i < _mapH; i++)
 	{
 		_board[i] = new int[_mapW];
+		_boardState[i] = new int[_mapW];
 	}
 
 	//gan gia tri ve 0
 	for (int i = 0 ; i < _mapH; i++)	{
 		for (int j = 0 ; j < _mapW; j++)	{			 
 			_board[i][j] = 0;
+
+			//default state for all object
+			_boardState[i][j] = (int)State::start;
 		}
 	}
 
@@ -385,44 +394,52 @@ void MapLoader::TranslateMap (QuadTree* quadtree, BackgroundManager* background,
 				case 151: //brick break
 					//also in tile map
 					TileMap::GetInst()->_board[i][j] = 1;
-					quadtree->Insert(new brickBreak(j * TILE, i * TILE,State::start));
+					quadtree->Insert(new brickBreak(j * TILE, i * TILE, (State)_boardState[i][j]));
 					break;
 
 				case 152: //coin
-					quadtree->Insert(new coin(j * TILE, i * TILE,State::start));
+					quadtree->Insert(new coin(j * TILE, i * TILE, (State)_boardState[i][j]));
 					break;
 
 				case 153: //flower
 					//also in tile map
 					TileMap::GetInst()->_board[i][j] = 1;
-					quadtree->Insert(new brickItem(j * TILE, i * TILE, EBrickItemKind::FLOWER,State::start));
+					quadtree->Insert(new brickItem(j * TILE, i * TILE, EBrickItemKind::FLOWER, (State)_boardState[i][j]));
 					break;
 
 				case 154: //fungi
-					quadtree->Insert(new fungi(j * TILE, i * TILE,State::start));
+					quadtree->Insert(new fungi(j * TILE, i * TILE, (State)_boardState[i][j]));
 					break;
 
 				case 155: //brick question
 					//also in tile map
 					TileMap::GetInst()->_board[i][j] = 1;
-					quadtree->Insert(new brickQuestion(j * TILE, i * TILE,State::start));
+					quadtree->Insert(new brickQuestion(j * TILE, i * TILE, (State)_boardState[i][j]));
 					break;
 
 				case 156: //larger blue
 					//also in tile map
 					TileMap::GetInst()->_board[i][j] = 1;
-					quadtree->Insert(new brickItem(j * TILE, i * TILE, EBrickItemKind::SHOOTER,State::start));
+					quadtree->Insert(new brickItem(j * TILE, i * TILE, EBrickItemKind::SHOOTER, (State)_boardState[i][j]));
 					break;
 
 				case 157: //larger red
 					//also in tile map
 					TileMap::GetInst()->_board[i][j] = 1;
-					quadtree->Insert(new brickItem(j * TILE, i * TILE, EBrickItemKind::LARGER,State::start));
+					quadtree->Insert(new brickItem(j * TILE, i * TILE, EBrickItemKind::LARGER, (State)_boardState[i][j]));
 					break;
 
 				case 158: //turtle
-					quadtree->Insert(new turtle(j * TILE, i * TILE,State::start));
+					quadtree->Insert(new turtle(j * TILE, i * TILE, (State)_boardState[i][j]));
 					break;
+
+					//kind of item
+				case 159: //item
+					Item* item = new Item(j * TILE, i * TILE, (EBrickItemKind)_boardState[i][j]);
+					item->_State = State::Move;
+					quadtree->Insert(item);
+					break;
+
 				}
 			}
 		}
@@ -460,7 +477,7 @@ void MapLoader::SaveGameToFile(QuadTree* quadtree, Mario* mario, int timeInGame,
 		fout<< timeInGame << endl;
 
 		//mario.x
-		fout<< (int)(mario->_x / TILE) << endl;
+		fout<< (int)((mario->_x + TILE/3) / TILE) << endl;
 
 		//mario.y
 		fout<< (int)(mario->_y / TILE) << endl;
@@ -478,62 +495,63 @@ void MapLoader::SaveGameToFile(QuadTree* quadtree, Mario* mario, int timeInGame,
 			i != listObject->end(); ++i)
 		{
 			MyObject* obj = (MyObject*)(*i);
+
 			switch (obj->_ID)
 			{
-			case EObject::BRICK: //////////////////////////////////////////////////////////////////////////zs
-				break;
-
 			case EObject::BRICKBREAK: //151
 				{
-					fout<< 151 << " " << (int)(obj->_x / TILE) << " " << (int)(obj->_y / TILE) << endl;
+					fout<< 151 << " " << (int)(obj->_x/ TILE) << " " << (int)(obj->_y/ TILE) << " " << (int)(obj->_State) <<endl;
 				}
 				break;
 
-			case EObject::BRICKITEM:
+			case EObject::BRICKITEM: //cục gạch có chứa các nấm, và hoa
 				{
 					brickItem* item = (brickItem*)obj;
+
 					if (item->_kindofitem == EBrickItemKind::FLOWER) //153
 					{
-
+						fout<< 153 << " " << (int)(obj->_x / TILE) << " " << (int)(obj->_y / TILE) << " " << (int)(obj->_State) <<endl;
 					} 
 					else if (item->_kindofitem == EBrickItemKind::LARGER) //157
 					{
-
+						fout<< 157 << " " << (int)(obj->_x / TILE) << " " << (int)(obj->_y / TILE) << " " << (int)(obj->_State) <<endl;
 					} 
 					else if (item->_kindofitem == EBrickItemKind::SHOOTER) //156
 					{
-
+						fout<< 156 << " " << (int)(obj->_x / TILE) << " " << (int)(obj->_y / TILE) << " " << (int)(obj->_State) <<endl;
 					}
 				}
 				break;
 
-			case EObject::BRICKQUESTION: //155
+			case EObject::BRICKQUESTION: //155 // cục gạch có chứa vàng
 				{
-					fout<< 155 << " " << (int)(obj->_x / TILE) << " " << (int)(obj->_y / TILE) << endl;
+					fout<< 155 << " " << (int)(obj->_x / TILE) << " " << (int)(obj->_y / TILE) << " " << (int)(obj->_State) << endl;
 				}
 				break;
 
 			case EObject::COIN: //152
 				{
-					fout<< 152 << " " << (int)(obj->_x / TILE) << " " << (int)(obj->_y / TILE) << endl;
+					fout<< 152 << " " << (int)(obj->_x / TILE) << " " << (int)(obj->_y / TILE) << " " << (int)(obj->_State) << endl;
 				}
 				break;
 
 			case EObject::FUNGI: //154
 				{
-					fout<< 154 << " " << (int)(obj->_x / TILE) << " " << (int)(obj->_y / TILE) << endl;
+					fout<< 154 << " " << (int)(obj->_x / TILE) << " " << (int)(obj->_y / TILE) << " " << (int)(obj->_State) << endl;
 				}
-				break;
-
-			case EObject::MARIO: //////////////////////////////////////////////////////////////////////////
-				break;
-
-			case EObject::PIPE: //////////////////////////////////////////////////////////////////////////
 				break;
 
 			case EObject::TURTLE: //158
 				{
-					fout<< 158 << " " << (int)(obj->_x / TILE) << " " << (int)(obj->_y / TILE) << endl;
+					fout<< 158 << " " << (int)(obj->_x / TILE) << " " << (int)(obj->_y / TILE) << " " << (int)(obj->_State) << endl;
+				}
+				break;
+
+				//item not in map editor
+			case EObject::ITEM: //159
+				{
+					Item* item = (Item*)(*i);
+					fout<< 159 << " " << (int)(obj->_x / TILE) << " " << (int)(obj->_y / TILE) << " " << (int)(item->_item) << endl; //kindOfItem replace state
 				}
 				break;
 			}

@@ -14,6 +14,7 @@ Item::Item(float x, float y, EBrickItemKind kindOfItem): MyObject(x, y)
 	_vx = 0.0f;
 	_vy = 0.0f;
 	_State = stand;
+
 	if(_item == EBrickItemKind::FLOWER)
 	{
 		_curSprite = new Sprite(ResourceMng::GetInst()->GetTexture("image/Flower.png"), 400);
@@ -23,14 +24,14 @@ Item::Item(float x, float y, EBrickItemKind kindOfItem): MyObject(x, y)
 	{
 		_curSprite = new Sprite(ResourceMng::GetInst()->GetTexture("image/Lager.png"), 0);
 		_curSprite->SelectIndex(0);
-		_turnLeft = false;
+		_turnLeft = true;
 	}
 
 	if(_item == EBrickItemKind::SHOOTER)
 	{
 		_curSprite = new Sprite(ResourceMng::GetInst()->GetTexture("image/Lager.png"), 0);
 		_curSprite->SelectIndex(1);
-		_turnLeft = false;
+		_turnLeft = true;
 	}
 }
 

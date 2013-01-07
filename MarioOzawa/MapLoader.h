@@ -35,6 +35,7 @@ public:
 	static int _marioy;
 
 	static int **_board ;	//2dimention array to saved id of object in map
+	static int **_boardState; //2dimention array to state of object in map
 
 	MapLoader(void);
 	~MapLoader(void);

@@ -1,6 +1,8 @@
 #include "Bullet.h"
 #include "ResourceManager.h"
 #include "TileMap.h"
+
+
 bullet::bullet(float x, float y,bool turnLeft) : MyObject(x, y)
 {
 	_curSprite = new Sprite(ResourceMng::GetInst()->GetTexture("image/Bullet.png"), 100);
@@ -145,33 +147,6 @@ void bullet::CheckCollision(MyObject* obj)
 	if((_State == dead) || (_State == beforedead))
 		return;
 	
-	/*if(obj->_ID == EObject::BRICK)
-	{
-		if(obj->_State == dead)
-			return;
-		switch(this->GetCollisionDirection(this->GetRect(), obj->GetRect()))
-		{
-		case Bottom:
-			_y = obj->_y - (_curSprite->_texture->Height - 10 );
-			_vy = -0.5;
-			break;
-		}
-	}*/
-
-	if(obj->_ID == EObject::PIPE)
-	{
-		if(obj->_State == dead)
-			return;
-
-		if(this->GetCollisionDirection(this->GetRect(), obj->GetRect()) != None)
-		{
-			_State = beforedead;
-			_curSprite->_start = 7;
-			_curSprite->_end = 9;
-			_curSprite->_timeAni = 15;
-		}
-	}
-
 	if((obj->_ID == EObject::FUNGI) || (obj->_ID == EObject::TURTLE))
 	{
 		if((obj->_State == dead) || (obj->_State == beforedead) || (obj->_State == beforedead2)) 

@@ -2,7 +2,6 @@
 
 #include "Mario.h"
 #include "ResourceManager.h"
-#include "Brick.h"
 #include "SoundManager.h"
 #include "MapLoader.h"
 #include "Writer.h"
@@ -555,7 +554,7 @@ void Mario::UpdateRealTimeCollision(int time, vector<MyObject*>* listcollision)
 
 			if(backPosition == false)
 			{
-				if((idobject == EObject::BRICKBREAK) || (idobject == EObject::BRICKITEM) || (idobject == EObject::BRICKQUESTION) || (idobject == EObject::BRICK))
+				if((idobject == EObject::BRICKBREAK) || (idobject == EObject::BRICKITEM) || (idobject == EObject::BRICKQUESTION))
 				{
 					// newwwwwwwwwwwwwwww
 					_nextx -= _listCollisionData._listNewData.at(m)->_deltaX;
