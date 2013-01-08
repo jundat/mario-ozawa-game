@@ -178,7 +178,6 @@ void fungi::UpdateRealTimeCollision(int time,vector<MyObject*>* listcollision)
 		_nextx = _x;
 		_nexty = _y;
 	}
-
 	
 	int size1 = listcollision->size();
 
@@ -188,12 +187,14 @@ void fungi::UpdateRealTimeCollision(int time,vector<MyObject*>* listcollision)
 		{
 			if(listcollision->at(k) == this)
 				continue;
+
 			if((listcollision->at(k)->_ID == EObject::FUNGI) || (listcollision->at(k)->_ID == EObject::MARIO) || (listcollision->at(k)->_ID == EObject::TURTLE) || (listcollision->at(k)->_ID == EObject::BRICKBREAK))
 				this->RealTimeCollision1(this->GetRect(),listcollision->at(k),k,time);
 		}
 	}
 
 	bool check = _listCollisionData.check();
+
 	if(check == true) // co va cham
 	{
 		bool backPosition = false;
@@ -226,6 +227,7 @@ void fungi::UpdateRealTimeCollision(int time,vector<MyObject*>* listcollision)
 			{
 				if((stateObject == transform) || (stateObject == dead) || (stateObject == beforedead) || (stateObject == reborn))
 					continue;
+
 				if((dir == Left) || (dir == Right) || (dir == Bottom))
 				{
 					listcollision->at(index)->_State = transform;
@@ -264,11 +266,12 @@ void fungi::UpdateRealTimeCollision(int time,vector<MyObject*>* listcollision)
 				}
 			}
 
-			//////////////////////////////////////////////////////////////////////////
+			//debug vs release
+			////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 		}
 	} 
-
 
 	_vy += GRAVITY * time;
 	CheckTitleCollision(_vx,_vy,_nextx,_nexty,GL_Width,GL_Height,_curSprite->_texture->Width,_curSprite->_texture->Height);
@@ -283,6 +286,7 @@ void fungi::UpdateRealTimeCollision(int time,vector<MyObject*>* listcollision)
 			_State = dead;
 		return;
 	}
+
 	if(_State != beforedead2)
 	{
 		if(_turnLeft == true)

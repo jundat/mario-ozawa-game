@@ -52,5 +52,6 @@ bool ListCollisionData::check()
 		//if(sf->_delta == minDelta)
 			_listNewData.push_back(sf);
 	}
+
 	return true;
 }

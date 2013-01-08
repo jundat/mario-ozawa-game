@@ -124,6 +124,7 @@ void brickBreak::Update(int time)
 void brickBreak::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 {
 	_listCollisionData.clear();
+
 	if(_State == breaking)
 	{
 		if((_x - _xBreak1) < 50)
@@ -157,6 +158,7 @@ void brickBreak::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollisio
 			TileMap::GetInst()->RemoveTileAt(_x,_y);
 		}
 	}
+
 	if(_State == Move)
 	{
 		if(up == true)
@@ -168,6 +170,7 @@ void brickBreak::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollisio
 				up = false;
 			}
 		}
+
 		if(up == false)
 		{
 			_nexty = _y + (0.22f * time);
@@ -187,19 +190,26 @@ void brickBreak::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollisio
 			{
 				if(listcollision->at(k) == this)
 					continue;
+
 				if((listcollision->at(k)->_ID == EObject::FUNGI) || (listcollision->at(k)->_ID == EObject::TURTLE))
+				{
 					this->RealTimeCollision1(this->GetRect(),listcollision->at(k),k,time);
+				}
+
 				if((listcollision->at(k)->_ID == EObject::BRICKITEM) && (listcollision->at(k)->_State != hasItem))
 				{
 					this->RealTimeCollisionWithItem(this->GetRect(),(brickItem*)listcollision->at(k),k,time);
 				}
 			}
 		}
+
 		bool check = _listCollisionData.check();
+
 		if(check == true) // co va cham
 		{
 			bool backPosition = false;
 			int a = _listCollisionData._listNewData.size();
+
 			for(int m = 0;m < _listCollisionData._listNewData.size();m++)
 			{
 				int index = _listCollisionData._listNewData.at(m)->_indexObject;
@@ -207,14 +217,18 @@ void brickBreak::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollisio
 				EDirect dir = _listCollisionData._listNewData.at(m)->_dirCollision;
 				State stateObject = listcollision->at(index)->_State;
 
+				//debug vs release
+				////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 				if((idobject == EObject::FUNGI) || (idobject == EObject::TURTLE))
 				{
 					//if(dir == Top)
 					{
-						listcollision->at(index)->_vy = -0.85f;
+						listcollision->at(index)->_vy = - 0.85f;
 						listcollision->at(index)->_State = beforedead2;
 					}
 				}
+
 				if(idobject == EObject::ITEM)
 				{
 					if((dir != Bottom) && (_State == Move) && (((brickItem*)listcollision->at(index))->_item->_item != FLOWER))
@@ -227,6 +241,7 @@ void brickBreak::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollisio
 				}
 			}
 		}
+
 		_y = _nexty;
 	}
 	//_curSprite->Update(time);

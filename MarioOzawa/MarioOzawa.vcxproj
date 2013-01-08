@@ -145,6 +145,7 @@
     <ClCompile Include="MapLoader.cpp" />
     <ClCompile Include="Mario.cpp" />
     <ClCompile Include="MarioGame.cpp" />
+    <ClCompile Include="MarioInPipeSence.cpp" />
     <ClCompile Include="MenuSence.cpp" />
     <ClCompile Include="MyObject.cpp" />
     <ClCompile Include="OptionSence.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="MapLoader.h" />
     <ClInclude Include="Mario.h" />
     <ClInclude Include="MarioGame.h" />
+    <ClInclude Include="MarioInPipeSence.h" />
     <ClInclude Include="MarioMoveDown.h" />
     <ClInclude Include="MenuSence.h" />
     <ClInclude Include="MyObject.h" />

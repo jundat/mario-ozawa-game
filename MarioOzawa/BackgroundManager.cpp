@@ -34,6 +34,7 @@ void BackgroundManager::Translate()
 
 	ResourceMng* rm = ResourceMng::GetInst();
 	char name[50];
+
 	//load sprite to array
 	for (int i = 0; i < _mapH; ++i)
 	{
@@ -70,7 +71,23 @@ void BackgroundManager::UpdateRender(CRECT camera, int time)
 			if(_board[i][j] != 0)
 			{
 				_boardSprite[i][j]->Update(time);
-				_boardSprite[i][j]->Render(j * TILE, i * TILE);
+
+				//draw special pipe
+				if(_board[i][j] >= 28 && _board[i][j] <= 32)
+				{
+					if(_board[i][j] != 32)
+					{
+						_boardSprite[i][j]->Render(j * TILE, i * TILE, 0.4f);
+					}
+					else
+					{
+						_boardSprite[i][j]->Render(j * TILE, i * TILE, 0.35f);
+					}
+				}
+				else
+				{
+					_boardSprite[i][j]->Render(j * TILE, i * TILE);
+				}
 			}
 		}
 	}
