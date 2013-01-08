@@ -1,6 +1,7 @@
 #include "ChangeMapSence.h"
 #include "MenuSence.h"
 #include "SoundManager.h"
+#include "MarioInPipeSence.h"
 
 ChangeMapSence::ChangeMapSence(Game* game, bool* isVisible, int curlevel, int timeAni)
 	:GameSence(game, timeAni)
@@ -45,6 +46,19 @@ void ChangeMapSence::_OnKeyDown(int keyCode)
 		SoundManager::GetInst()->PlayEffSound(SOUND_E_SLIDE);
 		_state = TransOff;
 		*this->IsVisiable = true;
+
+// 		if(CurrentLevel != 2)
+// 		{
+// 			SoundManager::GetInst()->PlayEffSound(SOUND_E_SLIDE);
+// 			_state = TransOff;
+// 			*this->IsVisiable = true;
+// 		}
+// 		else
+// 		{
+// 			_state = Off;
+// 			MarioInPipeSence* sence = new MarioInPipeSence(this->_game, this->IsVisiable, 100);
+// 			_game->AddSence(sence);
+// 		}
 	}
 }
 

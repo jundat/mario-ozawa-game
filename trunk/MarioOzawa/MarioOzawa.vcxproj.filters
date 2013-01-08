@@ -261,6 +261,9 @@
     <ClCompile Include="BossFire.cpp">
       <Filter>object</Filter>
     </ClCompile>
+    <ClCompile Include="MarioInPipeSence.cpp">
+      <Filter>sence</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dsutil.h">
@@ -407,6 +410,9 @@
     </ClInclude>
     <ClInclude Include="BossFire.h">
       <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="MarioInPipeSence.h">
+      <Filter>sence</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

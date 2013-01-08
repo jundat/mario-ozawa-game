@@ -135,6 +135,7 @@ void PlaySence::_OnKeyDown(int keyCode)
 				{
 					_mario->_vx = 0;
 					MapLoader::_mapNumber = countMapToGo - 1;
+
 					LoadNewMap();
 
 					//change sence

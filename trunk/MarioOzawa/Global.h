@@ -33,7 +33,7 @@
 
 //id in map, used for background (mountain, pole, pipe, tree...)
 #define MIN_BG_ID		11
-#define MAX_BG_ID		27
+#define MAX_BG_ID		32
 
 //view mode(used in contructor of game class)
 #define GL_RESOLUTION_640_480_24	0

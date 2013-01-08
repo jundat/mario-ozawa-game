@@ -54,7 +54,7 @@ SelectWorldSence::~SelectWorldSence(void)
 
 void SelectWorldSence::_Load()
 {
-	_mario = new Mario(50, -50);
+	_mario = new Mario(60, -50);
 
 	_effectMoveDown = NULL;
 	_isExitting = false;
@@ -74,8 +74,8 @@ void SelectWorldSence::_Load()
 	_BackgroundMng->Translate();
 	_Camera = new Camera(CRECT(GL_WndSize));
 
-	_mario->_x = 100;
-	_mario->_y = 100;
+	_mario->_x = 60;
+	_mario->_y = -50;
 
 	_sprNode = new Sprite(ResourceMng::GetInst()->GetTexture("image/Brick_Break.png"), -1);
 }
@@ -101,7 +101,9 @@ void SelectWorldSence::_OnKeyDown(int keyCode){
 	case DIK_UP:
 		{
 			if(_effectMoveDown == NULL)
+			{
 				_mario->Jump();
+			}
 		}
 		break;
 
