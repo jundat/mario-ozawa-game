@@ -53,7 +53,7 @@ void MenuSence::_OnKeyDown(int keyCode){
 
 			}else if(_curSelect == 2){ //exit
 				SoundManager::GetInst()->PlayEffSound(SOUND_E_DEATH);
-				ZoomSence* zs = new ZoomSence(_game, 800, this, NULL);
+				ZoomSence* zs = new ZoomSence(_game, 1700, this, NULL);
 				_game->AddSence(zs);
 			}
 
