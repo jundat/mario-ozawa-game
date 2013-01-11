@@ -224,7 +224,7 @@ void brickBreak::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollisio
 				{
 					//if(dir == Top)
 					{
-						listcollision->at(index)->_vy = - 0.85f;
+						listcollision->at(index)->_vy = -0.85f;
 						listcollision->at(index)->_State = beforedead2;
 					}
 				}
@@ -267,6 +267,16 @@ CRECT brickBreak::GetRect()
 }
 void brickBreak::CheckCollision(MyObject* obj)
 {
+	if((_State != beforedead2) && (_State != beforedead) && (_State != dead))
+		return;
+	if((obj->_ID == EObject::TURTLE) || (obj->_ID == EObject::FUNGI))
+	{
+		if((_State == Move) || (_State == breaking))
+		{
+			obj->_State = beforedead2;
+			obj->_vy = -0.85f;
+		}
+	}
 	/*
 	if(_State != stand)
 		return;
@@ -302,6 +312,7 @@ void brickBreak::CheckCollision(MyObject* obj)
 			break;
 		}
 	} */
+
 }
 
 

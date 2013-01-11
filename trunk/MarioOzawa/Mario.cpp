@@ -384,6 +384,15 @@ void Mario::TransformMario(int x, int y)
 
 void Mario::CheckCollision(MyObject* obj)
 {
+	int size = _listBullet.size();
+
+	bullet* sf;
+	for(int i = 0 ; i < size; ++i)
+	{
+		sf = _listBullet[i];
+		sf->CheckCollision(obj);
+	}
+
 	//check collision mario
 	if(_State == beforedead || _State == dead || _State == beforedead2 || _State == reborn)
 		return;
