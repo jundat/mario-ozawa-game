@@ -75,7 +75,7 @@ void SelectWorldSence::_Load()
 	_Camera = new Camera(CRECT(GL_WndSize));
 
 	_mario->_x = 60;
-	_mario->_y = -50;
+	_mario->_y = 100;
 
 	_sprNode = new Sprite(ResourceMng::GetInst()->GetTexture("image/Brick_Break.png"), -1);
 }
