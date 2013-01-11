@@ -220,7 +220,7 @@ void fungi::UpdateRealTimeCollision(int time,vector<MyObject*>* listcollision)
 				if(stateObject == breaking || stateObject == State::Move)
 				{
 					_State = beforedead2;
-					_vy = - 0.85f;
+					_vy = -0.85f;
 				}
 			}
 			if(idobject == EObject::MARIO)
