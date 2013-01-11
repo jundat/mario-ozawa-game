@@ -24,14 +24,14 @@ Item::Item(float x, float y, EBrickItemKind kindOfItem): MyObject(x, y)
 	{
 		_curSprite = new Sprite(ResourceMng::GetInst()->GetTexture("image/Lager.png"), 0);
 		_curSprite->SelectIndex(0);
-		_turnLeft = true;
+		_turnLeft = false;
 	}
 
 	if(_item == EBrickItemKind::SHOOTER)
 	{
 		_curSprite = new Sprite(ResourceMng::GetInst()->GetTexture("image/Lager.png"), 0);
 		_curSprite->SelectIndex(1);
-		_turnLeft = true;
+		_turnLeft = false;
 	}
 }
 
