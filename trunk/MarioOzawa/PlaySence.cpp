@@ -178,7 +178,10 @@ void PlaySence::_OnKeyDown(int keyCode)
 			break;
 
 		case DIK_SPACE:
-			_mario->Jump();
+			if(! (_mario->_x >= GL_MapW - MARIO_DELTA_X_COMPLETE_MAP))
+			{
+				_mario->Jump();
+			}
 			break;
 
 		case DIK_Z:
@@ -186,7 +189,10 @@ void PlaySence::_OnKeyDown(int keyCode)
 			break;
 
 		case DIK_UP:
-			_mario->Jump();
+			if(! (_mario->_x >= GL_MapW - MARIO_DELTA_X_COMPLETE_MAP))
+			{
+				_mario->Jump();
+			}
 			break;
 		}
 }

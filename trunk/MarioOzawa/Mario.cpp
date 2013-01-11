@@ -682,7 +682,8 @@ void Mario::UpdateRealTimeCollision(int time, vector<MyObject*>* listcollision)
 							_y -= 50;
 					}// player transform or + heart khi nhat dc item here*/
 				}
-				else this->life++;
+				else 
+					this->life++;
 			}
 
 			if(idobject == EObject::TREEMONSTER)
