@@ -22,8 +22,7 @@ bullet::~bullet(void)
 
 void bullet::Update(int time)
 {
-	return;
-	if(_State == dead)
+	/*if(_State == dead)
 		return;
 
 	if(_State == Move)
@@ -40,7 +39,7 @@ void bullet::Update(int time)
 		else _vx = 0.8;
 		_vy = this->_vy + 0.055 ;
 	}
-	_curSprite->Update(time);
+	_curSprite->Update(time);*/
 }
 
 void bullet::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
@@ -121,14 +120,15 @@ void bullet::UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision)
 	}
 
 
-		_vy = this->_vy + 0.055 ;
-		CheckTitleCollision(_vx,_vy,_nextx,_nexty,GL_Width,GL_Height,_curSprite->_texture->Width,_curSprite->_texture->Height - 10);
-		_x = _nextx;
-		_y = _nexty;
-		if(_turnLeft == true)
-			_vx = -0.8;
-		else _vx = 0.8;
+	_vy = this->_vy + 0.1f; //0.055
+	CheckTitleCollision(_vx,_vy,_nextx,_nexty,GL_Width,GL_Height,_curSprite->_texture->Width,_curSprite->_texture->Height - 10);
+	_x = _nextx;
+	_y = _nexty;
+	if(_turnLeft == true)
+		_vx = -1.6; //0.8
+	else _vx = 1.6;
 	}
+
 	_curSprite->Update(time);
 }
 
@@ -143,7 +143,6 @@ void bullet::Render()
 
 void bullet::CheckCollision(MyObject* obj)
 {
-	return;
 	if((_State == dead) || (_State == beforedead))
 		return;
 	
