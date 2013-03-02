@@ -2,9 +2,10 @@
 
 #include "Rect.h"
 #include "ListCollisionData.h"
-//#include <vector>
+
 using namespace std;
 
+//super class for all object in game
 class MyObject
 {
 public:
@@ -14,14 +15,18 @@ public:
 	float _x;
 	float _y;
 
+	//next position
 	float _nextx;
 	float _nexty;
 	
+	//velocity
 	float _vx;
 	float _vy;
 	
+	//id to regonize what it is
 	EObject _ID;
 	
+	//check if it is turn left or turn right
 	//0: Left | 1: Right
 	bool _turnLeft;
 	//end tieu nun
@@ -37,12 +42,14 @@ public:
 	//obj can check collision with other or not
 	virtual bool CanCollide();
 
+	//obj is alive, can update and render
 	virtual bool IsAlive();
 
 	virtual void Update(int time);
 
 	virtual void Render();
 
+	//check collision with another obj
 	virtual void CheckCollision(MyObject* obj);
 
 	// tieu nun
@@ -52,7 +59,7 @@ public:
 
 	void RealTimeCollision(CRECT r1, CRECT r2);
 	virtual void RealTimeCollision1(CRECT r1, MyObject *obj,int indexObject,int time);
-	virtual float KhoangCach(float x0,float y0,float x1,float y1);
+	virtual float GetDistance(float x0,float y0,float x1,float y1);
 
 	virtual void UpdateRealTimeCollision(int time,vector<MyObject*>*listcollision);
 };

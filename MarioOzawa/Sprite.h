@@ -6,14 +6,22 @@
 
 #include "Texture.h"
 
+//Tạo 1 animation
 class Sprite {
 public: 
 	TEXTURE* _texture;
 
+	//start index
 	int _start;
+
+	//end index
 	int _end;
+
 	int _index;			// Current sprite index
+
+	//time to increase index
 	int _timeAni;
+
 	int _timeLocal;
 
 	D3DXCOLOR _color;
@@ -22,8 +30,13 @@ public:
 	Sprite::Sprite(TEXTURE* texture, int timeAnimation);
 	Sprite::Sprite(TEXTURE* texture, int start, int end, int timeAnimation);
 
+	//increase index
 	void Next();
+
+	//reset index
 	void Reset();
+
+	//set a particular index
 	void SelectIndex(int index);
 
 	//update animation
@@ -43,7 +56,7 @@ public:
 	//Render Rect of texture at (x,y)
 	void RenderRect(int x, int y, RECT Rect, float depth = 0.5f);
 
-	//Render with detail
+	//Render with details
 	void RenderTransform(int x, int y, D3DXVECTOR2 scale, float degRotate, float depth = 0.5f);
 	~Sprite();
 };

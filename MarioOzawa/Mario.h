@@ -7,15 +7,14 @@
 #include "Bullet.h"
 #include "BrickItem.h"
 
-//#include "Brick.h"
 #include <vector>
-#define MARIO_VX	0.5f
+#define MARIO_VX	0.5f	//velocity of mario
 #define MARIO_VY	2.2f
-#define MAX_MARIO_VX 0.65f
+#define MAX_MARIO_VX 0.65f	//max velocity of mario
 #define MAX_MARIO_VY 2.0f
-#define GRAVITY		0.01f
-#define FRICTION_X	0.002f //0.0000006f
-#define ACCEL_X		1.5f //1.5
+#define GRAVITY		0.01f	//gravity ratio
+#define FRICTION_X	0.002f //0.0000006f //friction of mario
+#define ACCEL_X		1.5f //1.5 //accelerator of mario
 #define BOTTOM		600
 #define DISTANCE_WITH_LAST_POSITION_X 400 //distance between the current position and last position to update last position
 #define FALL_DEAD_HIGH 4	//the high mario fall out of game before reborn
@@ -30,8 +29,12 @@
 #define MARIO_DELTA_X_COMPLETE_MAP 400
 
 #define MARIO_FIRE_TIME 250 //thoi gian giua 2 lan ban
+
 using namespace std;
+
 #pragma once
+
+//Player ~ main character
 class Mario : public MyObject
 {
 protected:

@@ -290,6 +290,12 @@ void PlaySence::_UpdateRender(int time)
 	if(_mario->life <= 0 && _mario->_State == dead && 
 		!_isExitting)
 	{
+		//////////////////////////////////////////////////////////////////////////
+		//fix lỗi camera còn di chuyển sau khi game over
+		_mario->_vx = 0;
+		_Camera->_vx = 0;
+		//////////////////////////////////////////////////////////////////////////
+
 		GL_CurForm = 0;
 		GL_NextForm = 0;
 

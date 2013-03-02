@@ -10,7 +10,10 @@
 #include <vector>
 using namespace std;
 
-
+//Manage a part of resource needed for game
+//+texture
+//+surface
+//Implement singleton designe pattern
 class ResourceMng
 {
 private:
@@ -36,10 +39,10 @@ public:
 	//get the unique instance
 	static ResourceMng* GetInst();
 
-	//get surface, if don't have, it will be loaded
+	//get surface
 	SURFACE* GetSurface(char* fileName);
 
-	//get texture, if don't have, it will be loaded
+	//get texture
 	TEXTURE* GetTexture(char* fileName);
 };
 

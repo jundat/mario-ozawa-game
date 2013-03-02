@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Sprite.h"
 #include "ResourceManager.h"
 
@@ -6,6 +6,7 @@
 #define DEPTH_MARIO_MOVE_DOWN 0.6f
 #define VY_MARIO_MOVE_DOWN 0.1f
 
+//Effect dùng cho lúc mario đi xuống ống nước
 class MarioMoveDown
 {
 public:

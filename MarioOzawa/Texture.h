@@ -1,4 +1,4 @@
-#ifndef __TEXTURE_H__
+﻿#ifndef __TEXTURE_H__
 #define __TEXTURE_H__
 
 
@@ -8,14 +8,19 @@
 #include "Global.h"
 
 
+//Lớp bao chứa 1 LPDIRECT3DTEXTURE9
+//Quản lý các thông tin khác của LPDIRECT3DTEXTURE9 đó
 class TEXTURE{
 public:
 	char* FileName;
 	RECT Size;
 	LPDIRECT3DTEXTURE9 Texture;
+
+	//Luôn giả sử 1 texture sẽ dùng cho 1 sprite
 	int Cols;
 	int Rows;
 
+	//Số tile có trong đó, có thể Count # Cols * Rows, đôi khi lại = nhau
 	int Count;
 
 	int Width; //width of 1 frame

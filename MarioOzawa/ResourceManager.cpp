@@ -1,6 +1,5 @@
 #include "ResourceManager.h"
 #include <string.h>
-// cat move at y=287
 
 ResourceMng* ResourceMng::_instance = NULL;
 
@@ -14,30 +13,30 @@ ResourceMng::ResourceMng()
 	_listSurface.push_back(new SURFACE("image/imgBgCredit.png"));
 
 	//TEXTURE
-	//intro
+	//intro sence
 	_listTexture.push_back(new TEXTURE("image/imgLogo.png", 1, 1, 1));
 	//---end intro
 
-	//play
+	//play sence
 	//---end play
 
-	//selectworld
+	//selectworld sence
 	_listTexture.push_back(new TEXTURE("image/imgFlying.png", 9, 1, 9));
 	//---end selectworld
 
-	//menu
+	//menu sence
 	_listTexture.push_back(new TEXTURE("image/imgItemPlay.png", 1, 1, 1));
 	_listTexture.push_back(new TEXTURE("image/imgItemOption.png", 1, 1, 1));
 	_listTexture.push_back(new TEXTURE("image/imgItemQuit.png", 1, 1, 1));
 	_listTexture.push_back(new TEXTURE("image/imgMarioHead.png", 2, 1, 2));
 	//---end menu
 
-	//option
+	//option sence
 	_listTexture.push_back(new TEXTURE("image/imgYes.png", 1, 1, 1));
 	_listTexture.push_back(new TEXTURE("image/imgNo.png", 1, 1, 1));
 	//---end option
 
-	//credit
+	//credit sence
 	//---end credit
 
 	//change map
@@ -50,7 +49,7 @@ ResourceMng::ResourceMng()
 	_listTexture.push_back(new TEXTURE("image/imgZoom.png", 1, 1, 1));
 	//---end zoom
 
-	//object in game
+	//object in main game
 	//TEXTURE
 	_listTexture.push_back(new TEXTURE("image/Boss.png", 4, 1, 4));
 	_listTexture.push_back(new TEXTURE("image/FireBoss.png", 3, 1, 3));
