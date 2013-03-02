@@ -150,7 +150,7 @@ void MyObject::RealTimeCollision(CRECT r1, CRECT r2)
 				// va cham right
 				_collision = true;
 				_dirCollision = EDirect::Right;
-				delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
+				delta = GetDistance(x0,y0,giaodiemX,giaodiemY);
 			}
 		}
 		else
@@ -163,7 +163,7 @@ void MyObject::RealTimeCollision(CRECT r1, CRECT r2)
 				// va cham left
 				_collision = true;
 				_dirCollision = EDirect::Left;
-				delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
+				delta = GetDistance(x0,y0,giaodiemX,giaodiemY);
 			}
 		}
 	}
@@ -184,7 +184,7 @@ void MyObject::RealTimeCollision(CRECT r1, CRECT r2)
 					// va cham right
 					_collision = true;
 					_dirCollision = EDirect::Right;
-					delta = KhoangCach(x0,y0,giaodiemX,giaodiemY2);
+					delta = GetDistance(x0,y0,giaodiemX,giaodiemY2);
 				}
 			}
 			else
@@ -197,7 +197,7 @@ void MyObject::RealTimeCollision(CRECT r1, CRECT r2)
 					// va cham left
 					_collision = true;
 					_dirCollision = EDirect::Left;
-					delta = KhoangCach(x0,y0,giaodiemX,giaodiemY2);
+					delta = GetDistance(x0,y0,giaodiemX,giaodiemY2);
 				}
 			}
 		}
@@ -215,7 +215,7 @@ void MyObject::RealTimeCollision(CRECT r1, CRECT r2)
 				// va cham right
 				_collision = true;
 				_dirCollision = EDirect::Right;
-				delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
+				delta = GetDistance(x0,y0,giaodiemX,giaodiemY);
 			}
 		}
 	}
@@ -231,7 +231,7 @@ void MyObject::RealTimeCollision(CRECT r1, CRECT r2)
 				// va cham left
 				_collision = true;
 				_dirCollision = EDirect::Left;
-				delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
+				delta = GetDistance(x0,y0,giaodiemX,giaodiemY);
 			}
 		}
 	}
@@ -264,7 +264,7 @@ void MyObject::RealTimeCollision(CRECT r1, CRECT r2)
 				// va cham down
 				_collision = true;
 				_dirCollision = EDirect::Bottom;
-				delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
+				delta = GetDistance(x0,y0,giaodiemX,giaodiemY);
 			}
 		}
 		else
@@ -276,7 +276,7 @@ void MyObject::RealTimeCollision(CRECT r1, CRECT r2)
 				// va cham top
 				_collision = true;
 				_dirCollision = EDirect::Top;
-				delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
+				delta = GetDistance(x0,y0,giaodiemX,giaodiemY);
 			}
 		}
 	}
@@ -293,7 +293,7 @@ void MyObject::RealTimeCollision(CRECT r1, CRECT r2)
 					// va cham down
 					_collision = true;
 					_dirCollision = EDirect::Bottom;
-					delta = KhoangCach(x0,y0,giaodiemX2,giaodiemY);
+					delta = GetDistance(x0,y0,giaodiemX2,giaodiemY);
 				}
 			}
 			else
@@ -305,7 +305,7 @@ void MyObject::RealTimeCollision(CRECT r1, CRECT r2)
 					// va cham top
 					_collision = true;
 					_dirCollision = EDirect::Top;
-					delta = KhoangCach(x0,y0,giaodiemX2,giaodiemY);
+					delta = GetDistance(x0,y0,giaodiemX2,giaodiemY);
 				}
 			}
 		}
@@ -322,7 +322,7 @@ void MyObject::RealTimeCollision(CRECT r1, CRECT r2)
 				// va cham down
 				_collision = true;
 				_dirCollision = EDirect::Bottom;
-				delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
+				delta = GetDistance(x0,y0,giaodiemX,giaodiemY);
 			}
 		}
 	}
@@ -337,7 +337,7 @@ void MyObject::RealTimeCollision(CRECT r1, CRECT r2)
 				// va cham top
 				_collision = true;
 				_dirCollision = EDirect::Top;
-				delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
+				delta = GetDistance(x0,y0,giaodiemX,giaodiemY);
 			}
 		}
 	}
@@ -365,7 +365,7 @@ void MyObject::RealTimeCollision(CRECT r1, CRECT r2)
 	// cuoi cung lay list nay ra xet lai. chon nhung object thuc su va cham roi xu li
 }
 
-float MyObject::KhoangCach(float x0,float y0,float x1,float y1)
+float MyObject::GetDistance(float x0,float y0,float x1,float y1)
 {
 	float t1,t2;
 	t1 = pow(x0 - x1,2);
@@ -445,7 +445,7 @@ void MyObject::RealTimeCollision1(CRECT r1, MyObject *obj,int indexObject,int ti
 				// va cham right
 				_collision = true;
 				_dirCollision = EDirect::Right;
-				delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
+				delta = GetDistance(x0,y0,giaodiemX,giaodiemY);
 			}
 			//x1 = _nextx;
 		}
@@ -457,7 +457,7 @@ void MyObject::RealTimeCollision1(CRECT r1, MyObject *obj,int indexObject,int ti
 				// va cham left
 				_collision = true;
 				_dirCollision = EDirect::Left;
-				delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
+				delta = GetDistance(x0,y0,giaodiemX,giaodiemY);
 			}
 		}
 	}
@@ -477,7 +477,7 @@ void MyObject::RealTimeCollision1(CRECT r1, MyObject *obj,int indexObject,int ti
 					// va cham right
 					_collision = true;
 					_dirCollision = EDirect::Right;
-					delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
+					delta = GetDistance(x0,y0,giaodiemX,giaodiemY);
 				}
 				//x1 = _nextx;
 			}
@@ -489,7 +489,7 @@ void MyObject::RealTimeCollision1(CRECT r1, MyObject *obj,int indexObject,int ti
 					// va cham left
 					_collision = true;
 					_dirCollision = EDirect::Left;
-					delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
+					delta = GetDistance(x0,y0,giaodiemX,giaodiemY);
 				}
 			}
 		}
@@ -506,7 +506,7 @@ void MyObject::RealTimeCollision1(CRECT r1, MyObject *obj,int indexObject,int ti
 				// va cham right
 				_collision = true;
 				_dirCollision = EDirect::Right;
-				delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
+				delta = GetDistance(x0,y0,giaodiemX,giaodiemY);
 			}
 		}
 		//x1 = _nextx;
@@ -521,7 +521,7 @@ void MyObject::RealTimeCollision1(CRECT r1, MyObject *obj,int indexObject,int ti
 				// va cham left
 				_collision = true;
 				_dirCollision = EDirect::Left;
-				delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
+				delta = GetDistance(x0,y0,giaodiemX,giaodiemY);
 			}
 		}
 	}
@@ -561,7 +561,7 @@ void MyObject::RealTimeCollision1(CRECT r1, MyObject *obj,int indexObject,int ti
 				// va cham down
 				_collision = true;
 				_dirCollision = EDirect::Bottom;
-				delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
+				delta = GetDistance(x0,y0,giaodiemX,giaodiemY);
 
 			}
 			//y1 = _nexty;
@@ -573,7 +573,7 @@ void MyObject::RealTimeCollision1(CRECT r1, MyObject *obj,int indexObject,int ti
 				// va cham top
 				_collision = true;
 				_dirCollision = EDirect::Top;
-				delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
+				delta = GetDistance(x0,y0,giaodiemX,giaodiemY);
 			}
 		}
 	}
@@ -589,7 +589,7 @@ void MyObject::RealTimeCollision1(CRECT r1, MyObject *obj,int indexObject,int ti
 					// va cham down
 					_collision = true;
 					_dirCollision = EDirect::Bottom;
-					delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
+					delta = GetDistance(x0,y0,giaodiemX,giaodiemY);
 				}
 				//y1 = _nexty;
 			}
@@ -600,7 +600,7 @@ void MyObject::RealTimeCollision1(CRECT r1, MyObject *obj,int indexObject,int ti
 					// va cham top
 					_collision = true;
 					_dirCollision = EDirect::Top;
-					delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
+					delta = GetDistance(x0,y0,giaodiemX,giaodiemY);
 				}
 			}
 		}
@@ -616,7 +616,7 @@ void MyObject::RealTimeCollision1(CRECT r1, MyObject *obj,int indexObject,int ti
 				// va cham down
 				_collision = true;
 				_dirCollision = EDirect::Bottom;
-				delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
+				delta = GetDistance(x0,y0,giaodiemX,giaodiemY);
 			}
 		}
 		//y1 = _nexty;
@@ -630,7 +630,7 @@ void MyObject::RealTimeCollision1(CRECT r1, MyObject *obj,int indexObject,int ti
 				// va cham top
 				_collision = true;
 				_dirCollision = EDirect::Top;
-				delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
+				delta = GetDistance(x0,y0,giaodiemX,giaodiemY);
 			}
 		}
 	}

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #ifndef __GAME_H__
 #define __GAME_H__
 
@@ -12,6 +12,12 @@ using namespace std;
 #include "Global.h"
 #include "ISence.h"
 
+//Quản lý toàn bộ game
+//Init game
+//Input
+//Sence
+//Game loop
+//...
 class Game
 {
 protected:

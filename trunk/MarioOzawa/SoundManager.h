@@ -42,11 +42,19 @@ using namespace std;
 
 #pragma endregion define
 
+//Manage sound in game
+//Load them
+//Play them
+//Implement singleton design pattern
 class SoundManager
 {
 private:
 	DSound* SDev;
+	
+	//List of effect sound
 	vector<CSound*> _listEffSound;
+
+	//List of background sound (looped play sound)
 	vector<CSound*> _listBgSound;
 
 	SoundManager();
@@ -59,8 +67,14 @@ public:
 	
 	~SoundManager();
 	
+	//play background sound
+	//loop by default
+	//if this sound have played, 
+	//wantPlayAgain: TRUE  => stop and play again
+	//wantPlayAgain: FALSE => do not stop, continue that sound
 	void PlayBgSound(char* SOUND_FILE_PATH, bool isLoop = true, bool wantPlayAgain = false);
 
+	//play a effect sound, unloop by default
 	void PlayEffSound(char* SOUND_FILE_PATH, bool isLoop = false);
 
 	void StopBgSound(char* SOUND_FILE_PATH);

@@ -390,7 +390,7 @@ void brickBreak::RealTimeCollisionWithItem(CRECT r1, brickItem *obj,int indexObj
 				// va cham right
 				_collision = true;
 				_dirCollision = EDirect::Right;
-				delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
+				delta = GetDistance(x0,y0,giaodiemX,giaodiemY);
 			}
 			//x1 = _nextx;
 		}
@@ -402,7 +402,7 @@ void brickBreak::RealTimeCollisionWithItem(CRECT r1, brickItem *obj,int indexObj
 				// va cham left
 				_collision = true;
 				_dirCollision = EDirect::Left;
-				delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
+				delta = GetDistance(x0,y0,giaodiemX,giaodiemY);
 			}
 		}
 	}
@@ -422,7 +422,7 @@ void brickBreak::RealTimeCollisionWithItem(CRECT r1, brickItem *obj,int indexObj
 					// va cham right
 					_collision = true;
 					_dirCollision = EDirect::Right;
-					delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
+					delta = GetDistance(x0,y0,giaodiemX,giaodiemY);
 				}
 				//x1 = _nextx;
 			}
@@ -434,7 +434,7 @@ void brickBreak::RealTimeCollisionWithItem(CRECT r1, brickItem *obj,int indexObj
 					// va cham left
 					_collision = true;
 					_dirCollision = EDirect::Left;
-					delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
+					delta = GetDistance(x0,y0,giaodiemX,giaodiemY);
 				}
 			}
 		}
@@ -451,7 +451,7 @@ void brickBreak::RealTimeCollisionWithItem(CRECT r1, brickItem *obj,int indexObj
 				// va cham right
 				_collision = true;
 				_dirCollision = EDirect::Right;
-				delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
+				delta = GetDistance(x0,y0,giaodiemX,giaodiemY);
 			}
 		}
 		//x1 = _nextx;
@@ -466,7 +466,7 @@ void brickBreak::RealTimeCollisionWithItem(CRECT r1, brickItem *obj,int indexObj
 				// va cham left
 				_collision = true;
 				_dirCollision = EDirect::Left;
-				delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
+				delta = GetDistance(x0,y0,giaodiemX,giaodiemY);
 			}
 		}
 	}
@@ -506,7 +506,7 @@ void brickBreak::RealTimeCollisionWithItem(CRECT r1, brickItem *obj,int indexObj
 				// va cham down
 				_collision = true;
 				_dirCollision = EDirect::Bottom;
-				delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
+				delta = GetDistance(x0,y0,giaodiemX,giaodiemY);
 
 			}
 			//y1 = _nexty;
@@ -518,7 +518,7 @@ void brickBreak::RealTimeCollisionWithItem(CRECT r1, brickItem *obj,int indexObj
 				// va cham top
 				_collision = true;
 				_dirCollision = EDirect::Top;
-				delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
+				delta = GetDistance(x0,y0,giaodiemX,giaodiemY);
 			}
 		}
 	}
@@ -534,7 +534,7 @@ void brickBreak::RealTimeCollisionWithItem(CRECT r1, brickItem *obj,int indexObj
 					// va cham down
 					_collision = true;
 					_dirCollision = EDirect::Bottom;
-					delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
+					delta = GetDistance(x0,y0,giaodiemX,giaodiemY);
 				}
 				//y1 = _nexty;
 			}
@@ -545,7 +545,7 @@ void brickBreak::RealTimeCollisionWithItem(CRECT r1, brickItem *obj,int indexObj
 					// va cham top
 					_collision = true;
 					_dirCollision = EDirect::Top;
-					delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
+					delta = GetDistance(x0,y0,giaodiemX,giaodiemY);
 				}
 			}
 		}
@@ -561,7 +561,7 @@ void brickBreak::RealTimeCollisionWithItem(CRECT r1, brickItem *obj,int indexObj
 				// va cham down
 				_collision = true;
 				_dirCollision = EDirect::Bottom;
-				delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
+				delta = GetDistance(x0,y0,giaodiemX,giaodiemY);
 			}
 		}
 		//y1 = _nexty;
@@ -575,7 +575,7 @@ void brickBreak::RealTimeCollisionWithItem(CRECT r1, brickItem *obj,int indexObj
 				// va cham top
 				_collision = true;
 				_dirCollision = EDirect::Top;
-				delta = KhoangCach(x0,y0,giaodiemX,giaodiemY);
+				delta = GetDistance(x0,y0,giaodiemX,giaodiemY);
 			}
 		}
 	}

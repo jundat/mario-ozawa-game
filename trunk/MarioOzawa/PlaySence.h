@@ -9,8 +9,10 @@
 #include "TileMap.h"
 #include "ChangeMapSence.h"
 
-#define TIME_FOR_LEVEL (150000) //5 minute to complete level (5 * 60 * 500), ~500ms = 1s, không hiểu vì sao thời gian trong game này chậm = 1/2 bình thường
+//time to complete a leve 5min
+#define TIME_FOR_LEVEL (150000) 
 
+//sence of the battle and blood
 class PlaySence :
 	public GameSence
 {
@@ -21,11 +23,15 @@ public:
 
 	// tieu nun
 	Mario*	_mario;
+
+	//check if this sence is visiable
 	bool IsVisiable;
 
 	//check if is extiing
 	bool _isExitting;
-	int _timeForLevel; //time for 1 level, count down from TIME_FOR_LEVEL to zero
+	
+	//time for 1 level, count down from TIME_FOR_LEVEL to zero
+	int _timeForLevel; 
 	
 	PlaySence(Game* game, int timeAni);
 	~PlaySence(void);

@@ -15,9 +15,13 @@
 #include <d3dx9.h>
 #include <dinput.h>
 
-//GLOBAL CONSTANT
+//Manager all
+//Global constants
+//Global variants
+//Global functoins
+
 //
-// Screen resolution
+//GLOBAL CONSTANT
 //
 
 //size of one tile in map(brick, flower, ...)
@@ -93,7 +97,9 @@ extern LPDIRECTINPUT8				GLDirectInput;		// The DirectInput object
 extern LPDIRECTINPUTDEVICE8			GLKeyBoard;			// The keyboard device 
 extern LPD3DXSPRITE					GLSpriteHandler;	// spriteHandler to Render texture
 
-//GLOBAL METHOD
+//
+//GLOBAL FUNCTION
+//
 
 //write string to a tracing file
 void GLTrace(char* format, ...);
